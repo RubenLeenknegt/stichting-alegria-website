@@ -1,0 +1,28 @@
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# Imports
+	# Custom properties
+	# Reset
+	# Typography
+	# Elements
+	# Links
+	# Accessibility
+	# Header
+		# Main navigation menu
+	# Footer
+	# Accessibility
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+# Imports
+--------------------------------------------------------------*/
+@import "_custom-properties.css";
+@import "_reset.css";
+@import "_typography.css";
+@import "_elements.css";
+@import "_utility.css";
+@import "_links.css";
+@import "_header.css";
+@import "_footer.css";
+@import "_accessibility.css";
