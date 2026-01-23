@@ -1,0 +1,57 @@
+# WordPress Core - Don't commit the entire WP installation
+wordpress/wp-admin/
+wordpress/wp-includes/
+wordpress/wp-*.php
+wordpress/index.php
+wordpress/xmlrpc.php
+wordpress/license.txt
+wordpress/readme.html
+
+# Keep your custom content (themes, plugins, uploads)
+!wordpress/wp-content/
+
+# But ignore default themes and plugins you're not customizing
+wordpress/wp-content/themes/twenty*/
+wordpress/wp-content/plugins/akismet/
+wordpress/wp-content/plugins/hello.php
+
+# Ignore uploads and cache
+wordpress/wp-content/uploads/
+wordpress/wp-content/cache/
+wordpress/wp-content/upgrade/
+wordpress/wp-content/backup*/
+wordpress/wp-content/ai1wm-backups/
+
+# Ignore WordPress config (contains sensitive data)
+wordpress/wp-config.php
+
+# Environment files
+.env
+.env.local
+
+# Docker volumes data
+db_data/
+
+# Composer
+wordpress/wp-content/vendor/
+composer.lock
+
+# Node/Bun
+node_modules/
+package-lock.json
+bun.lockb
+*.log
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Build files
+*.map
+dist/
+build/
