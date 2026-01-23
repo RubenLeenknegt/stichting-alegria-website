@@ -1,9 +1,9 @@
 services:
-  wordpress:
+  php:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: wp_app
+    container_name: php
     depends_on:
       - db
     ports:
