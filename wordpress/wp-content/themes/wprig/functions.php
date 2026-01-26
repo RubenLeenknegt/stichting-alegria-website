@@ -1,4 +1,17 @@
 <?php
+
+add_action( 'after_setup_theme', function () {
+	remove_theme_support( 'block-templates' );
+	add_theme_support( 'disable-site-editor' );
+} );
+
+function remove_customizer_logo_control( $wp_customize ): void
+{
+	// Remove the site logo section
+	$wp_customize->remove_control( 'custom_logo' );
+}
+add_action( 'customize_register', 'remove_customizer_logo_control', 20 );
+
 /**
  * WP Rig functions and definitions
  *

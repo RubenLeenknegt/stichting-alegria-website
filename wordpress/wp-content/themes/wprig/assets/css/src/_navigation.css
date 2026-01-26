@@ -201,7 +201,6 @@
 
 @media (--wide-menu-query) {
 	#primary-menu {
-		gap: 1em;
 		.sub-menu {
 			width: 50vw;
 			max-width: 300px;

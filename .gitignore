@@ -21,6 +21,7 @@ wordpress/wp-content/cache/
 wordpress/wp-content/upgrade/
 wordpress/wp-content/backup*/
 wordpress/wp-content/ai1wm-backups/
+wordpress/wp-content/plugins
 
 # Ignore WordPress config (contains sensitive data)
 wordpress/wp-config.php

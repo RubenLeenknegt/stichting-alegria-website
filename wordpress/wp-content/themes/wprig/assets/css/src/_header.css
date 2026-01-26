@@ -9,6 +9,7 @@
 
 .site-header {
 	padding: 1em;
+	background-color: green;
 
 	> .menu-toggle {
 		display: flex;
