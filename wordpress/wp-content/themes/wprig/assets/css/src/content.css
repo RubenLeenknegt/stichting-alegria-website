@@ -32,21 +32,6 @@
 }
 */
 
-.entry {
-	margin-bottom: 1rem;
-}
-
-.entry-meta,
-.entry-footer {
-	font-family: var(--highlight-font-family);
-	font-stretch: condensed;
-	font-size: 80%;
-}
-
-.entry-meta {
-	margin: 1em 0;
-}
-
 /* Hides the update date and time. */
 .updated:not(.published) {
 	display: none;
@@ -78,8 +63,6 @@
 }
 
 .page-header,
-.entry-header,
-.entry-footer,
 .site-info,
 .post-navigation,
 .page-navigation,
@@ -92,8 +75,6 @@
 .entry-content > *,
 .entry-summary > *,
 .page-header,
-.entry-header,
-.entry-footer,
 .site-info,
 .post-navigation,
 .page-navigation,
@@ -122,24 +103,6 @@
 .page-links {
 	clear: both;
 	margin-bottom: 1.5em;
-}
-
-.entry-footer span {
-	margin-right: 1em;
-}
-
-.entry-footer {
-	clear: both;
-	padding: 1.5em 1.5rem 3em;
-	border-bottom: 1px solid var(--global-font-color);
-}
-
-@media (--content-query) {
-
-	.entry-footer {
-		padding-right: 0;
-		padding-left: 0;
-	}
 }
 
 /*--------------------------------------------------------------
@@ -194,21 +157,6 @@
 	.entry-content > .alignright,
 	.entry-summary > .alignright {
 		margin-right: calc((100vw - var(--content-width)) / 2);
-	}
-}
-
-@media (--sidebar-query) {
-
-	.has-sidebar .page-content > .alignleft,
-	.has-sidebar .entry-content > .alignleft,
-	.has-sidebar .entry-summary > .alignleft {
-		margin-left: calc((75vw - 2rem - var(--content-width)) / 2);
-	}
-
-	.has-sidebar .page-content > .alignright,
-	.has-sidebar .entry-content > .alignright,
-	.has-sidebar .entry-summary > .alignright {
-		margin-right: calc((75vw - 2rem - var(--content-width)) / 2);
 	}
 }
 
@@ -459,30 +407,4 @@ were hidden (via .neverending) before. */
 .site {
 	margin: 0 auto;
 	max-width: 100%;
-}
-
-@media (--sidebar-query) {
-
-	.has-sidebar .site {
-		margin: 0 1em;
-		display: grid;
-		grid-template-columns: 3fr 1fr;
-		grid-gap: 2rem;
-		justify-content: center;
-	}
-
-	.site-header,
-	.site-footer {
-		grid-column: 1 / -1;
-	}
-
-	.site-main {
-		grid-column: 1;
-		min-width: 0;
-	}
-
-	.primary-sidebar {
-		grid-column: 2;
-		min-width: 0;
-	}
 }
