@@ -10,8 +10,8 @@
 	--dropdown-symbol-width: 0.7em;
 
 	/* Typography */
-	--global-font-family: "Crimson Text", serif;
-	--highlight-font-family: "Roboto Condensed", "Helvetica Neue", "Arial Narrow", sans-serif;
+	--global-font-family: "Rubik", sans-serif;
+	--highlight-font-family: "Rubik", sans-serif;
 	--global-font-size: 20;
 	--global-font-line-height: 1.4;
 
@@ -22,7 +22,7 @@
 	--font-size-larger: calc(48 / var(--global-font-size) * 1rem);
 
 	/* Colors */
-	--global-font-color: #333;
+	--global-font-color: #000;
 	--background-color: #fff; /* Page background color */
 	--content-background-color: #fff; /* Content-specific background */
 	--sub-content-background-color: #f6f6f6; /* Content-specific background */
@@ -37,8 +37,8 @@
 	--color-quote-citation: #6c7781;
 
 	/* Custom editor colors */
-	--color-theme-primary: #e36d60;
-	--color-theme-secondary: #41848f;
+	--color-theme-primary: #1D9741;
+	--color-theme-secondary: #E53935;
 	--color-theme-red: #c0392b;
 	--color-theme-green: #27ae60;
 	--color-theme-blue: #2980b9;

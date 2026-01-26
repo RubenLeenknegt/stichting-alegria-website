@@ -9,7 +9,7 @@
 
 .site-header {
 	padding: 1em;
-	background-color: pink;
+	background-color: var(--header-background-color);
 
 	> .menu-toggle {
 		display: flex;
