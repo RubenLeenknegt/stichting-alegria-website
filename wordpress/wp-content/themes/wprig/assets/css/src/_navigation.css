@@ -396,45 +396,56 @@
 /*--------------------------------------------------------------
 ## Main navigation menu - CTA (Donate)
 --------------------------------------------------------------*/
-.main-navigation li.donate-menu-item > a {
-	/* override base link styles */
-	width: auto;
+.main-navigation li.donate-menu-item {
+	/* Style the li as the button container */
 	display: inline-flex;
 	align-items: center;
 	gap: 0.5em;
-
 	padding: 0.6em 1.2em;
 	background-color: var(--color-theme-red);
 	border-radius: 9999px;
+	width: auto;
+}
 
+.main-navigation li.donate-menu-item > a {
+	/* Reset link styles - it's just text now */
+	width: auto;
+	display: inline-block;
+	padding: 0;
 	text-decoration: none;
 	text-shadow: none;
+	color: var(--color-theme-white);
 }
 
 /* Arrow icon */
-.main-navigation li.donate-menu-item > a::after {
-	content: "";
-	display: inline-block;
-	width: 1em;
-	height: 1em;
-
-	background-image: url("assets/svg/arrow_right.svg");
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: contain;
-
-	/* keeps icon aligned with text */
-	transform: translateY(0.05em);
+.main-navigation li.donate-menu-item .cta-arrow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.5em;
+	height: 1.5em;
+	color: var(--color-theme-white);
 }
 
+.main-navigation li.donate-menu-item .cta-arrow svg {
+	width: 100%;
+	height: 100%;
+	display: block;
+	fill: currentColor;
+	stroke: currentColor;
+}
+
+/* Hover state on the li */
+.main-navigation li.donate-menu-item:hover,
+.main-navigation li.donate-menu-item:focus-within {
+	background-color: var(--color-theme-dark-red);
+}
+
+/* Prevent link hover styles from interfering */
 .main-navigation li.donate-menu-item > a:hover,
-.main-navigation li.donate-menu-item > a:focus-visible {
+.main-navigation li.donate-menu-item > a:focus {
 	text-decoration: none;
-	background-color: color-mix(
-		in srgb,
-		var(--color-theme-red),
-		black 10%
-	);
+
 }
 
 @media (--wide-menu-query) {
