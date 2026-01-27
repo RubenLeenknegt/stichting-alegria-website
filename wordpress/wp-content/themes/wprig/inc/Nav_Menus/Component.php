@@ -66,6 +66,13 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	private $cta_arrow_svg;
 
 	/**
+	 * Logo SVG content.
+	 *
+	 * @var string
+	 */
+	private $logo_svg;
+
+	/**
 	 * Gets the unique identifier for the theme component.
 	 *
 	 * @return string Component slug.
@@ -143,6 +150,17 @@ class Component implements Component_Interface, Templating_Component_Interface {
 		 * @param string $cta_arrow_svg The SVG markup for the CTA arrow.
 		 */
 		$this->cta_arrow_svg = apply_filters( 'wp_rig_cta_arrow_svg', $cta_arrow_svg );
+
+		$logo_svg = wp_rig()->get_theme_asset( 'logo.svg', 'svg', true );
+
+		/**
+		 * Filters the site logo SVG markup.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param string $logo_svg The SVG markup for the site logo.
+		 */
+		$this->logo_svg = apply_filters( 'wp_rig_logo_svg', $logo_svg);
 	}
 
 	/**
@@ -170,6 +188,7 @@ class Component implements Component_Interface, Templating_Component_Interface {
 		return array(
 			'is_primary_nav_menu_active' => array( $this, 'is_primary_nav_menu_active' ),
 			'display_primary_nav_menu'   => array( $this, 'display_primary_nav_menu' ),
+			'get_logo_svg'               => array( $this, 'get_logo_svg' ),
 		);
 	}
 
@@ -520,5 +539,14 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	 */
 	public function get_cta_arrow_svg() {
 		return $this->cta_arrow_svg;
+	}
+
+	/**
+	 * Gets the logo SVG content.
+	 *
+	 * @return string The logo SVG markup.
+	 */
+	public function get_logo_svg() {
+		return $this->logo_svg;
 	}
 }
