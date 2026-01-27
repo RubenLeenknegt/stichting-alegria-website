@@ -169,7 +169,7 @@
 	display: inline-block;
 	width: 1em;          /* or a fixed px size */
 	height: 1em;
-	stroke: var(--border-color-dark);  /* inherit text color */
+	stroke: var(--color-theme-red);  /* inherit text color */
 	fill: none;
 	stroke-width: 2;
 	vector-effect: non-scaling-stroke; /* keeps stroke consistent when scaled */
@@ -200,12 +200,6 @@
 }
 
 @media (--wide-menu-query) {
-	#primary-menu {
-		.sub-menu {
-			width: 50vw;
-			max-width: 300px;
-		}
-	}
 	.menu-toggle,
 	.nav--toggle-small .menu-toggle {
 		display: none;
@@ -265,7 +259,6 @@
 	.nav--toggle-sub li.menu-item-has-children,
 	.nav--toggle-sub li.menu-item--has-toggle {
 		position: relative;
-		padding-right: var(--dropdown-symbol-width);
 	}
 
 	/*
@@ -304,9 +297,11 @@
 	a, button {
 		display: block;
 		width: 100%;
-		padding: 0.5em 1em 0.5em 0;
+		padding: 0.5em 0em 0.5em 0;
 		text-decoration: none;
-		color: var(--global-font-color);
+		color: var(--color-theme-white);
+		font-weight: 600;
+		text-shadow: 5px 5px 5px 0px rgba(0,0,0,0.24);
 	}
 
 	button {
@@ -321,17 +316,12 @@
 		padding-left: 1em;
 	}
 
-	& ul.wp-block-navigation-submenu li {
-		padding: 0.3em 0.5em;
-	}
-
 	a:hover, a:focus, button:hover, button:focus {
 		text-decoration: underline;
 	}
 	button.submenu-toggle, li.menu-item-has-children {
 		display: flex;
 		align-items: center;
-		gap: 2px;
 		.dropdown-toggle {
 			margin: 0;
 			padding: 0;
@@ -403,6 +393,50 @@
 	padding: 0.3em 0.5em;
 }
 
+/*--------------------------------------------------------------
+## Main navigation menu - CTA (Donate)
+--------------------------------------------------------------*/
+.main-navigation li.donate-menu-item > a {
+	/* override base link styles */
+	width: auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+
+	padding: 0.6em 1.2em;
+	background-color: var(--color-theme-red);
+	border-radius: 9999px;
+
+	text-decoration: none;
+	text-shadow: none;
+}
+
+/* Arrow icon */
+.main-navigation li.donate-menu-item > a::after {
+	content: "";
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+
+	background-image: url("assets/svg/arrow_right.svg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+
+	/* keeps icon aligned with text */
+	transform: translateY(0.05em);
+}
+
+.main-navigation li.donate-menu-item > a:hover,
+.main-navigation li.donate-menu-item > a:focus-visible {
+	text-decoration: none;
+	background-color: color-mix(
+		in srgb,
+		var(--color-theme-red),
+		black 10%
+	);
+}
+
 @media (--wide-menu-query) {
 
 	.main-navigation {
@@ -410,7 +444,6 @@
 		ul li {
 			margin: 0 0 0 0.5em;
 			a, button {
-				padding: 0.4em 0.5em;
 				text-align: left;
 				cursor: pointer;
 			}
@@ -452,6 +485,7 @@
 				a, button {
 					padding: .6em 1em;
 					cursor: pointer;
+					background-color: var(--header-background-color);
 				}
 			}
 		}

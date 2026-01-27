@@ -7,7 +7,7 @@
 
 :root {
 	--content-width: 45rem;
-	--dropdown-symbol-width: 0.7em;
+	--dropdown-symbol-width: 1em;
 
 	/* Typography */
 	--global-font-family: "Rubik", sans-serif;
@@ -39,13 +39,13 @@
 	/* Custom editor colors */
 	--color-theme-primary: #1D9741;
 	--color-theme-secondary: #E53935;
-	--color-theme-red: #c0392b;
+	--color-theme-red: #D32F2F;
 	--color-theme-green: #27ae60;
 	--color-theme-blue: #2980b9;
 	--color-theme-yellow: #f1c40f;
 	--color-theme-black: #1c2833;
 	--color-theme-grey: #95a5a6;
-	--color-theme-white: #ecf0f1;
+	--color-theme-white: #ffffff;
 	--color-custom-daylight: #97c0b7;
 	--color-custom-sun: #eee9d1;
 
