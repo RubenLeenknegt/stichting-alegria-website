@@ -11,11 +11,7 @@ $logo_svg = wp_rig()->get_logo_svg();
 
 ?>
 <div class="site-branding flex-1">
-
-	<div class="site-branding flex-1">
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="site-logo">
-			<?php echo $logo_svg;?>
-		</a>
-	</div>
-
+	<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="site-logo">
+		<?php echo $logo_svg;?>
+	</a>
 </div>

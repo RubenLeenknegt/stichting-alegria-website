@@ -7,7 +7,7 @@
 ## Basic navigation menus - handles submenu and small screen toggle
 --------------------------------------------------------------*/
 .primary-menu-container {
-	display: flex;
+	display: block;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
@@ -288,8 +288,9 @@
 ## Main navigation menu
 --------------------------------------------------------------*/
 .main-navigation {
-	display: block;
-	margin: 0 auto 2em;
+	display: flex;
+	justify-content: end;
+	margin: 1em 0 1em;
 	padding: 0 1em;
 	font-family: var(--highlight-font-family);
 	font-stretch: condensed;
@@ -446,6 +447,49 @@
 .main-navigation li.donate-menu-item > a:focus {
 	text-decoration: none;
 
+}
+
+/*--------------------------------------------------------------
+## Site Branding / Logo
+--------------------------------------------------------------*/
+
+/* Desktop: Logo extends outside navbar into hero */
+@media (--wide-menu-query) {
+	.site-branding {
+		position: absolute;
+		top: 40px; /* Adjust to position how far it extends upward */
+		max-width: 260px;
+		z-index: 10;
+	}
+
+	.site-branding img,
+	.site-branding svg {
+		width: 100%;
+		height: auto;
+		display: block;
+	}
+
+	/* Make sure the header/navigation wrapper allows overflow */
+	header,
+	.site-header {
+		position: relative;
+		overflow: visible;
+	}
+}
+
+/* Mobile: Regular navbar positioning */
+@media (--narrow-menu-query) {
+	.mobile-menu-header .site-branding {
+		position: relative;
+		max-height: 75px;
+	}
+
+	.mobile-menu-header .site-branding img,
+	.mobile-menu-header .site-branding svg {
+		max-height: 75px;
+		width: auto;
+		height: auto;
+	}
 }
 
 @media (--wide-menu-query) {

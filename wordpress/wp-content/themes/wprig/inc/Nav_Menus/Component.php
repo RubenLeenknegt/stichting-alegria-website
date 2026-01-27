@@ -330,8 +330,6 @@ class Component implements Component_Interface, Templating_Component_Interface {
 		return esc_html( 'main-navigation nav--toggle-sub nav--toggle-small icon-nav' );
 	}
 
-	// TODO: Please improve the following @param description.
-
 	/**
 	 * Adds the necessary nav class for navigation.js to control sub menus.
 	 *
