@@ -12,12 +12,17 @@ if ( ! wp_rig()->is_primary_nav_menu_active() ) {
 }
 
 ?>
-<div class="primary-menu-container flex-grow">
+<div class="primary-menu-container">
 	<div class="mobile-menu-header">
-		<?php get_template_part( 'template-parts/header/mobile-menu-toggle' ); ?>
-		<?php get_template_part( 'template-parts/header/branding' ); ?>
+		<?php
+		// Logo on left in mobile menu
+		get_template_part( 'template-parts/header/branding' );
+
+		// Close button on right in mobile menu
+		get_template_part( 'template-parts/header/mobile-menu-toggle' );
+		?>
 	</div>
-	<nav id="<?php echo apply_filters( 'wp_rig_site_navigation_id', 'site-navigation' ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>" class="<?php echo apply_filters( 'wp_rig_site_navigation_classes', 'main-navigation nav--toggle-sub nav--toggle-small' ); /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>" aria-label="<?php esc_attr_e( 'Main menu', 'wp-rig' ); ?>">
+	<nav id="<?php echo esc_attr( apply_filters( 'wp_rig_site_navigation_id', 'site-navigation' ) ); ?>" class="<?php echo esc_attr( apply_filters( 'wp_rig_site_navigation_classes', 'main-navigation nav--toggle-sub nav--toggle-small' ) ); ?>" aria-label="<?php esc_attr_e( 'Main menu', 'wp-rig' ); ?>">
 		<?php wp_rig()->display_primary_nav_menu( array( 'menu_id' => 'primary-menu' ) ); ?>
 	</nav><!-- #site-navigation -->
 </div>
