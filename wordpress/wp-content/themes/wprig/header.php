@@ -27,13 +27,10 @@ namespace WP_Rig\WP_Rig;
 
 	<header id="masthead" class="site-header">
 		<?php
-		// Logo on the left
 		get_template_part( 'template-parts/header/branding' );
 
-		// Hamburger on the right (mobile only)
 		get_template_part( 'template-parts/header/mobile-menu-toggle' );
 
-		// Navigation menu (contains mobile overlay)
 		get_template_part( 'template-parts/header/navigation' );
 		?>
 	</header><!-- #masthead -->

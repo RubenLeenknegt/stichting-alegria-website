@@ -15,10 +15,8 @@ if ( ! wp_rig()->is_primary_nav_menu_active() ) {
 <div class="primary-menu-container">
 	<div class="mobile-menu-header">
 		<?php
-		// Logo on left in mobile menu
 		get_template_part( 'template-parts/header/branding' );
 
-		// Close button on right in mobile menu
 		get_template_part( 'template-parts/header/mobile-menu-toggle' );
 		?>
 	</div>

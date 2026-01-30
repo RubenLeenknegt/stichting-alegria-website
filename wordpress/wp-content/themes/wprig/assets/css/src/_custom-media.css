@@ -10,12 +10,10 @@
 @custom-media --content-query screen and (min-width: 48em);
 @custom-media --sidebar-query screen and (min-width: 60em);
 
-/* New responsive breakpoint queries */
 @custom-media --mobile-query screen and (max-width: 23.4375em);
 @custom-media --tablet-query screen and (min-width: 48em) and (max-width: 87.4375em);
 @custom-media --desktop-query screen and (min-width: 87.5em);
 
-/* Mobile-first approach queries */
 @custom-media --below-tablet screen and (max-width: 47.9375em);
 @custom-media --below-desktop screen and (max-width: 87.4375em);
 @custom-media --above-mobile screen and (min-width: 23.5em);
