@@ -7,11 +7,11 @@
 
 :root {
 	--content-width: 45rem;
-	--dropdown-symbol-width: 0.7em;
+	--dropdown-symbol-width: 1em;
 
 	/* Typography */
-	--global-font-family: "Crimson Text", serif;
-	--highlight-font-family: "Roboto Condensed", "Helvetica Neue", "Arial Narrow", sans-serif;
+	--global-font-family: "Rubik", sans-serif;
+	--highlight-font-family: "Rubik", sans-serif;
 	--global-font-size: 20;
 	--global-font-line-height: 1.4;
 
@@ -22,12 +22,12 @@
 	--font-size-larger: calc(48 / var(--global-font-size) * 1rem);
 
 	/* Colors */
-	--global-font-color: #333;
-	--background-color: #fff; /* Page background color */
-	--content-background-color: #fff; /* Content-specific background */
-	--sub-content-background-color: #f6f6f6; /* Content-specific background */
-	--header-background-color: #f6f6f6;
-	--footer-background-color: #fbfbfb;
+	--global-font-color: #000;
+	--background-color: #fff;
+	--content-background-color: #fff;
+	--sub-content-background-color: #f6f6f6;
+	--header-background-color: #1D9741;
+	--footer-background-color: #062E13;
 	--border-color-dark: #333;
 	--border-color-light: #ccc;
 	--color-link: #0073aa;
@@ -37,31 +37,30 @@
 	--color-quote-citation: #6c7781;
 
 	/* Custom editor colors */
-	--color-theme-primary: #e36d60;
-	--color-theme-secondary: #41848f;
-	--color-theme-red: #c0392b;
+	--color-theme-primary: #1D9741;
+	--color-theme-secondary: #E53935;
+	--color-theme-red: #D32F2F;
+	--color-theme-dark-red: #A92626;
 	--color-theme-green: #27ae60;
 	--color-theme-blue: #2980b9;
 	--color-theme-yellow: #f1c40f;
 	--color-theme-black: #1c2833;
 	--color-theme-grey: #95a5a6;
-	--color-theme-white: #ecf0f1;
+	--color-theme-light-grey: #dfe0de;
+	--color-theme-white: #ffffff;
 	--color-custom-daylight: #97c0b7;
 	--color-custom-sun: #eee9d1;
 
 	@media (prefers-color-scheme: dark) {
-		/* Global color adjustments for dark mode */
-		--global-font-color: #fff; /* Default text color */
-		--background-color: #121212; /* Page background color */
-		--content-background-color: #181818; /* Content-specific background */
+		--global-font-color: #fff;
+		--background-color: #121212;
+		--content-background-color: #181818;
 		--sub-content-background-color: #333;
 		--header-background-color: #1a1a1a;
 		--footer-background-color: #1a1a1a;
-		--color-link: #4e9efd; /* Link color */
-		--color-link-active: #bbdfff; /* Link hover/focus color */
-		--color-link-visited: #bbdfff; /* Link hover/focus color */
-
-		/* reverse dark/light colors */
+		--color-link: #4e9efd;
+		--color-link-active: #bbdfff;
+		--color-link-visited: #bbdfff;
 		--border-color-dark: #ccc;
 		--border-color-light: #333;
 	}

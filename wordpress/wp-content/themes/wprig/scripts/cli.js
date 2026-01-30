@@ -278,7 +278,11 @@ program
 			// Set up watchers using BrowserSync's built-in chokidar
 			const jsWatcher = server.watch(
 				'assets/js/src/**/*.{js,ts,tsx,json}',
-				{ ignoreInitial: true }
+				{
+					ignoreInitial: true,
+					usePolling: true,
+					interval: 1000
+				}
 			);
 			jsWatcher
 				.on( 'change', rebuildJS )
@@ -287,6 +291,8 @@ program
 
 			const cssWatcher = server.watch( 'assets/css/src/**/*.css', {
 				ignoreInitial: true,
+				usePolling: true,
+				interval: 1000
 			} );
 			cssWatcher
 				.on( 'change', rebuildCSS )
@@ -295,6 +301,8 @@ program
 
 			const phpWatcher = server.watch( paths.php.src, {
 				ignoreInitial: true,
+				usePolling: true,
+				interval: 1000
 			} );
 			phpWatcher
 				.on( 'change', reloadOnly )
@@ -303,6 +311,8 @@ program
 
 			const imageWatcher = server.watch( paths.images.src, {
 				ignoreInitial: true,
+				usePolling: true,
+				interval: 1000
 			} );
 			imageWatcher
 				.on( 'change', processImagesWatcher )

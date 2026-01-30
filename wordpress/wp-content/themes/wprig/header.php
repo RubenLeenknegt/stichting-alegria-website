@@ -2,8 +2,6 @@
 /**
  * The header for our theme
  *
- * This is the template that displays all of the <head> section and everything up until <div id="content">
- *
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
  * @package wp_rig
@@ -27,12 +25,12 @@ namespace WP_Rig\WP_Rig;
 <div id="page" class="site">
 	<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'wp-rig' ); ?></a>
 
-	<header id="masthead" class="site-header flex">
-		<?php get_template_part( 'template-parts/header/custom_header' ); ?>
+	<header id="masthead" class="site-header">
+		<?php
+		get_template_part( 'template-parts/header/branding' );
 
-		<?php get_template_part( 'template-parts/header/mobile-menu-toggle' ); ?>
+		get_template_part( 'template-parts/header/mobile-menu-toggle' );
 
-		<?php get_template_part( 'template-parts/header/branding' ); ?>
-
-		<?php get_template_part( 'template-parts/header/navigation' ); ?>
+		get_template_part( 'template-parts/header/navigation' );
+		?>
 	</header><!-- #masthead -->

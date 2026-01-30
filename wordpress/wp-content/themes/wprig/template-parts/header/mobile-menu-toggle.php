@@ -1,12 +1,15 @@
 <?php
 /**
  * Template part for displaying the mobile menu toggle button
+ * Pure CSS hamburger - no SVG needed
  *
  * @package wp_rig
  */
 
-$menu_toggle_button = '<button class="menu-toggle" aria-label="' . esc_html__( 'Open menu', 'wp-rig' ) . '" aria-controls="primary-menu" aria-expanded="false">
-				' . esc_html__( 'Menu', 'wp-rig' ) . '
-				</button>';
-$menu_toggle_button = apply_filters( 'wp_rig_menu_toggle_button', $menu_toggle_button );
-echo $menu_toggle_button; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */
+namespace WP_Rig\WP_Rig;
+
+?>
+<button class="menu-toggle" aria-label="<?php esc_attr_e( 'Open menu', 'wp-rig' ); ?>" aria-controls="primary-menu" aria-expanded="false">
+	<span></span>
+	<span class="menu-toggle-text"><?php esc_html_e( 'Menu', 'wp-rig' ); ?></span>
+</button>

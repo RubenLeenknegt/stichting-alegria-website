@@ -59,6 +59,20 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	private $close_icon_svg;
 
 	/**
+	 * CTA arrow SVG content.
+	 *
+	 * @var string
+	 */
+	private $cta_arrow_svg;
+
+	/**
+	 * Logo SVG content.
+	 *
+	 * @var string
+	 */
+	private $logo_svg;
+
+	/**
 	 * Gets the unique identifier for the theme component.
 	 *
 	 * @return string Component slug.
@@ -124,6 +138,29 @@ class Component implements Component_Interface, Templating_Component_Interface {
 		 * @param string $close_icon_svg The SVG markup for the close menu icon.
 		 */
 		$this->close_icon_svg = apply_filters( 'wp_rig_menu_close_icon_svg', $close_icon_svg );
+
+		// Load CTA arrow SVG.
+		$cta_arrow_svg = wp_rig()->get_theme_asset( 'arrow_right.svg', 'svg', true );
+
+		/**
+		 * Filters the CTA arrow icon SVG markup used in menu items like "Donate".
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param string $cta_arrow_svg The SVG markup for the CTA arrow.
+		 */
+		$this->cta_arrow_svg = apply_filters( 'wp_rig_cta_arrow_svg', $cta_arrow_svg );
+
+		$logo_svg = wp_rig()->get_theme_asset( 'logo.svg', 'svg', true );
+
+		/**
+		 * Filters the site logo SVG markup.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param string $logo_svg The SVG markup for the site logo.
+		 */
+		$this->logo_svg = apply_filters( 'wp_rig_logo_svg', $logo_svg);
 	}
 
 	/**
@@ -137,6 +174,7 @@ class Component implements Component_Interface, Templating_Component_Interface {
 		add_filter( 'render_block_core/navigation', array( $this, 'add_nav_class_to_navigation_block' ), 10, 3 );
 		add_filter( 'walker_nav_menu_start_el', array( $this, 'modify_menu_items_for_accessibility' ), 10, 4 );
 		add_filter( 'wp_nav_menu_objects', array( $this, 'inject_parent_link_into_submenu' ), 10, 2 );
+		add_filter( 'walker_nav_menu_start_el', array( $this, 'add_cta_arrow_to_donate_item' ), 15, 4 );
 	}
 
 	/**
@@ -150,6 +188,7 @@ class Component implements Component_Interface, Templating_Component_Interface {
 		return array(
 			'is_primary_nav_menu_active' => array( $this, 'is_primary_nav_menu_active' ),
 			'display_primary_nav_menu'   => array( $this, 'display_primary_nav_menu' ),
+			'get_logo_svg'               => array( $this, 'get_logo_svg' ),
 		);
 	}
 
@@ -215,6 +254,37 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	}
 
 	/**
+	 * Adds an arrow to a specific menu item (e.g., "Donate").
+	 *
+	 * @param string  $item_output The menu item's HTML output.
+	 * @param WP_Post $item        Menu item object.
+	 * @param int     $depth       Depth of menu item.
+	 * @param object  $args        wp_nav_menu args.
+	 *
+	 * @return string Modified HTML output.
+	 */
+	public function add_cta_arrow_to_donate_item( string $item_output, WP_Post $item, int $depth, $args ): string {
+
+		if ( empty( $args->theme_location ) || static::PRIMARY_NAV_MENU_SLUG !== $args->theme_location ) {
+			return $item_output;
+		}
+
+		if ( ! empty( $item->title ) && 'Doneer nu' === $item->title ) {
+			// The SVG should already be loaded from preload_svg_assets()
+			// But add a safety check in case it's empty
+			if ( empty( $this->cta_arrow_svg ) ) {
+				error_log( 'CTA arrow SVG is empty - check if cta-arrow.svg exists' );
+				return $item_output;
+			}
+
+			$arrow_svg = '<span class="cta-arrow">' . $this->cta_arrow_svg . '</span>';
+			$item_output .= $arrow_svg;
+		}
+
+		return $item_output;
+	}
+
+	/**
 	 * Checks whether the primary navigation menu is active.
 	 *
 	 * @return bool True if the primary navigation menu is active, false otherwise.
@@ -259,8 +329,6 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	public function customize_mobile_menu_nav_classes() {
 		return esc_html( 'main-navigation nav--toggle-sub nav--toggle-small icon-nav' );
 	}
-
-	// TODO: Please improve the following @param description.
 
 	/**
 	 * Adds the necessary nav class for navigation.js to control sub menus.
@@ -460,5 +528,23 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	 */
 	public function get_close_icon_svg() {
 		return $this->close_icon_svg;
+	}
+
+	/**
+	 * Gets the CTA arrow SVG content.
+	 *
+	 * @return string The CTA arrow SVG markup.
+	 */
+	public function get_cta_arrow_svg() {
+		return $this->cta_arrow_svg;
+	}
+
+	/**
+	 * Gets the logo SVG content.
+	 *
+	 * @return string The logo SVG markup.
+	 */
+	public function get_logo_svg() {
+		return $this->logo_svg;
 	}
 }
