@@ -78,7 +78,7 @@
 /*--------------------------------------------------------------
 # MOBILE STYLES (< 1400px)
 --------------------------------------------------------------*/
-@media (max-width: 1399px) {
+@media (--below-desktop) {
 	/* Header layout on mobile */
 	.site-header {
 		padding: 1rem 2rem;
@@ -147,7 +147,7 @@
 /*--------------------------------------------------------------
 # DESKTOP STYLES (>= 1400px)
 --------------------------------------------------------------*/
-@media (min-width: 1400px) {
+@media (--above-desktop) {
 	.site-header {
 		padding: 2rem 4rem;
 		position: relative;
@@ -189,8 +189,8 @@
 /*--------------------------------------------------------------
 # WordPress Navigation Block Overrides
 --------------------------------------------------------------*/
-nav div.wp-block-navigation__responsive-dialog {
-	@media (max-width: 1399px) {
+@media (--below-desktop) {
+	nav div.wp-block-navigation__responsive-dialog {
 		margin: 1em;
 	}
 }

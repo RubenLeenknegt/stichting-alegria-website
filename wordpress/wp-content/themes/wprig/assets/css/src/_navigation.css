@@ -2,11 +2,6 @@
 # CSS Custom Properties - Breakpoints & Navigation Variables
 --------------------------------------------------------------*/
 :root {
-	/* Breakpoint variables */
-	--breakpoint-mobile: 375px;
-	--breakpoint-tablet: 768px;
-	--breakpoint-desktop: 1400px;
-
 	/* Navigation-specific variables */
 	--nav-mobile-header-height: 80px;
 	--nav-transition-speed: 0.3s;
@@ -149,8 +144,9 @@
 .main-navigation a:hover,
 .main-navigation a:focus,
 .main-navigation button:hover,
-.main-navigation button:focus {
-	text-decoration: underline;
+.main-navigation button:focus,
+.main-navigation .submenu-toggle:hover {
+	color: var(--color-theme-light-grey);
 }
 
 .main-navigation ul {
@@ -249,10 +245,17 @@
 /*--------------------------------------------------------------
 # MOBILE STYLES (< 1400px)
 --------------------------------------------------------------*/
-@media (max-width: 1399px) {
+@media (--below-desktop) {
 	/* Show hamburger menu button */
 	.menu-toggle {
 		display: flex;
+	}
+
+	/* Hamburger in header is WHITE */
+	.site-header > .menu-toggle::before,
+	.site-header > .menu-toggle::after,
+	.site-header > .menu-toggle span {
+		background-color: var(--color-theme-white);
 	}
 
 	/* Mobile menu container - hidden by default */
@@ -323,7 +326,12 @@
 		margin-left: auto;
 	}
 
-	/* Navigation styling - BLACK TEXT ON WHITE */
+	.mobile-menu-header .menu-toggle::before,
+	.mobile-menu-header .menu-toggle::after,
+	.mobile-menu-header .menu-toggle span {
+		background-color: var(--global-font-color);
+	}
+
 	.main-navigation {
 		width: 100%;
 		padding: 1rem 2rem;
@@ -333,6 +341,14 @@
 	.main-navigation button {
 		color: var(--global-font-color);
 		text-shadow: none;
+	}
+
+	.main-navigation a:hover,
+	.main-navigation a:focus,
+	.main-navigation button:hover,
+	.main-navigation button:focus,
+	.main-navigation .submenu-toggle:hover {
+		color: var(--global-font-color);
 	}
 
 	.main-navigation ul {
@@ -354,17 +370,6 @@
 	/* Dropdown arrow color on mobile */
 	.dropdown-symbol {
 		stroke: var(--global-font-color);
-	}
-
-	/* Menu toggle button color */
-	.menu-toggle {
-		color: var(--global-font-color);
-	}
-
-	.menu-toggle::before,
-	.menu-toggle::after,
-	.menu-toggle span {
-		background-color: var(--global-font-color);
 	}
 
 	/* Menu items with children - improved layout */
@@ -450,7 +455,7 @@
 /*--------------------------------------------------------------
 # DESKTOP STYLES (>= 1400px)
 --------------------------------------------------------------*/
-@media (min-width: 1400px) {
+@media (--above-desktop) {
 	/* Hide mobile menu elements */
 	.menu-toggle {
 		display: none !important;
@@ -608,7 +613,7 @@
 	font-stretch: condensed;
 }
 
-@media (min-width: 768px) {
+@media (--content-query) {
 	.site-main .comment-navigation,
 	.site-main .posts-navigation,
 	.site-main .post-navigation,
