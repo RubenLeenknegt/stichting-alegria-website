@@ -18,6 +18,7 @@
 !/assets/fonts/
 !/assets/fonts/*
 !/assets/images/src/
+!/assets/blocks
 !/languages/
 !gulp/
 !node/
