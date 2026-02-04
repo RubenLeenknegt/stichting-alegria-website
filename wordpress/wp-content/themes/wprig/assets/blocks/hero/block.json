@@ -3,7 +3,7 @@
   "apiVersion": 2,
   "title": "Hero",
   "category": "design",
-  "icon": "block-default",
+  "icon": "cover-image",
   "description": "A custom hero section with heading, subheading, and background image",
   "textdomain": "wp-rig",
   "attributes": {
@@ -26,6 +26,22 @@
     "backgroundImageAlt": {
       "type": "string",
       "default": ""
+    },
+    "primaryButtonText": {
+      "type": "string",
+      "default": ""
+    },
+    "primaryButtonUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "secondaryButtonText": {
+      "type": "string",
+      "default": ""
+    },
+    "secondaryButtonUrl": {
+      "type": "string",
+      "default": ""
     }
   },
   "editorScript": "file:./build/index.js",
@@ -33,10 +49,8 @@
   "editorStyle": "file:./build/editor.css",
   "render": "file:./render.php",
   "supports": {
-    "spacing": true,
-    "color": {
-      "text": true,
-      "background": true
-    }
+    "align": ["full"],
+    "spacing": false,
+    "color": false
   }
 }
