@@ -1,3 +1,5 @@
+@import "../../css/src/_custom-media.css";
+
 /**
  * Hero Block Styles
  */
@@ -14,14 +16,14 @@
 }
 
 .hero-content {
-	max-width: 800px;
-	color: var(--color-theme-white);
+	max-width: 600px;
 	position: relative;
 	z-index: 1;
+	margin-left: 7rem;
 }
 
 .hero-heading {
-	font-size: var(--font-size-larger);
+	font-size: var(--font-size-xl);
 	font-weight: 700;
 	margin: 0 0 1rem 0;
 	color: var(--color-theme-white);
@@ -29,7 +31,7 @@
 }
 
 .hero-subheading {
-	font-size: var(--font-size-large);
+	font-size: var(--font-size-medium);
 	margin: 0 0 2rem 0;
 	color: var(--color-theme-white);
 	line-height: var(--global-font-line-height);
@@ -61,6 +63,10 @@
 	.hero-block {
 		min-height: 60vh;
 		padding: 1rem;
+	}
+
+	.hero-content {
+		margin-left: 1rem;
 	}
 
 	.hero-buttons {
