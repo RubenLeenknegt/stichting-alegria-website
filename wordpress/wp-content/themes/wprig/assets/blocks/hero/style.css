@@ -1,0 +1,76 @@
+@import "../../css/src/_custom-media.css";
+
+/**
+ * Hero Block Styles
+ */
+
+.hero-block {
+	min-height: 70vh;
+	display: flex;
+	align-items: center;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	padding: 2rem;
+	position: relative;
+}
+
+.hero-content {
+	max-width: 600px;
+	position: relative;
+	z-index: 1;
+	margin-left: 7rem;
+}
+
+.hero-heading {
+	font-size: var(--font-size-xl);
+	font-weight: 700;
+	margin: 0 0 1rem 0;
+	color: var(--color-theme-white);
+	line-height: 1.2;
+}
+
+.hero-subheading {
+	font-size: var(--font-size-medium);
+	margin: 0 0 2rem 0;
+	color: var(--color-theme-white);
+	line-height: var(--global-font-line-height);
+}
+
+.hero-buttons {
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+
+/* Responsive adjustments */
+@media (--below-tablet) {
+	.hero-block {
+		min-height: 50vh;
+		padding: 1.5rem;
+	}
+
+	.hero-heading {
+		font-size: var(--font-size-large);
+	}
+
+	.hero-subheading {
+		font-size: var(--font-size-regular);
+	}
+}
+
+@media (--mobile-query) {
+	.hero-block {
+		min-height: 60vh;
+		padding: 1rem;
+	}
+
+	.hero-content {
+		margin-left: 1rem;
+	}
+
+	.hero-buttons {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}

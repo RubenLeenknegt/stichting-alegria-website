@@ -41,12 +41,6 @@
 	margin: 0 auto;
 }
 
-.page-content,
-.entry-content,
-.entry-summary {
-	margin: 1.5em 0 0;
-}
-
 .entry-content > ul,
 .entry-content > ol {
 	padding-left: 3.5em;
@@ -55,21 +49,14 @@
 .page-content > *,
 .entry-content > *,
 .entry-summary > * {
-	margin-right: auto;
-	margin-left: auto;
 	padding-right: 1.5rem;
 	padding-left: 1.5rem;
-	max-width: var(--content-width);
 }
 
 .page-header,
 .site-info,
 .post-navigation,
 .page-navigation,
-.comments-area {
-	margin-top: 1.5em;
-	margin-bottom: 1.5em;
-}
 
 .page-content > *,
 .entry-content > *,
@@ -79,11 +66,8 @@
 .post-navigation,
 .page-navigation,
 .comments-area {
-	margin-left: auto;
-	margin-right: auto;
 	padding-right: 1.5rem;
 	padding-left: 1.5rem;
-	max-width: var(--content-width);
 }
 
 @media (--content-query) {
@@ -121,8 +105,6 @@
 .aligncenter {
 	clear: both;
 	display: block;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 .alignwide {
@@ -143,21 +125,6 @@
 .entry-content > .alignright,
 .entry-summary > .alignright {
 	margin-right: 1.5rem;
-}
-
-@media (--content-query) {
-
-	.page-content > .alignleft,
-	.entry-content > .alignleft,
-	.entry-summary > .alignleft {
-		margin-left: calc((100vw - var(--content-width)) / 2);
-	}
-
-	.page-content > .alignright,
-	.entry-content > .alignright,
-	.entry-summary > .alignright {
-		margin-right: calc((100vw - var(--content-width)) / 2);
-	}
 }
 
 /*--------------------------------------------------------------
