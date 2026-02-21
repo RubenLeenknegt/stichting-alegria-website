@@ -1,0 +1,96 @@
+{
+  "name": "wp-rig/cards",
+  "apiVersion": 2,
+  "title": "Cards",
+  "category": "design",
+  "icon": "grid-view",
+  "description": "Three card section with images and links",
+  "textdomain": "wp-rig",
+  "attributes": {
+    "sectionTitle": {
+      "type": "string",
+      "default": ""
+    },
+    "card1ImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "card1ImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "card1ImageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "card1Title": {
+      "type": "string",
+      "default": ""
+    },
+    "card1Text": {
+      "type": "string",
+      "default": ""
+    },
+    "card1Url": {
+      "type": "string",
+      "default": ""
+    },
+    "card2ImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "card2ImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "card2ImageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "card2Title": {
+      "type": "string",
+      "default": ""
+    },
+    "card2Text": {
+      "type": "string",
+      "default": ""
+    },
+    "card2Url": {
+      "type": "string",
+      "default": ""
+    },
+    "card3ImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "card3ImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "card3ImageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "card3Title": {
+      "type": "string",
+      "default": ""
+    },
+    "card3Text": {
+      "type": "string",
+      "default": ""
+    },
+    "card3Url": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./build/index.js",
+  "style": "file:./build/style.css",
+  "editorStyle": "file:./build/editor.css",
+  "render": "file:./render.php",
+  "supports": {
+    "align": ["wide", "full"],
+    "spacing": false,
+    "color": false
+  }
+}
