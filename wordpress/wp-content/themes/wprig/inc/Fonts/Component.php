@@ -226,7 +226,7 @@ class Component implements Component_Interface, Templating_Component_Interface {
 		}
 
 		$google_fonts = array(
-			'Rubik' => array( '300', '400', '500', '600', '700' ),
+			'Rubik' => array( '300', '400', '500', '600', '700', '800', '900' ),
 		);
 
 		/**
