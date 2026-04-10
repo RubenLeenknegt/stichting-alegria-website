@@ -46,8 +46,8 @@ $wrapper_attrs = wp_rig()->block_wrapper_attributes(
 	$attributes
 );
 
-// Helper function to render a card
-function render_card( $image_url, $image_alt, $title, $text, $url ) {
+// Local renderer avoids global function redeclaration when this template is included multiple times.
+$render_card = static function ( $image_url, $image_alt, $title, $text, $url ): void {
 	if ( ! $image_url && ! $title && ! $text ) {
 		return;
 	}
@@ -70,7 +70,7 @@ function render_card( $image_url, $image_alt, $title, $text, $url ) {
 	</div>
 	</<?php echo $tag; ?>>
 	<?php
-}
+};
 ?>
 
 <div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
@@ -80,9 +80,9 @@ function render_card( $image_url, $image_alt, $title, $text, $url ) {
 		<?php endif; ?>
 
 		<div class="cards-grid">
-			<?php render_card( $card1_image_url, $card1_image_alt, $card1_title, $card1_text, $card1_url ); ?>
-			<?php render_card( $card2_image_url, $card2_image_alt, $card2_title, $card2_text, $card2_url ); ?>
-			<?php render_card( $card3_image_url, $card3_image_alt, $card3_title, $card3_text, $card3_url ); ?>
+			<?php $render_card( $card1_image_url, $card1_image_alt, $card1_title, $card1_text, $card1_url ); ?>
+			<?php $render_card( $card2_image_url, $card2_image_alt, $card2_title, $card2_text, $card2_url ); ?>
+			<?php $render_card( $card3_image_url, $card3_image_alt, $card3_title, $card3_text, $card3_url ); ?>
 		</div>
 	</div>
 </div>
