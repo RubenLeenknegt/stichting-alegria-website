@@ -26,6 +26,8 @@ $primary_button_url    = $attributes['primaryButtonUrl'] ?? '';
 $secondary_button_text = $attributes['secondaryButtonText'] ?? '';
 $secondary_button_url  = $attributes['secondaryButtonUrl'] ?? '';
 
+$primary_button_icon = wp_rig()->get_cta_arrow_svg();
+
 // Build wrapper attributes
 $wrapper_attrs = wp_rig()->block_wrapper_attributes(
 	array( 'hero-block', 'overlay-dark' ),
@@ -57,6 +59,9 @@ if ( $background_image_url ) {
 				<?php if ( $primary_button_text && $primary_button_url ) : ?>
 					<a href="<?php echo esc_url( $primary_button_url ); ?>" class="btn-primary">
 						<?php echo esc_html( $primary_button_text ); ?>
+						<?php if ( ! empty( $primary_button_icon ) ) : ?>
+							<span class="btn-icon" aria-hidden="true"><?php echo $primary_button_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+						<?php endif; ?>
 					</a>
 				<?php endif; ?>
 

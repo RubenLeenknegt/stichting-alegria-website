@@ -188,6 +188,7 @@ class Component implements Component_Interface, Templating_Component_Interface {
 		return array(
 			'is_primary_nav_menu_active' => array( $this, 'is_primary_nav_menu_active' ),
 			'display_primary_nav_menu'   => array( $this, 'display_primary_nav_menu' ),
+			'get_cta_arrow_svg'          => array( $this, 'get_cta_arrow_svg' ),
 			'get_logo_svg'               => array( $this, 'get_logo_svg' ),
 		);
 	}
@@ -269,7 +270,14 @@ class Component implements Component_Interface, Templating_Component_Interface {
 			return $item_output;
 		}
 
-		if ( ! empty( $item->title ) && 'Doneer nu' === $item->title ) {
+		$classes       = is_array( $item->classes ?? null ) ? $item->classes : array();
+		$is_donate_cta = in_array( 'donate-menu-item', $classes, true ) || ( ! empty( $item->title ) && 'Doneer nu' === $item->title );
+
+		if ( $is_donate_cta ) {
+			if ( false !== strpos( $item_output, 'class="cta-arrow"' ) ) {
+				return $item_output;
+			}
+
 			// The SVG should already be loaded from preload_svg_assets()
 			// But add a safety check in case it's empty
 			if ( empty( $this->cta_arrow_svg ) ) {

@@ -222,6 +222,7 @@
 	width: 1.5em;
 	height: 1.5em;
 	color: var(--color-theme-white);
+	transition: transform 0.2s ease;
 }
 
 .main-navigation li.donate-menu-item .cta-arrow svg {
@@ -240,6 +241,22 @@
 .main-navigation li.donate-menu-item > a:hover,
 .main-navigation li.donate-menu-item > a:focus {
 	text-decoration: none;
+}
+
+.main-navigation li.donate-menu-item:hover .cta-arrow,
+.main-navigation li.donate-menu-item:focus-within .cta-arrow {
+	transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.main-navigation li.donate-menu-item .cta-arrow {
+		transition: none;
+	}
+
+	.main-navigation li.donate-menu-item:hover .cta-arrow,
+	.main-navigation li.donate-menu-item:focus-within .cta-arrow {
+		transform: none;
+	}
 }
 
 /*--------------------------------------------------------------

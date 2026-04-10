@@ -31,6 +31,8 @@ $text_block_2        = $attributes['textBlock2'] ?? '';
 $button_text         = $attributes['buttonText'] ?? '';
 $button_url          = $attributes['buttonUrl'] ?? '';
 
+$primary_button_icon = wp_rig()->get_cta_arrow_svg();
+
 // Build wrapper attributes
 $wrapper_attrs = wp_rig()->block_wrapper_attributes(
 	array( 'about-us-block' ),
@@ -93,6 +95,9 @@ $wrapper_attrs = wp_rig()->block_wrapper_attributes(
 				<div class="about-us-button">
 					<a href="<?php echo esc_url( $button_url ); ?>" class="btn-primary">
 						<?php echo esc_html( $button_text ); ?>
+						<?php if ( ! empty( $primary_button_icon ) ) : ?>
+							<span class="btn-icon" aria-hidden="true"><?php echo $primary_button_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+						<?php endif; ?>
 					</a>
 				</div>
 			<?php endif; ?>

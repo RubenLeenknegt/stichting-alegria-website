@@ -33,6 +33,43 @@
 	color: var(--color-theme-white);
 }
 
+.btn-primary .btn-icon {
+	display: inline-flex;
+	align-items: center;
+	line-height: 0;
+	transition: transform 0.2s ease;
+}
+
+.btn-primary .btn-icon svg {
+	display: block;
+	width: 1.5em;
+	height: 1.5em;
+}
+
+.btn-primary .btn-icon svg,
+.btn-primary .btn-icon svg * {
+	fill: currentColor;
+	stroke: currentColor;
+}
+
+.btn-primary:hover .btn-icon,
+.btn-primary:focus .btn-icon,
+.btn-primary:focus-visible .btn-icon {
+	transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.btn-primary .btn-icon {
+		transition: none;
+	}
+
+	.btn-primary:hover .btn-icon,
+	.btn-primary:focus .btn-icon,
+	.btn-primary:focus-visible .btn-icon {
+		transform: none;
+	}
+}
+
 /* Secondary Link Button */
 .btn-secondary {
 	display: inline-flex;
