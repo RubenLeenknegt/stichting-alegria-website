@@ -22,8 +22,8 @@
 
 .cards-grid {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 2rem;
+	grid-template-columns: 1fr;
+	gap: 1.5rem;
 }
 
 .card-item {
@@ -92,15 +92,29 @@
 }
 
 /* Tablet styles */
-@media (min-width: 48em) and (max-width: 87em) {
+@media (min-width: 48em) {
 	.cards-grid {
 		grid-template-columns: repeat(2, 1fr);
+		gap: 2rem;
 	}
 
 	.card-item:last-child {
 		grid-column: 1 / -1;
 		max-width: 50%;
 		margin: 0 auto;
+	}
+}
+
+/* Desktop styles */
+@media (min-width: 87em) {
+	.cards-grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.card-item:last-child {
+		grid-column: auto;
+		max-width: none;
+		margin: 0;
 	}
 }
 
@@ -116,12 +130,12 @@
 	}
 
 	.cards-grid {
-		grid-template-columns: 1fr;
 		gap: 1.5rem;
 	}
 
 	.card-item {
-		aspect-ratio: 4 / 3;
+		aspect-ratio: 3 / 4;
+		min-height: clamp(24rem, 120vw, 31rem);
 	}
 
 	.card-content {

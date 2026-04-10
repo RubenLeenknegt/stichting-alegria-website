@@ -311,6 +311,28 @@ the [WP Rig website](https://wprig.io/doc_cat/workflow/).
 As WP Rig processes CSS and JavaScript, it will support the browsers listed in `.browserslistrc`. Note that WP Rig will
 **not** add polyfills for missing browser support. WP Rig **will** add CSS prefixes and transpile JavaScript.
 
+### Breakpoint Standard (Project Convention)
+
+Use one mobile-first breakpoint system across all custom CSS in this project.
+
+- Base (mobile): default styles, no media query
+- Tablet and up: `@media (min-width: 48em)` (768px)
+- Desktop and up: `@media (min-width: 87em)` (1392px)
+- Mobile-only adjustments: `@media (max-width: 47em)` (<= 752px)
+
+Recommended writing order in each stylesheet:
+
+1. Base styles (mobile-first)
+2. `@media (min-width: 48em)`
+3. `@media (min-width: 87em)`
+4. Optional one-off `@media (max-width: 47em)` overrides only when needed
+
+Notes:
+
+- Prefer `min-width` queries for layout scaling; use `max-width` sparingly for targeted fixes.
+- Keep values in `em` for consistency with existing theme conventions.
+- This convention is documentation-only and does not change the current SCSS/custom-media loading behavior.
+
 ## Advanced Features
 
 WP Rig gives the developer an out of the box environment with support for modern technologies, including ES6 and extremely modern CSS, without making any configurations.
