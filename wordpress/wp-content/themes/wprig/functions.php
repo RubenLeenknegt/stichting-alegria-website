@@ -56,6 +56,81 @@ add_action('init', 'wprig_disable_comments');
 
 // Remove comment-related links from HTTP headers
 add_filter('feed_links_show_comments_feed', '__return_false');
+
+// ---------------------------------------------------------------------------
+// Disable the default Posts post type
+// ---------------------------------------------------------------------------
+
+// Remove Posts from the admin menu
+add_action( 'admin_menu', function () {
+	remove_menu_page( 'edit.php' );
+} );
+
+// Redirect any direct attempt to access the Posts screens
+add_action( 'admin_init', function () {
+	global $pagenow;
+	if ( $pagenow === 'edit.php' && ( empty( $_GET['post_type'] ) || $_GET['post_type'] === 'post' ) ) {
+		wp_redirect( admin_url() );
+		exit;
+	}
+} );
+
+// Remove Posts-related dashboard widgets
+add_action( 'admin_init', function () {
+	remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
+	remove_meta_box( 'dashboard_recent_drafts',  'dashboard', 'side' );
+	remove_meta_box( 'dashboard_recent_posts',   'dashboard', 'normal' );
+} );
+
+// Remove the Posts admin bar node
+add_action( 'admin_bar_menu', function ( WP_Admin_Bar $wp_admin_bar ) {
+	$wp_admin_bar->remove_node( 'new-post' );
+}, 999 );
+
+// Exclude default posts from front-end queries (belt-and-suspenders)
+add_action( 'pre_get_posts', function ( WP_Query $query ) {
+	if ( ! is_admin() && $query->is_main_query() && $query->is_home() ) {
+		$query->set( 'post_type', 'newsletter' );
+	}
+} );
+
+// ---------------------------------------------------------------------------
+// Register Newsletter custom post type
+// ---------------------------------------------------------------------------
+
+add_action( 'init', function () {
+	register_post_type( 'newsletter', [
+		'labels' => [
+			'name'                  => 'Newsletters',
+			'singular_name'         => 'Newsletter',
+			'add_new'               => 'Add New',
+			'add_new_item'          => 'Add New Newsletter',
+			'edit_item'             => 'Edit Newsletter',
+			'new_item'              => 'New Newsletter',
+			'view_item'             => 'View Newsletter',
+			'view_items'            => 'View Newsletters',
+			'search_items'          => 'Search Newsletters',
+			'not_found'             => 'No newsletters found.',
+			'not_found_in_trash'    => 'No newsletters found in trash.',
+			'all_items'             => 'All Newsletters',
+			'menu_name'             => 'Newsletter',
+			'name_admin_bar'        => 'Newsletter',
+		],
+		'public'              => true,
+		'publicly_queryable'  => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_rest'        => true,   // Required for Gutenberg and REST API
+		'has_archive'         => true,
+		'query_var'           => true,
+		'rewrite'             => [ 'slug' => 'newsletter', 'with_front' => false ],
+		'supports'            => [ 'title', 'editor', 'excerpt', 'thumbnail', 'revisions' ],
+		'menu_icon'           => 'dashicons-email-alt',
+		'menu_position'       => 5,
+		'capability_type'     => 'post',  // Reuses standard post capabilities
+	] );
+} );
+
 /**
  * WP Rig functions and definitions
  *
