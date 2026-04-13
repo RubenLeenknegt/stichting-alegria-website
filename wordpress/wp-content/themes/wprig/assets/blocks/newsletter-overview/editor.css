@@ -1,0 +1,8 @@
+/**
+ * Newsletter Overview Block Editor Styles
+ */
+
+.wp-block-wp-rig-newsletter-overview .newsletter-overview-card,
+.wp-block-wp-rig-newsletter-overview .newsletter-overview-cta-link {
+	pointer-events: none;
+}
