@@ -56,7 +56,7 @@ docker compose exec php bash
 Then go to the theme project root:
 
 ```bash
-cd /var/www/html/wp-content/themes/wprig
+cd wp-content/themes/wprig
 ```
 
 Run basic commands:
