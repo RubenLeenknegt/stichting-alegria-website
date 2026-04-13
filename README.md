@@ -1,12 +1,21 @@
-# Alegria (WordPress + Docker)
+# Website stichting Alegria
 
 Basic local Docker setup for the Alegria WordPress website.
 
 ## Screenshots
 
-![Homepage](docs/screenshots/homepage.png)
-![About page](docs/screenshots/about.png)
-![Donate section](docs/screenshots/donate.png)
+### Hero
+
+<img width="1919" height="820" alt="Screenshot 2026-04-13 204845" src="https://github.com/user-attachments/assets/3aeccfa6-e156-4a99-8f85-79b3fe728778" />
+
+### About us section
+
+<img width="1919" height="833" alt="Screenshot 2026-04-13 205149" src="https://github.com/user-attachments/assets/5d5aa542-4d1c-4993-b22e-7dcd9e04b07a" />
+
+
+### Our projects
+<img width="1919" height="882" alt="Screenshot 2026-04-13 204916" src="https://github.com/user-attachments/assets/20f3a5db-9a72-4fda-9604-4353c92e5a82" />
+
 
 ## Installation
 
