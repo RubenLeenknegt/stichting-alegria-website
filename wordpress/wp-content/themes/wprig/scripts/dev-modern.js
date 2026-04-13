@@ -3,8 +3,7 @@
 'use strict';
 
 // ESM script (theme package.json has "type": "module")
-import fs from 'fs';
-import { readdirSync, existsSync, mkdirSync, statSync, readFileSync } from 'fs';
+import fs, { existsSync, mkdirSync, readFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import http from 'http';
@@ -107,28 +106,14 @@ function lrChanged( files ) {
 // 3) Build/watch theme JS via esbuild (fast incremental rebuilds)
 // Discover all JS/TS entries under assets/js/src (mirrors build-js.js behavior)
 
-const srcDir = paths.scripts.srcDir; // assets/js/src
-const outDir = paths.scripts.dest; // assets/js
+const jsSrcDir = paths.scripts.srcDir; // assets/js/src
+const jsOutDir = paths.scripts.dest; // assets/js
 
-if ( ! existsSync( outDir ) ) {
-	mkdirSync( outDir, { recursive: true } );
+if ( ! existsSync( jsOutDir ) ) {
+	mkdirSync( jsOutDir, { recursive: true } );
 }
 
 const SUPPORTED_EXT = [ '.js', '.jsx', '.ts', '.tsx' ];
-function getAllFiles( dir ) {
-	const files = readdirSync( dir );
-	let out = [];
-	for ( const f of files ) {
-		const fp = path.join( dir, f );
-		const st = statSync( fp );
-		if ( st.isDirectory() ) {
-			out = out.concat( getAllFiles( fp ) );
-		} else if ( SUPPORTED_EXT.includes( path.extname( f ) ) ) {
-			out.push( fp );
-		}
-	}
-	return out;
-}
 
 // Plugins to mirror build-js.js behavior
 const replaceInlineJSPlugin = {
@@ -184,61 +169,80 @@ const notifyRebuildPlugin = {
 	},
 };
 
-const jsEntries = existsSync( srcDir ) ? getAllFiles( srcDir ) : [];
-if ( jsEntries.length ) {
-	const contexts = [];
-	( async () => {
-		for ( const file of jsEntries ) {
-			const rel = path.relative( srcDir, file );
-			const outfile = path.join(
-				outDir,
-				rel.replace( /\.(js|jsx|ts|tsx)$/i, '.min.js' )
-			);
-			const outdir = path.dirname( outfile );
-			if ( ! existsSync( outdir ) ) {
-				mkdirSync( outdir, { recursive: true } );
+const jsContexts = new Map();
+
+async function watchFile( file ) {
+	if ( jsContexts.has( file ) ) {
+		return;
+	}
+	const rel = path.relative( jsSrcDir, file );
+	const outfile = path.join(
+		jsOutDir,
+		rel.replace( /\.(js|jsx|ts|tsx)$/i, '.min.js' )
+	);
+	const outdir = path.dirname( outfile );
+	if ( ! existsSync( outdir ) ) {
+		mkdirSync( outdir, { recursive: true } );
+	}
+
+	try {
+		const ctx = await esbuild.context( {
+			entryPoints: [ file ],
+			outfile,
+			minify: false,
+			sourcemap: 'inline',
+			bundle: true,
+			target: [ 'es6' ],
+			loader: {
+				'.js': 'jsx',
+				'.jsx': 'jsx',
+				'.ts': 'ts',
+				'.tsx': 'tsx',
+			},
+			plugins: [
+				stripI18nSourceMapPlugin,
+				replaceInlineJSPlugin,
+				notifyRebuildPlugin,
+			],
+			external: [
+				'@wordpress/*',
+				'react',
+				'react-dom',
+				'react-dom/client',
+			],
+		} );
+
+		await ctx.watch();
+		jsContexts.set( file, ctx );
+	} catch ( err ) {
+		console.error( `✖ Failed to watch JS file ${ file }:`, err );
+	}
+}
+
+if ( existsSync( jsSrcDir ) ) {
+	chokidar
+		.watch( jsSrcDir, { ignoreInitial: false } )
+		.on( 'add', ( file ) => {
+			const absPath = path.resolve( file );
+			if (
+				SUPPORTED_EXT.includes( path.extname( absPath ) ) &&
+				! path.basename( absPath ).startsWith( '_' )
+			) {
+				watchFile( absPath );
 			}
-
-			const ctx = await esbuild.context( {
-				entryPoints: [ file ],
-				outfile,
-				minify: false,
-				sourcemap: 'inline',
-				bundle: true,
-				target: [ 'es6' ],
-				loader: {
-					'.js': 'jsx',
-					'.jsx': 'jsx',
-					'.ts': 'ts',
-					'.tsx': 'tsx',
-				},
-				plugins: [
-					stripI18nSourceMapPlugin,
-					replaceInlineJSPlugin,
-					notifyRebuildPlugin,
-				],
-				external: [
-					'@wordpress/*',
-					'react',
-					'react-dom',
-					'react-dom/client',
-				],
-			} );
-
-			await ctx.watch();
-			contexts.push( ctx );
-		}
-		console.log( '🔄 Watching JS in', srcDir );
-	} )().catch( ( err ) => {
-		console.error(
-			'[wprig] Failed to initialize JS watcher:',
-			err?.stack || err
-		);
-		// Keep server running for debugging; set exit code for CI visibility
-		process.exitCode = 1;
-	} );
+		} )
+		.on( 'unlink', async ( file ) => {
+			const absPath = path.resolve( file );
+			if ( jsContexts.has( absPath ) ) {
+				const ctx = jsContexts.get( absPath );
+				await ctx.dispose();
+				jsContexts.delete( absPath );
+				console.log( `ℹ️ Stopped watching ${ file }` );
+			}
+		} );
+	console.log( '🔄 Watching JS in', jsSrcDir );
 } else {
-	console.log( 'ℹ️ No JS entries found in', srcDir );
+	console.log( 'ℹ️ No JS directory found at', jsSrcDir );
 }
 
 // 4) CSS: run one build at startup and watch source to rebuild using existing script
@@ -257,6 +261,9 @@ function runCssBuild() {
 		stdio: 'inherit',
 		env: { ...process.env },
 	} );
+	cp.on( 'error', ( err ) => {
+		console.error( '[wprig] Failed to start CSS build process:', err );
+	} );
 	cp.on( 'exit', ( code ) => {
 		if ( code === 0 ) {
 			lrChanged( [ '/assets/css/**' ] );
@@ -273,15 +280,110 @@ runCssBuild();
 // Watch CSS sources to rebuild
 if ( cssSrcDirs.length ) {
 	chokidar
-		.watch(
-			cssSrcDirs.map( ( d ) => path.join( d, '**/*.css' ) ),
-			{
-				ignoreInitial: true,
+		.watch( cssSrcDirs, { ignoreInitial: true } )
+		.on( 'all', ( event, file ) => {
+			// Trigger rebuild for any CSS file change/add/unlink
+			if ( file && file.endsWith( '.css' ) ) {
+				if ( DEBUG ) {
+					console.log( `[wprig] CSS Watcher [${ event }]: ${ file }` );
+				}
+				runCssBuild();
 			}
-		)
-		.on( 'change', () => runCssBuild() );
+		} );
 	console.log( '🔄 Watching CSS in', cssSrcDirs.join( ', ' ) );
 }
+
+// 4.5) Watch Blocks
+const blocksDir = path.join( rootPath, 'assets', 'blocks' );
+let blocksProcess;
+function startBlocksWatcher() {
+	if ( blocksProcess && ! blocksProcess.killed ) {
+		blocksProcess.kill();
+	}
+	const proc = process.platform === 'win32' ? 'node.exe' : 'node';
+	blocksProcess = spawn(
+		proc,
+		[ path.join( rootPath, 'scripts', 'build-all-blocks.js' ), '--watch' ],
+		{
+			cwd: rootPath,
+			stdio: 'inherit',
+			env: { ...process.env },
+		}
+	);
+	blocksProcess.on( 'error', ( err ) => {
+		console.error( '[wprig] Failed to start block watcher:', err );
+	} );
+}
+
+function hasBlocks() {
+	if ( ! fs.existsSync( blocksDir ) ) {
+		return false;
+	}
+	try {
+		const entries = fs.readdirSync( blocksDir, {
+			withFileTypes: true,
+		} );
+		const blockDirs = entries.filter( ( e ) => e.isDirectory() );
+		return blockDirs.some( ( d ) =>
+			fs.existsSync( path.join( blocksDir, d.name, 'src' ) )
+		);
+	} catch ( _ ) {
+		return false;
+	}
+}
+
+if ( hasBlocks() ) {
+	startBlocksWatcher();
+}
+
+// Watch for new block directories
+chokidar
+	.watch( path.join( rootPath, 'assets' ), {
+		ignoreInitial: true,
+		depth: 3,
+	} )
+	.on( 'all', ( event, dirPath ) => {
+		const absoluteBlocksDir = path.resolve( blocksDir );
+		const absoluteDirPath = path.resolve( dirPath );
+		const parentDir = path.dirname( absoluteDirPath );
+		const grandParentDir = path.dirname( parentDir );
+
+		const isBlocksDir = absoluteDirPath === absoluteBlocksDir;
+		const isBlockDir = parentDir === absoluteBlocksDir;
+		const isSrcDir =
+			path.basename( absoluteDirPath ) === 'src' &&
+			grandParentDir === absoluteBlocksDir;
+
+		if ( isBlocksDir || isBlockDir || isSrcDir ) {
+			if ( event === 'addDir' ) {
+				console.log(
+					`[wprig] New block detected: ${ path.basename(
+						dirPath
+					) }. Restarting block watcher...`
+				);
+				startBlocksWatcher();
+			}
+			lrChanged( [ dirPath ] );
+		} else if (
+			absoluteDirPath.startsWith( absoluteBlocksDir + path.sep )
+		) {
+			lrChanged( [ dirPath ] );
+		}
+	} );
+
+// Clean up child process on exit
+process.on( 'SIGINT', () => {
+	if ( blocksProcess ) {
+		blocksProcess.kill();
+	}
+	process.exit();
+} );
+process.on( 'SIGTERM', () => {
+	if ( blocksProcess ) {
+		blocksProcess.kill();
+	}
+	process.exit();
+} );
 
 // 5) Watch PHP templates to trigger a soft reload
 const phpGlobs = paths.php?.src || [ path.join( rootPath, '**/*.php' ) ];
@@ -394,13 +496,20 @@ function forwardToBackend( req, res ) {
 	client.on( 'error', ( err ) => {
 		const code = err && err.code ? err.code : 'UNKNOWN';
 		const msg = err && err.message ? err.message : String( err );
-		console.error(
-			'[wprig] Proxy error:',
-			code,
-			msg,
-			'\n',
-			err?.stack || ''
-		);
+		if ( code === 'ENOTFOUND' || code === 'ECONNREFUSED' ) {
+			console.error(
+				`[wprig] Proxy error: Unable to reach ${ PROXY_TARGET } (${ code }). ` +
+					'Check your proxyURL in config.json and ensure your local site is running.'
+			);
+		} else {
+			console.error(
+				'[wprig] Proxy error:',
+				code,
+				msg,
+				'\n',
+				err?.stack || ''
+			);
+		}
 		try {
 			if ( ! res.headersSent ) {
 				res.writeHead( 502, { 'Content-Type': 'text/plain' } );
@@ -443,13 +552,17 @@ if ( TARGET_HTTPS ) {
 const server = ( useHttps ? https : http ).createServer(
 	serverOptions,
 	( req, res ) => {
-		console.log(
-			'[wprig] Incoming request: ' + req.method + ' ' + req.url
-		);
+		if ( DEBUG || req.url !== '/heartbeat' ) {
+			console.log(
+				'[wprig] Incoming request: ' + req.method + ' ' + req.url
+			);
+		}
 
 		// Short-circuit theme assets
 		if ( tryServeThemeAsset( req, res ) ) {
-			console.log( '[wprig] Served theme asset directly: ' + req.url );
+			if ( DEBUG ) {
+				console.log( '[wprig] Served theme asset directly: ' + req.url );
+			}
 			return;
 		}
 
@@ -474,8 +587,25 @@ server.on( 'error', ( err ) => {
 } );
 server.on( 'clientError', ( err, socket ) => {
 	try {
-		socket.end( 'HTTP/1.1 400 Bad Request\r\n\r\n' );
+		// Only try to end the socket if it's still writable
+		if ( ! socket.destroyed && socket.writable ) {
+			socket.end( 'HTTP/1.1 400 Bad Request\r\n\r\n' );
+		}
 	} catch {}
+
+	// Silence common harmless network errors to reduce noise
+	const code = err?.code;
+	if (
+		code === 'ECONNRESET' ||
+		code === 'EPIPE' ||
+		code === 'HPE_INVALID_METHOD'
+	) {
+		if ( DEBUG ) {
+			console.log( `[wprig] Client error (suppressed): ${ code }` );
+		}
+		return;
+	}
+
 	console.error( '[wprig] Client error:', err?.stack || err );
 } );
 // Forward websocket upgrades to proxy (if supported)

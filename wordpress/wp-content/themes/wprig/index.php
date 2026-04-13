@@ -23,8 +23,6 @@ wp_rig()->print_styles( 'wp-rig-content' );
 		<?php
 		if ( have_posts() ) {
 
-			get_template_part( 'template-parts/content/page_header' );
-
 			while ( have_posts() ) {
 				the_post();
 
@@ -40,5 +38,4 @@ wp_rig()->print_styles( 'wp-rig-content' );
 		?>
 	</main><!-- #primary -->
 <?php
-get_sidebar();
 get_footer();

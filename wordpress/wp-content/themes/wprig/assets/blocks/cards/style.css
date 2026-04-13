@@ -1,0 +1,148 @@
+/**
+ * Cards Block Styles
+ */
+
+.cards-block {
+	background-color: var(--color-theme-light-grey);
+	padding: 4rem 2rem;
+}
+
+.cards-container {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.cards-section-title {
+	font-size: var(--font-size-xl);
+	font-weight: 800;
+	color: var(--color-theme-primary);
+	margin: 0 0 3rem 0;
+	text-align: left;
+}
+
+.cards-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1.5rem;
+}
+
+.card-item {
+	position: relative;
+	aspect-ratio: 3 / 4;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	border-radius: 25px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	text-decoration: none;
+	color: inherit;
+	cursor: pointer;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-item:hover {
+	transform: translateY(-10px);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Gradient overlay - bottom to top fade */
+.card-overlay {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		to top,
+		rgba(0, 0, 0, 0.8) 0%,
+		rgba(0, 0, 0, 0) 50%,
+		rgba(0, 0, 0, 0) 100%
+	);
+	pointer-events: none;
+}
+
+.card-content {
+	position: relative;
+	z-index: 1;
+	padding: 2rem;
+	color: var(--color-theme-white);
+}
+
+.card-title {
+	font-size: var(--font-size-large);
+	font-weight: 800;
+	margin: 0 0 0.75rem 0;
+	color: var(--color-theme-white);
+	line-height: 1.2;
+}
+
+.card-text {
+	font-size: var(--font-size-regular);
+	line-height: var(--global-font-line-height);
+	color: var(--color-theme-white);
+}
+
+.card-text p {
+	margin: 0 0 0.5rem 0;
+}
+
+.card-text p:last-child {
+	margin-bottom: 0;
+}
+
+/* Tablet styles */
+@media (min-width: 48em) {
+	.cards-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 2rem;
+	}
+
+	.card-item:last-child {
+		grid-column: 1 / -1;
+		max-width: 50%;
+		margin: 0 auto;
+	}
+}
+
+/* Desktop styles */
+@media (min-width: 87em) {
+	.cards-grid {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.card-item:last-child {
+		grid-column: auto;
+		max-width: none;
+		margin: 0;
+	}
+}
+
+/* Mobile styles */
+@media (max-width: 47em) {
+	.cards-block {
+		padding: 3rem 1.5rem;
+	}
+
+	.cards-section-title {
+		font-size: var(--font-size-xl);
+		margin-bottom: 2rem;
+	}
+
+	.cards-grid {
+		gap: 1.5rem;
+	}
+
+	.card-item {
+		aspect-ratio: 3 / 4;
+		min-height: clamp(24rem, 120vw, 31rem);
+	}
+
+	.card-content {
+		padding: 1.5rem;
+	}
+
+	.card-title {
+		font-size: calc(var(--font-size-regular) * 1.2);
+	}
+}

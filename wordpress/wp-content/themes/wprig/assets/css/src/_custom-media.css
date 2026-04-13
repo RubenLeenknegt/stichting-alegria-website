@@ -5,7 +5,31 @@
  * @link: https://drafts.csswg.org/mediaqueries-5/#custom-mq
  **/
 
-@custom-media --narrow-menu-query screen and (max-width: 37.5em);
-@custom-media --wide-menu-query screen and (min-width: 37.5em);
+@custom-media --narrow-menu-query screen and (max-width: 37em);
+@custom-media --wide-menu-query screen and (min-width: 37em);
 @custom-media --content-query screen and (min-width: 48em);
 @custom-media --sidebar-query screen and (min-width: 60em);
+
+@custom-media --mobile-query screen and (max-width: 23em);
+@custom-media --tablet-query screen and (min-width: 48em) and (max-width: 87em);
+@custom-media --desktop-query screen and (min-width: 87.5em);
+
+@custom-media --below-tablet screen and (max-width: 47em);
+@custom-media --below-desktop screen and (max-width: 87em);
+@custom-media --above-mobile screen and (min-width: 23em);
+@custom-media --above-tablet screen and (min-width: 48em);
+@custom-media --above-desktop screen and (min-width: 87em);
+
+/**
+ * Breakpoint Reference:
+ * --mobile-query: 375px and below
+ * --tablet-query: 768px to 1399px
+ * --desktop-query: 1400px and above
+ *
+ * Mobile-first helpers:
+ * --below-tablet: < 768px
+ * --below-desktop: < 1400px
+ * --above-mobile: >= 376px
+ * --above-tablet: >= 768px
+ * --above-desktop: >= 1400px
+ */

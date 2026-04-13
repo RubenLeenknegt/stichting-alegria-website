@@ -1,0 +1,112 @@
+/**
+ * Reusable Button Components
+ * Used across blocks and theme
+ */
+
+/* Primary CTA Button */
+.btn-primary {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+	padding: 0.6em 1.2em;
+	background-color: var(--color-theme-primary);
+	border-radius: 9999px;
+	text-decoration: none;
+	color: var(--color-theme-white);
+	font-weight: 500;
+	transition: background-color 0.2s ease, transform 0.2s ease;
+	border: none;
+	cursor: pointer;
+	font-family: var(--global-font-family);
+	font-size: var(--font-size-regular);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+	background-color: var(--primary-btn-hover);
+	transform: translateY(-2px);
+	text-decoration: none;
+	color: var(--color-theme-white);
+}
+
+.btn-primary:visited {
+	color: var(--color-theme-white);
+}
+
+.btn-primary .btn-icon {
+	display: inline-flex;
+	align-items: center;
+	line-height: 0;
+	transition: transform 0.2s ease;
+}
+
+.btn-primary .btn-icon svg {
+	display: block;
+	width: 1.5em;
+	height: 1.5em;
+}
+
+.btn-primary .btn-icon svg,
+.btn-primary .btn-icon svg * {
+	fill: currentColor;
+	stroke: currentColor;
+}
+
+.btn-primary:hover .btn-icon,
+.btn-primary:focus .btn-icon,
+.btn-primary:focus-visible .btn-icon {
+	transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.btn-primary .btn-icon {
+		transition: none;
+	}
+
+	.btn-primary:hover .btn-icon,
+	.btn-primary:focus .btn-icon,
+	.btn-primary:focus-visible .btn-icon {
+		transform: none;
+	}
+}
+
+/* Secondary Link Button */
+.btn-secondary {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+	padding: 0.6em 1.2em;
+	background-color: transparent;
+	text-decoration: none;
+	color: var(--color-theme-white);
+	font-weight: 500;
+	transition: opacity 0.2s ease;
+	border: none;
+	cursor: pointer;
+	font-family: var(--global-font-family);
+	font-size: var(--font-size-regular);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+	opacity: 0.8;
+	text-decoration: underline;
+	color: var(--color-theme-white);
+}
+
+.btn-secondary:visited {
+	color: var(--color-theme-white);
+}
+
+/* Generic overlay utility */
+.overlay-dark {
+	position: relative;
+}
+
+.overlay-dark::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background-color: rgba(0, 0, 0, 0.1);
+	pointer-events: none;
+}

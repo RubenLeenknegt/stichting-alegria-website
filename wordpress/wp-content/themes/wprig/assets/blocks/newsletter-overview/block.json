@@ -1,0 +1,30 @@
+{
+  "name": "wp-rig/newsletter-overview",
+  "apiVersion": 3,
+  "title": "Newsletter Overview",
+  "category": "design",
+  "icon": "grid-view",
+  "description": "Displays the latest newsletters in a three-card overview",
+  "textdomain": "wp-rig",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "linkText": {
+      "type": "string",
+      "default": ""
+    },
+    "linkUrl": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./build/index.js",
+  "style": "file:./build/style.css",
+  "editorStyle": "file:./build/editor.css",
+  "render": "file:./render.php",
+  "supports": {
+    "align": ["wide", "full"]
+  }
+}

@@ -1,0 +1,148 @@
+/**
+ * About Us Block Styles
+ */
+
+.about-us-block {
+	padding: 4rem 2rem;
+}
+
+.about-us-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 4rem;
+	max-width: 1200px;
+	margin: 0 auto;
+	align-items: center;
+}
+
+/* Images Column */
+.about-us-images {
+	width: 100%;
+}
+
+.image-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+}
+
+.image-grid-item {
+	overflow: hidden;
+	border-radius: 8px;
+}
+
+.image-grid-item img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.image-top-left,
+.image-top-right {
+	aspect-ratio: 1 / 1;
+}
+
+.image-bottom {
+	grid-column: 1 / -1;
+	aspect-ratio: 2 / 1;
+}
+
+/* Content Column */
+.about-us-content {
+	width: 100%;
+}
+
+.about-us-pretitle {
+	font-size: var(--font-size-medium);
+	color: var(--color-theme-blue);
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	margin: 0 0 0.5rem 0;
+	font-weight: 600;
+}
+
+.about-us-title {
+	font-size: var(--font-size-larger);
+	font-weight: 700;
+	margin: 0 0 1.5rem 0;
+	line-height: 1.2;
+	color: var(--color-theme-primary);
+}
+
+.about-us-text {
+	font-size: var(--font-size-regular);
+	line-height: var(--global-font-line-height);
+	margin: 0 0 2rem 0;
+	color: var(--global-font-color);
+}
+
+.about-us-text p {
+	margin: 0 0 1rem 0;
+}
+
+.about-us-text p:last-child {
+	margin-bottom: 0;
+}
+
+.about-us-subtitle {
+	font-size: var(--font-size-large);
+	font-weight: 600;
+	margin: 0 0 1rem 0;
+	color: var(--color-theme-primary);
+}
+
+.about-us-button {
+	margin-top: 2rem;
+}
+
+/* Tablet and below */
+@media (max-width: 87em) {
+	.about-us-container {
+		gap: 2.5rem;
+	}
+
+	.about-us-title {
+		font-size: var(--font-size-large);
+	}
+}
+
+/* Mobile Styles */
+@media (max-width: 47em) {
+	.about-us-block {
+		padding: 3rem 1.5rem;
+	}
+
+	.about-us-container {
+		grid-template-columns: 1fr;
+		gap: 2rem;
+	}
+
+	.about-us-images {
+		order: 1;
+	}
+
+	.about-us-content {
+		order: 2;
+	}
+
+	.image-grid {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.image-grid-item {
+		width: 100%;
+	}
+
+	.image-top-left,
+	.image-top-right,
+	.image-bottom {
+		aspect-ratio: 16 / 9;
+	}
+
+	.about-us-title {
+		font-size: var(--font-size-large);
+	}
+}
