@@ -1,4 +1,3 @@
-@import "../../css/src/_custom-media.css";
 /**
  * About Us Block Styles
  */
@@ -55,8 +54,8 @@
 }
 
 .about-us-pretitle {
-	font-size: var(--font-size-small);
-	color: var(--color-theme-primary);
+	font-size: var(--font-size-medium);
+	color: var(--color-theme-blue);
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
 	margin: 0 0 0.5rem 0;
@@ -68,7 +67,7 @@
 	font-weight: 700;
 	margin: 0 0 1.5rem 0;
 	line-height: 1.2;
-	color: var(--global-font-color);
+	color: var(--color-theme-primary);
 }
 
 .about-us-text {
@@ -90,15 +89,26 @@
 	font-size: var(--font-size-large);
 	font-weight: 600;
 	margin: 0 0 1rem 0;
-	color: var(--global-font-color);
+	color: var(--color-theme-primary);
 }
 
 .about-us-button {
 	margin-top: 2rem;
 }
 
+/* Tablet and below */
+@media (max-width: 87em) {
+	.about-us-container {
+		gap: 2.5rem;
+	}
+
+	.about-us-title {
+		font-size: var(--font-size-large);
+	}
+}
+
 /* Mobile Styles */
-@media (--below-tablet) {
+@media (max-width: 47em) {
 	.about-us-block {
 		padding: 3rem 1.5rem;
 	}

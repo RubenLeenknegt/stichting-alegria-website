@@ -44,7 +44,7 @@
 	--color-theme-red: #D32F2F;
 	--color-theme-dark-red: #A92626;
 	--color-theme-green: #27ae60;
-	--color-theme-blue: #2980b9;
+	--color-theme-blue: #012169;
 	--color-theme-yellow: #f1c40f;
 	--color-theme-black: #1c2833;
 	--color-theme-grey: #95a5a6;
@@ -52,6 +52,7 @@
 	--color-theme-white: #ffffff;
 	--color-custom-daylight: #97c0b7;
 	--color-custom-sun: #eee9d1;
+	--primary-btn-hover: #186e32;
 
 	@media (prefers-color-scheme: dark) {
 		--global-font-color: #fff;
