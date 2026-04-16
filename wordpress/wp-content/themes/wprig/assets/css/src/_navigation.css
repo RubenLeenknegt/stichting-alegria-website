@@ -529,7 +529,7 @@
 
 	/* Dropdown toggle positioning - FIXED ALIGNMENT */
 	.main-navigation li.menu-item-has-children {
-		padding-right: 2em; /* Make space for dropdown toggle */
+		padding-right: 1.6em; /* Make space for dropdown toggle */
 	}
 
 	.main-navigation .dropdown-toggle {
@@ -573,6 +573,11 @@
 		padding: 0.8em 1.2em;
 		background-color: var(--header-background-color);
 		text-shadow: none;
+	}
+
+	.main-navigation ul ul a:hover,
+	.main-navigation ul ul button:not(.dropdown-toggle):hover {
+		background-color: var(--primary-btn-hover);
 	}
 
 	/* Submenu items with children need padding for their dropdown toggle */
