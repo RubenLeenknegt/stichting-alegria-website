@@ -516,7 +516,8 @@
 		padding: .5em 0;
 		width: auto;
 		color: var(--color-theme-white);
-		text-shadow: 5px 5px 5px rgba(0,0,0,0.24);
+		font-weight: 700;
+		/*text-shadow: 5px 5px 5px rgba(0,0,0,0.24);*/
 	}
 
 	/* Menu items with children */
@@ -529,7 +530,7 @@
 
 	/* Dropdown toggle positioning - FIXED ALIGNMENT */
 	.main-navigation li.menu-item-has-children {
-		padding-right: 2em; /* Make space for dropdown toggle */
+		padding-right: 1.6em; /* Make space for dropdown toggle */
 	}
 
 	.main-navigation .dropdown-toggle {
@@ -573,6 +574,11 @@
 		padding: 0.8em 1.2em;
 		background-color: var(--header-background-color);
 		text-shadow: none;
+	}
+
+	.main-navigation ul ul a:hover,
+	.main-navigation ul ul button:not(.dropdown-toggle):hover {
+		background-color: var(--primary-btn-hover);
 	}
 
 	/* Submenu items with children need padding for their dropdown toggle */
