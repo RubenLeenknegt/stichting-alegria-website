@@ -90,6 +90,24 @@
 }
 
 /*--------------------------------------------------------------
+## Error pages
+--------------------------------------------------------------*/
+
+.error {
+	max-width: var(--content-width);
+	margin: 8em auto 3em;
+}
+
+.error .page-title {
+	color: var(--color-theme-primary);
+}
+
+.error .page-content p {
+	margin-top: 0;
+	color: #000;
+}
+
+/*--------------------------------------------------------------
 ## Newsletter archive
 --------------------------------------------------------------*/
 
@@ -623,4 +641,11 @@ were hidden (via .neverending) before. */
 .site {
 	margin: 0 auto;
 	max-width: 100%;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.site-main {
+	flex: 1 0 auto;
 }
