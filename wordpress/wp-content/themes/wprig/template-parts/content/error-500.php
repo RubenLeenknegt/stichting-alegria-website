@@ -10,19 +10,10 @@ namespace WP_Rig\WP_Rig;
 ?>
 <section class="error">
 	<header class="page-header">
-		<h1 class="page-title">
-			<?php esc_html_e( 'Oops! Something went wrong.', 'wp-rig' ); ?>
-		</h1>
+		<h1 class="page-title"><?php esc_html_e( 'Er is een interne fout opgetreden', 'wp-rig' ); ?></h1>
 	</header><!-- .page-header -->
 
 	<div class="page-content">
-		<?php
-		if ( function_exists( 'wp_service_worker_error_message_placeholder' ) ) {
-			wp_service_worker_error_message_placeholder();
-		}
-		if ( function_exists( 'wp_service_worker_error_details_template' ) ) {
-			wp_service_worker_error_details_template();
-		}
-		?>
+		<p><?php esc_html_e( 'Er is iets misgegaan aan onze kant. Probeer het over enkele minuten opnieuw.', 'wp-rig' ); ?></p>
 	</div><!-- .page-content -->
 </section><!-- .error -->

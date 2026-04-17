@@ -516,7 +516,8 @@
 		padding: .5em 0;
 		width: auto;
 		color: var(--color-theme-white);
-		text-shadow: 5px 5px 5px rgba(0,0,0,0.24);
+		font-weight: 700;
+		/*text-shadow: 5px 5px 5px rgba(0,0,0,0.24);*/
 	}
 
 	/* Menu items with children */
