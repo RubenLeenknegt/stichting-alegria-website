@@ -73,6 +73,27 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	private $logo_svg;
 
 	/**
+	 * Facebook logo SVG content.
+	 *
+	 * @var string
+	 */
+	private $facebook_logo_svg;
+
+	/**
+	 * Instagram logo SVG content.
+	 *
+	 * @var string
+	 */
+	private $instagram_logo_svg;
+
+	/**
+	 * LinkedIn logo SVG content.
+	 *
+	 * @var string
+	 */
+	private $linkedin_logo_svg;
+
+	/**
 	 * Gets the unique identifier for the theme component.
 	 *
 	 * @return string Component slug.
@@ -161,6 +182,14 @@ class Component implements Component_Interface, Templating_Component_Interface {
 		 * @param string $logo_svg The SVG markup for the site logo.
 		 */
 		$this->logo_svg = apply_filters( 'wp_rig_logo_svg', $logo_svg);
+
+		$facebook_logo_svg = wp_rig()->get_theme_asset( 'facebook-logo.svg', 'svg', true );
+		$instagram_logo_svg = wp_rig()->get_theme_asset( 'instagram-logo.svg', 'svg', true );
+		$linkedin_logo_svg = wp_rig()->get_theme_asset( 'linkedin-logo.svg', 'svg', true );
+
+		$this->facebook_logo_svg = apply_filters( 'wp_rig_facebook_logo_svg', $facebook_logo_svg );
+		$this->instagram_logo_svg = apply_filters( 'wp_rig_instagram_logo_svg', $instagram_logo_svg );
+		$this->linkedin_logo_svg = apply_filters( 'wp_rig_linkedin_logo_svg', $linkedin_logo_svg );
 	}
 
 	/**
@@ -190,6 +219,9 @@ class Component implements Component_Interface, Templating_Component_Interface {
 			'display_primary_nav_menu'   => array( $this, 'display_primary_nav_menu' ),
 			'get_cta_arrow_svg'          => array( $this, 'get_cta_arrow_svg' ),
 			'get_logo_svg'               => array( $this, 'get_logo_svg' ),
+			'get_facebook_logo_svg'      => array( $this, 'get_facebook_logo_svg' ),
+			'get_instagram_logo_svg'     => array( $this, 'get_instagram_logo_svg' ),
+			'get_linkedin_logo_svg'      => array( $this, 'get_linkedin_logo_svg' ),
 		);
 	}
 
@@ -554,5 +586,32 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	 */
 	public function get_logo_svg() {
 		return $this->logo_svg;
+	}
+
+	/**
+	 * Gets the Facebook logo SVG content.
+	 *
+	 * @return string The Facebook logo SVG markup.
+	 */
+	public function get_facebook_logo_svg() {
+		return $this->facebook_logo_svg;
+	}
+
+	/**
+	 * Gets the Instagram logo SVG content.
+	 *
+	 * @return string The Instagram logo SVG markup.
+	 */
+	public function get_instagram_logo_svg() {
+		return $this->instagram_logo_svg;
+	}
+
+	/**
+	 * Gets the LinkedIn logo SVG content.
+	 *
+	 * @return string The LinkedIn logo SVG markup.
+	 */
+	public function get_linkedin_logo_svg() {
+		return $this->linkedin_logo_svg;
 	}
 }

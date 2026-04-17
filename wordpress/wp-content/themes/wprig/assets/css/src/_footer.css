@@ -3,11 +3,116 @@
 --------------------------------------------------------------*/
 .site-footer {
 	margin: 1em 0 0;
-	padding: 2em 0;
+	padding: 0;
 	font-family: var(--highlight-font-family);
 	font-stretch: condensed;
+	font-size: var(--font-size-small);
+	background-color: var(--footer-background-color);
+	border-top: 1px solid var(--color-theme-white);
+	color: var(--color-theme-white);
+}
+
+.site-footer a,
+.site-footer a:visited,
+.site-footer a:hover,
+.site-footer a:focus,
+.site-footer a:active {
+	color: var(--color-theme-white);
 }
 
 .site-info {
-	text-align: center;
+	width: 100%;
+	margin: 0;
+	padding: 1.25rem 0.75rem;
+	text-align: left;
+}
+
+.site-info .top,
+.site-info .bottom {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.site-info .top {
+	padding-bottom: 1rem;
+}
+
+.site-info .bottom {
+	padding-top: 1rem;
+	border-top: 1px solid var(--color-theme-white);
+}
+
+.site-info .copyright {
+	margin: 0;
+	padding: 0.35rem 0.75rem;
+}
+
+.site-info .social {
+	display: flex;
+	gap: 0.75rem;
+	margin: 0;
+	padding: .35rem .75rem;
+	list-style: none;
+}
+
+.site-info .social-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2rem;
+	height: 2rem;
+}
+
+.site-info .social-link svg {
+	display: block;
+	width: 1.25rem;
+	height: 1.25rem;
+}
+
+.site-info .social-link svg,
+.site-info .social-link svg * {
+	fill: currentColor;
+	stroke: currentColor;
+}
+
+.site-info .legal {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+
+.site-info .legal a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.35rem 0.75rem;
+	text-decoration: none;
+	line-height: 1.2;
+}
+
+.site-info .legal a:hover,
+.site-info .legal a:focus {
+	text-decoration: underline;
+}
+
+.site-info .link {
+	text-decoration: none;
+	padding: 0.35rem 0.75rem;
+}
+
+.site-info .link:hover,
+.site-info .link:focus {
+	text-decoration: underline;
+}
+
+@media (max-width: 47em) {
+	.site-info .top,
+	.site-info .bottom {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.75rem;
+	}
 }
