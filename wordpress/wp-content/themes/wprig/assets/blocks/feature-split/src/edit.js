@@ -3,7 +3,8 @@ const { InspectorControls, MediaUpload, MediaUploadCheck, RichText, __experiment
 const { PanelBody, TextControl, Button, Popover } = wp.components;
 const { useBlockProps } = wp.blockEditor;
 const { useState } = wp.element;
-import ServerSideRender from '@wordpress/server-side-render';
+const { useSelect } = wp.data;
+import { PreviewCard, PreviewField, PreviewThumb, PreviewEmptyState, stripHtmlText } from '../../components/editor-preview';
 
 export default function Edit(props) {
 	const { attributes, setAttributes } = props;
@@ -20,9 +21,19 @@ export default function Edit(props) {
 	const blockProps = useBlockProps();
 	const [showLinkPopover, setShowLinkPopover] = useState(false);
 
-	const hasRequiredContent = imageUrl && ctaText && ctaUrl;
+	const previewImageUrl = useSelect((select) => {
+		if (imageUrl) {
+			return imageUrl;
+		}
+		if (!imageId) {
+			return '';
+		}
+		return select('core').getMedia(imageId)?.source_url || '';
+	}, [imageUrl, imageId]);
+
+	const hasRequiredContent = imageUrl || previewImageUrl || ctaText || ctaUrl || title || bodyText;
 	const missingRequired = [
-		!imageUrl ? __('Image', 'wp-rig') : null,
+		!imageUrl && !previewImageUrl ? __('Image', 'wp-rig') : null,
 		!ctaText ? __('CTA text', 'wp-rig') : null,
 		!ctaUrl ? __('CTA URL', 'wp-rig') : null,
 	].filter(Boolean);
@@ -143,23 +154,18 @@ export default function Edit(props) {
 
 			<div {...blockProps}>
 				{hasRequiredContent ? (
-					<ServerSideRender
-						block="wp-rig/feature-split"
-						attributes={attributes}
-					/>
+					<PreviewCard title={stripHtmlText(title) || __('Feature split', 'wp-rig')} style={{ maxWidth: '680px' }}>
+						<div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+							{previewImageUrl ? <PreviewThumb src={previewImageUrl} alt={imageAlt} size={72} /> : null}
+							<div style={{ flex: 1, minWidth: 0, display: 'grid', gap: '8px' }}>
+								{bodyText ? <PreviewField label={__('Body', 'wp-rig')} value={bodyText} maxLines={3} /> : null}
+								{ctaText ? <PreviewField label={__('CTA', 'wp-rig')} value={ctaText} maxLines={1} /> : null}
+								{ctaUrl ? <PreviewField label={__('Link', 'wp-rig')} value={ctaUrl} maxLines={1} /> : null}
+							</div>
+						</div>
+					</PreviewCard>
 				) : (
-					<div style={{
-						padding: '40px 20px',
-						border: '2px dashed #ccc',
-						background: '#f9f9f9'
-					}}>
-						<p style={{ color: '#666', fontStyle: 'italic', margin: '0 0 8px 0' }}>
-							{__('Complete required fields to preview this block:', 'wp-rig')}
-						</p>
-						<p style={{ color: '#666', margin: 0 }}>
-							{missingRequired.join(', ')}
-						</p>
-					</div>
+					<PreviewEmptyState title={__('Complete required fields', 'wp-rig')} message={missingRequired.join(', ')} />
 				)}
 			</div>
 		</>

@@ -1,9 +1,10 @@
-const { __ } = wp.i18n;
-const { InspectorControls, MediaUpload, MediaUploadCheck, __experimentalLinkControl: LinkControl } = wp.blockEditor;
+﻿const { __ } = wp.i18n;
+const { InspectorControls, MediaUpload, MediaUploadCheck, RichText, __experimentalLinkControl: LinkControl } = wp.blockEditor;
 const { PanelBody, TextControl, TextareaControl, Button, Popover } = wp.components;
 const { useBlockProps } = wp.blockEditor;
 const { useState } = wp.element;
-import ServerSideRender from '@wordpress/server-side-render';
+const { useSelect } = wp.data;
+import { PreviewCard, PreviewField, PreviewThumb, PreviewEmptyState, stripHtmlText } from '../../components/editor-preview';
 
 export default function Edit(props) {
 	const { attributes, setAttributes } = props;
@@ -20,10 +21,22 @@ export default function Edit(props) {
 	} = attributes;
 
 	const blockProps = useBlockProps();
-
-	// State for link popover visibility
 	const [showPrimaryLinkPopover, setShowPrimaryLinkPopover] = useState(false);
 	const [showSecondaryLinkPopover, setShowSecondaryLinkPopover] = useState(false);
+
+	const previewImageUrl = useSelect((select) => {
+		if (backgroundImageUrl) {
+			return backgroundImageUrl;
+		}
+
+		if (!backgroundImageId) {
+			return '';
+		}
+
+		return select('core').getMedia(backgroundImageId)?.source_url || '';
+	}, [backgroundImageUrl, backgroundImageId]);
+
+	const hasContent = heading || subheading || previewImageUrl || primaryButtonText || secondaryButtonText || primaryButtonUrl || secondaryButtonUrl;
 
 	return (
 		<>
@@ -174,21 +187,21 @@ export default function Edit(props) {
 			</InspectorControls>
 
 			<div {...blockProps}>
-				{(heading || subheading || backgroundImageUrl) ? (
-					<ServerSideRender
-						block="wp-rig/hero"
-						attributes={attributes}
-					/>
+				{hasContent ? (
+					<PreviewCard title={stripHtmlText(heading) || __('Hero section', 'wp-rig')} style={{ maxWidth: '680px' }}>
+						<div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+							{previewImageUrl ? <PreviewThumb src={previewImageUrl} alt={backgroundImageAlt} size={72} /> : null}
+							<div style={{ flex: 1, minWidth: 0, display: 'grid', gap: '8px' }}>
+								{subheading ? <PreviewField label={__('Subheading', 'wp-rig')} value={subheading} maxLines={3} /> : null}
+								{primaryButtonText ? <PreviewField label={__('Primary button', 'wp-rig')} value={primaryButtonText} maxLines={1} /> : null}
+								{secondaryButtonText ? <PreviewField label={__('Secondary button', 'wp-rig')} value={secondaryButtonText} maxLines={1} /> : null}
+								{primaryButtonUrl ? <PreviewField label={__('Primary link', 'wp-rig')} value={primaryButtonUrl} maxLines={1} /> : null}
+								{secondaryButtonUrl ? <PreviewField label={__('Secondary link', 'wp-rig')} value={secondaryButtonUrl} maxLines={1} /> : null}
+							</div>
+						</div>
+					</PreviewCard>
 				) : (
-					<div style={{
-						padding: '40px 20px',
-						border: '2px dashed #ccc',
-						background: '#f9f9f9'
-					}}>
-						<p style={{ color: '#666', fontStyle: 'italic' }}>
-							Configure your hero block in the sidebar →
-						</p>
-					</div>
+					<PreviewEmptyState title={__('No hero content yet', 'wp-rig')} message={__('Add a heading, text, or image to preview the hero block.', 'wp-rig')} />
 				)}
 			</div>
 		</>

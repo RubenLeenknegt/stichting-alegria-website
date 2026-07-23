@@ -3,7 +3,8 @@ const { InspectorControls, MediaUpload, MediaUploadCheck, RichText, __experiment
 const { PanelBody, TextControl, Button, Popover } = wp.components;
 const { useBlockProps } = wp.blockEditor;
 const { useState } = wp.element;
-import ServerSideRender from '@wordpress/server-side-render';
+const { useSelect } = wp.data;
+import { PreviewCard, PreviewField, PreviewThumb, PreviewEmptyState, stripHtmlText } from '../../components/editor-preview';
 
 export default function Edit(props) {
 	const { attributes, setAttributes } = props;
@@ -29,8 +30,37 @@ export default function Edit(props) {
 	const blockProps = useBlockProps();
 	const [showLinkPopover, setShowLinkPopover] = useState(false);
 
-	const hasContent = preTitle || title || textBlock1 || subtitle || textBlock2 ||
-		topLeftImageUrl || topRightImageUrl || bottomImageUrl;
+	const topLeftPreviewUrl = useSelect((select) => {
+		if (topLeftImageUrl) {
+			return topLeftImageUrl;
+		}
+		if (!topLeftImageId) {
+			return '';
+		}
+		return select('core').getMedia(topLeftImageId)?.source_url || '';
+	}, [topLeftImageUrl, topLeftImageId]);
+
+	const topRightPreviewUrl = useSelect((select) => {
+		if (topRightImageUrl) {
+			return topRightImageUrl;
+		}
+		if (!topRightImageId) {
+			return '';
+		}
+		return select('core').getMedia(topRightImageId)?.source_url || '';
+	}, [topRightImageUrl, topRightImageId]);
+
+	const bottomPreviewUrl = useSelect((select) => {
+		if (bottomImageUrl) {
+			return bottomImageUrl;
+		}
+		if (!bottomImageId) {
+			return '';
+		}
+		return select('core').getMedia(bottomImageId)?.source_url || '';
+	}, [bottomImageUrl, bottomImageId]);
+
+	const hasContent = preTitle || title || textBlock1 || subtitle || textBlock2 || topLeftPreviewUrl || topRightPreviewUrl || bottomPreviewUrl || buttonText || buttonUrl;
 
 	return (
 		<>
@@ -278,20 +308,23 @@ export default function Edit(props) {
 
 			<div {...blockProps}>
 				{hasContent ? (
-					<ServerSideRender
-						block="wp-rig/aboutus"
-						attributes={attributes}
-					/>
+					<PreviewCard title={stripHtmlText(title) || __('About us', 'wp-rig')} style={{ maxWidth: '780px' }}>
+						<div style={{ display: 'grid', gap: '10px' }}>
+							{preTitle ? <PreviewField label={__('Pre-title', 'wp-rig')} value={preTitle} maxLines={1} /> : null}
+							{textBlock1 ? <PreviewField label={__('Intro', 'wp-rig')} value={textBlock1} maxLines={3} /> : null}
+							{subtitle ? <PreviewField label={__('Subtitle', 'wp-rig')} value={subtitle} maxLines={1} /> : null}
+							{textBlock2 ? <PreviewField label={__('Details', 'wp-rig')} value={textBlock2} maxLines={3} /> : null}
+							{buttonText ? <PreviewField label={__('Button', 'wp-rig')} value={buttonText} maxLines={1} /> : null}
+							{buttonUrl ? <PreviewField label={__('Link', 'wp-rig')} value={buttonUrl} maxLines={1} /> : null}
+							<div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+								{topLeftPreviewUrl ? <PreviewThumb src={topLeftPreviewUrl} alt={topLeftImageAlt} size={48} /> : null}
+								{topRightPreviewUrl ? <PreviewThumb src={topRightPreviewUrl} alt={topRightImageAlt} size={48} /> : null}
+								{bottomPreviewUrl ? <PreviewThumb src={bottomPreviewUrl} alt={bottomImageAlt} size={48} /> : null}
+							</div>
+						</div>
+					</PreviewCard>
 				) : (
-					<div style={{
-						padding: '40px 20px',
-						border: '2px dashed #ccc',
-						background: '#f9f9f9'
-					}}>
-						<p style={{ color: '#666', fontStyle: 'italic' }}>
-							Configure your About Us block in the sidebar →
-						</p>
-					</div>
+					<PreviewEmptyState title={__('No about us content yet', 'wp-rig')} message={__('Add a title, intro text, or images to preview this block.', 'wp-rig')} />
 				)}
 			</div>
 		</>

@@ -580,11 +580,6 @@
 		text-shadow: none;
 	}
 
-	.main-navigation ul ul a:hover,
-	.main-navigation ul ul button:not(.dropdown-toggle):hover {
-		background-color: var(--primary-btn-hover);
-	}
-
 	/* Submenu items with children need padding for their dropdown toggle */
 	.main-navigation ul ul li.menu-item-has-children {
 		padding-right: 2em;

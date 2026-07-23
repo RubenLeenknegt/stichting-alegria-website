@@ -3,7 +3,7 @@ const { InspectorControls, MediaUpload, MediaUploadCheck, RichText, __experiment
 const { PanelBody, TextControl, Button, Popover } = wp.components;
 const { useBlockProps } = wp.blockEditor;
 const { useState } = wp.element;
-import ServerSideRender from '@wordpress/server-side-render';
+import { PreviewCard, PreviewField, PreviewThumb, PreviewEmptyState, stripHtmlText } from '../../components/editor-preview';
 
 export default function Edit(props) {
 	const { attributes, setAttributes } = props;
@@ -19,19 +19,30 @@ export default function Edit(props) {
 	const [showLink2Popover, setShowLink2Popover] = useState(false);
 	const [showLink3Popover, setShowLink3Popover] = useState(false);
 
-	const hasContent = sectionTitle || card1ImageUrl || card2ImageUrl || card3ImageUrl;
+	const hasContent = sectionTitle || card1ImageUrl || card2ImageUrl || card3ImageUrl || card1Title || card2Title || card3Title || card1Text || card2Text || card3Text || card1Url || card2Url || card3Url;
+	const cards = [
+		{ key: 'card1', imageUrl: card1ImageUrl, imageAlt: card1ImageAlt, title: card1Title, text: card1Text, url: card1Url },
+		{ key: 'card2', imageUrl: card2ImageUrl, imageAlt: card2ImageAlt, title: card2Title, text: card2Text, url: card2Url },
+		{ key: 'card3', imageUrl: card3ImageUrl, imageAlt: card3ImageAlt, title: card3Title, text: card3Text, url: card3Url }
+	];
 
-	// Helper function to render card controls
 	const renderCardControls = (cardNumber, imageUrl, imageId, imageAlt, title, text, url, showLinkPopover, setShowLinkPopover) => {
+		const imageAttr = `card${cardNumber}ImageUrl`;
+		const imageIdAttr = `card${cardNumber}ImageId`;
+		const imageAltAttr = `card${cardNumber}ImageAlt`;
+		const titleAttr = `card${cardNumber}Title`;
+		const textAttr = `card${cardNumber}Text`;
+		const urlAttr = `card${cardNumber}Url`;
+
 		return (
 			<PanelBody title={__(`Card ${cardNumber}`, 'wp-rig')} initialOpen={cardNumber === 1}>
 				<MediaUploadCheck>
 					<MediaUpload
 						onSelect={(media) => {
 							setAttributes({
-								[`card${cardNumber}ImageUrl`]: media.url,
-								[`card${cardNumber}ImageId`]: media.id,
-								[`card${cardNumber}ImageAlt`]: media.alt || ''
+								[imageAttr]: media.url,
+								[imageIdAttr]: media.id,
+								[imageAltAttr]: media.alt || ''
 							});
 						}}
 						allowedTypes={['image']}
@@ -52,9 +63,9 @@ export default function Edit(props) {
 								{imageUrl && (
 									<Button
 										onClick={() => setAttributes({
-											[`card${cardNumber}ImageUrl`]: '',
-											[`card${cardNumber}ImageId`]: 0,
-											[`card${cardNumber}ImageAlt`]: ''
+											[imageAttr]: '',
+											[imageIdAttr]: 0,
+											[imageAltAttr]: ''
 										})}
 										variant="link"
 										isDestructive
@@ -71,7 +82,7 @@ export default function Edit(props) {
 				<TextControl
 					label={__('Card Title', 'wp-rig')}
 					value={title}
-					onChange={(value) => setAttributes({ [`card${cardNumber}Title`]: value })}
+					onChange={(value) => setAttributes({ [titleAttr]: value })}
 					placeholder={__('Enter card title...', 'wp-rig')}
 				/>
 
@@ -88,7 +99,7 @@ export default function Edit(props) {
 						<RichText
 							tagName="div"
 							value={text}
-							onChange={(value) => setAttributes({ [`card${cardNumber}Text`]: value })}
+							onChange={(value) => setAttributes({ [textAttr]: value })}
 							placeholder={__('Enter card text...', 'wp-rig')}
 						/>
 					</div>
@@ -115,10 +126,10 @@ export default function Edit(props) {
 								<LinkControl
 									value={{ url: url }}
 									onChange={(newValue) => {
-										setAttributes({ [`card${cardNumber}Url`]: newValue?.url || '' });
+										setAttributes({ [urlAttr]: newValue?.url || '' });
 									}}
 									onRemove={() => {
-										setAttributes({ [`card${cardNumber}Url`]: '' });
+										setAttributes({ [urlAttr]: '' });
 										setShowLinkPopover(false);
 									}}
 								/>
@@ -149,20 +160,30 @@ export default function Edit(props) {
 
 			<div {...blockProps}>
 				{hasContent ? (
-					<ServerSideRender
-						block="wp-rig/cards"
-						attributes={attributes}
-					/>
+					<PreviewCard title={stripHtmlText(sectionTitle) || __('Cards section', 'wp-rig')} style={{ maxWidth: '680px' }}>
+						<div style={{ display: 'grid', gap: '12px' }}>
+							{cards.map((card, index) => {
+								const hasCardContent = card.title || card.text || card.url || card.imageUrl;
+
+								if (!hasCardContent) {
+									return null;
+								}
+
+								return (
+									<div key={card.key} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', paddingTop: index > 0 ? '8px' : 0, borderTop: index > 0 ? '1px solid #f0f0f0' : 'none' }}>
+										<PreviewThumb src={card.imageUrl} alt={card.imageAlt} size={48} />
+										<div style={{ flex: 1, minWidth: 0 }}>
+											<PreviewField label={__('Title', 'wp-rig')} value={card.title || __('Untitled card', 'wp-rig')} maxLines={1} />
+											{card.text ? <PreviewField label={__('Text', 'wp-rig')} value={card.text} maxLines={2} /> : null}
+											{card.url ? <PreviewField label={__('Link', 'wp-rig')} value={card.url} maxLines={1} /> : null}
+										</div>
+									</div>
+								);
+							})}
+						</div>
+					</PreviewCard>
 				) : (
-					<div style={{
-						padding: '40px 20px',
-						border: '2px dashed #ccc',
-						background: '#f9f9f9'
-					}}>
-						<p style={{ color: '#666', fontStyle: 'italic' }}>
-							Configure your cards block in the sidebar →
-						</p>
-					</div>
+					<PreviewEmptyState title={__('No cards yet', 'wp-rig')} message={__('Add a section title or card content to preview this block.', 'wp-rig')} />
 				)}
 			</div>
 		</>
