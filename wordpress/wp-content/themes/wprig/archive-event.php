@@ -1,8 +1,8 @@
 <?php
 /**
- * Template: Newsletter Archive
+ * Template: Event Archive
  *
- * Displays all published newsletters at /newsletter/
+ * Displays all published events at /event/
  *
  * @package wp_rig
  */
@@ -14,14 +14,14 @@ get_header();
 wp_rig()->print_styles( 'wp-rig-content' );
 ?>
 
-	<main id="primary" class="site-main archive-page archive-page--newsletter">
+	<main id="primary" class="site-main archive-page archive-page--event">
 		<div class="archive-block">
 			<div class="archive-container">
 				<header class="archive-header">
 					<div>
-						<h1 class="archive-title">Nieuwsbrief</h1>
+						<h1 class="archive-title">Evenementen</h1>
 						<p class="archive-description">
-							<?php esc_html_e( 'Alle gepubliceerde nieuwsbrieven. Schrijf je in om nieuwe uitgaven rechtstreeks in je inbox te ontvangen. ', 'wp-rig' ); ?>
+							<?php esc_html_e( 'Alle aankomende evenementen. Bekijk de details en schrijf je in.', 'wp-rig' ); ?>
 						</p>
 					</div>
 				</header>
@@ -48,9 +48,15 @@ wp_rig()->print_styles( 'wp-rig-content' );
                                         <path d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1Zm13 8H4v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8ZM5 6a1 1 0 0 0-1 1v1h16V7a1 1 0 0 0-1-1H5Z" />
                                      </svg>
                                   </span>
-											<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
-												<?php echo esc_html( get_the_date() ); ?>
-											</time>
+											<?php
+											$event_date = get_post_meta( get_the_ID(), 'event_date', true );
+											if ( $event_date ) :
+												$timestamp = strtotime( $event_date );
+												?>
+												<time datetime="<?php echo esc_attr( gmdate( 'c', $timestamp ) ); ?>">
+													<?php echo esc_html( date_i18n( get_option( 'date_format' ), $timestamp ) ); ?>
+												</time>
+											<?php endif; ?>
 										</div>
 
 										<h2 class="archive-card-title"><?php echo esc_html( get_the_title() ); ?></h2>
@@ -77,7 +83,7 @@ wp_rig()->print_styles( 'wp-rig-content' );
 
 					<div class="archive-empty">
 						<p>
-							<?php esc_html_e( 'Er zijn nog geen nieuwsbrieven gepubliceerd.', 'wp-rig' ); ?>
+							<?php esc_html_e( 'Er zijn nog geen evenementen gepland.', 'wp-rig' ); ?>
 						</p>
 					</div>
 

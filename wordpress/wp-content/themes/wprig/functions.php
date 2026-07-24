@@ -123,12 +123,113 @@ add_action( 'init', function () {
 		'show_in_rest'        => true,   // Required for Gutenberg and REST API
 		'has_archive'         => true,
 		'query_var'           => true,
-		'rewrite'             => [ 'slug' => 'newsletter', 'with_front' => false ],
+		'rewrite'             => [ 'slug' => 'newsletters', 'with_front' => false ],
 		'supports'            => [ 'title', 'editor', 'excerpt', 'thumbnail', 'revisions' ],
 		'menu_icon'           => 'dashicons-email-alt',
 		'menu_position'       => 5,
 		'capability_type'     => 'post',  // Reuses standard post capabilities
 	] );
+} );
+
+// ---------------------------------------------------------------------------
+// Register Event custom post type
+// ---------------------------------------------------------------------------
+
+add_action( 'init', function () {
+	register_post_type( 'event', [
+		'labels' => [
+			'name'                  => 'Events',
+			'singular_name'         => 'Event',
+			'add_new'               => 'Add New',
+			'add_new_item'          => 'Add New Event',
+			'edit_item'             => 'Edit Event',
+			'new_item'              => 'New Event',
+			'view_item'             => 'View Event',
+			'view_items'            => 'View Events',
+			'search_items'          => 'Search Events',
+			'not_found'             => 'No events found.',
+			'not_found_in_trash'    => 'No events found in trash.',
+			'all_items'             => 'All Events',
+			'menu_name'             => 'Events',
+			'name_admin_bar'        => 'Event',
+		],
+		'public'              => true,
+		'publicly_queryable'  => true,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_rest'        => true,
+		'has_archive'         => true,
+		'query_var'           => true,
+		'rewrite'             => [ 'slug' => 'events', 'with_front' => false ],
+		'supports'            => [ 'title', 'editor', 'excerpt', 'thumbnail', 'revisions' ],
+		'menu_icon'           => 'dashicons-calendar-alt',
+		'menu_position'       => 5,
+		'capability_type'     => 'post',
+	] );
+} );
+
+add_action( 'init', function () {
+	register_post_meta( 'event', 'event_date', [
+		'type'              => 'string',
+		'single'            => true,
+		'show_in_rest'      => true,
+		'sanitize_callback' => 'sanitize_text_field',
+		'auth_callback'     => function () {
+			return current_user_can( 'edit_posts' );
+		},
+	] );
+} );
+
+// Meta box UI.
+add_action( 'add_meta_boxes', function () {
+	add_meta_box(
+		'event_details',
+		'Event details',
+		__NAMESPACE__ . '\\render_event_details_meta_box',
+		'event',
+		'side',
+		'high'
+	);
+} );
+
+function render_event_details_meta_box( $post ) {
+	wp_nonce_field( 'event_details_save', 'event_details_nonce' );
+	$event_date = get_post_meta( $post->ID, 'event_date', true );
+	?>
+	<p>
+		<label for="event_date"><strong><?php esc_html_e( 'Event date', 'wp-rig' ); ?></strong></label><br>
+		<input
+			type="date"
+			id="event_date"
+			name="event_date"
+			value="<?php echo esc_attr( $event_date ); ?>"
+			style="width:100%"
+		>
+	</p>
+	<?php
+}
+
+add_action( 'save_post_event', function ( $post_id ) {
+	if ( ! isset( $_POST['event_details_nonce'] ) || ! wp_verify_nonce( $_POST['event_details_nonce'], 'event_details_save' ) ) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	if ( isset( $_POST['event_date'] ) ) {
+		update_post_meta( $post_id, 'event_date', sanitize_text_field( $_POST['event_date'] ) );
+	}
+} );
+
+add_action( 'pre_get_posts', function ( $query ) {
+	if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'event' ) ) {
+		$query->set( 'meta_key', 'event_date' );
+		$query->set( 'orderby', 'meta_value' );
+		$query->set( 'order', 'DESC' );
+	}
 } );
 
 /**
@@ -202,6 +303,28 @@ require get_template_directory() . '/inc/functions.php';
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once get_template_directory() . '/wp-cli/wp-rig-commands.php';
 }
+
+add_filter( 'allowed_block_types_all', function ( $allowed_blocks, $block_editor_context ) {
+	$post = $block_editor_context->post ?? null;
+
+	if ( ! $post || 'page' !== $post->post_type ) {
+		return $allowed_blocks; // Don't touch other post types.
+	}
+
+	return array(
+		'wp-rig/hero',
+		'wp-rig/card',
+		'wp-rig/feature-split',
+		'wp-rig/aboutus',
+		'wp-rig/newsletter-overview',
+		'core/paragraph',
+		'core/heading',
+		'core/group',
+		'core/columns',
+		'core/column',
+		'core/image',
+	);
+}, 10, 2 );
 
 // Initialize the theme.
 call_user_func( 'WP_Rig\WP_Rig\wp_rig' );
