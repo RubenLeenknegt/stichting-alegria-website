@@ -75,12 +75,18 @@ npm run block:new hero --dynamic --title "Hero"
 - Add a favicon
 - Add Contact form 
 - Newsletter sign up form 
-- Update newsletter archive with sign up form
+- Update newsletter archive with sign up form 
 - Check if both forms work 
 - Create basic text block for content pages
 - Basic image block for content pages
 - Scroll lint block for sponsor logos
 - Donor box integration
-- Upcoming events block on home page
+- Upcoming events block on home page X
+- Upcoming events archive page X
+- Newsletter single
+- Event single
 - Site content met Stijn
+- Minify photos used on site (Currently 15+ MB page load)
+- SMTP setup 
+- Setup outgoing newsletter emails
 - 

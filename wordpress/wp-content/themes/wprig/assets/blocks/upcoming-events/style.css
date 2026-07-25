@@ -8,11 +8,11 @@
 }
 
 .upcoming-events-heading {
-	font-size: var(--font-size-xl);
-	font-weight: 800;
+	font-size: var(--font-size-large);
+	font-weight: 700;
 	color: var(--color-theme-primary);
 	max-width: 1200px;
-	margin: 0 auto 3rem;
+	margin: 0 auto 1rem;
 }
 
 .upcoming-events-viewport {
@@ -30,8 +30,8 @@
 .upcoming-events-slide {
 	flex: 0 0 100%;
 	display: grid;
+	gap: 1rem;
 	grid-template-columns: 1fr;
-	gap: 2rem;
 	align-items: center;
 }
 
@@ -129,10 +129,11 @@
 .upcoming-events-dots {
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
+	gap: 1rem;
 }
 
 .upcoming-events-dot {
+	position: relative;
 	width: 0.6rem;
 	height: 0.6rem;
 	padding: 0;
@@ -141,6 +142,16 @@
 	background: rgba(1, 33, 105, 0.2);
 	cursor: pointer;
 	transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.upcoming-events-dot::before {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 24px;
+	height: 24px;
+	transform: translate(-50%, -50%);
 }
 
 .upcoming-events-dot.is-active {
@@ -156,6 +167,14 @@
 	.upcoming-events-slide {
 		grid-template-columns: 1fr 1fr;
 		gap: 3rem;
+	}
+
+	.upcoming-events-heading {
+		font-size: var(--font-size-xl);
+		font-weight: 800;
+		color: var(--color-theme-primary);
+		max-width: 1200px;
+		margin: 0 auto 3rem;
 	}
 }
 

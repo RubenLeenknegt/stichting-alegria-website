@@ -179,7 +179,6 @@
 .archive-page .archive-card:focus-visible {
 	transform: translateY(-10px);
 	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-	color: var(--global-font-color);
 }
 
 .archive-page .archive-card-image {
@@ -245,15 +244,6 @@
 	line-clamp: 3;
 	overflow: hidden;
 	min-height: calc(3 * var(--global-font-line-height) * 1em);
-	color: #000;
-}
-
-.archive-page .archive-card:hover .archive-card-title,
-.archive-page .archive-card:hover .archive-card-excerpt,
-.archive-page .archive-card:focus .archive-card-title,
-.archive-page .archive-card:focus .archive-card-excerpt,
-.archive-page .archive-card:focus-visible .archive-card-title,
-.archive-page .archive-card:focus-visible .archive-card-excerpt {
 	color: #000;
 }
 

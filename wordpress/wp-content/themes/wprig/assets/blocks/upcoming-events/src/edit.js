@@ -5,32 +5,6 @@ const { useBlockProps } = wp.blockEditor;
 const { useSelect } = wp.data;
 import { PreviewCard, PreviewField, PreviewThumb, PreviewEmptyState, stripHtmlText } from '../../components/editor-preview';
 
-const DUTCH_MONTHS = [
-	'januari', 'februari', 'maart', 'april', 'mei', 'juni',
-	'juli', 'augustus', 'september', 'oktober', 'november', 'december'
-];
-
-function formatEventDate(dateString) {
-	if (!dateString) {
-		return '';
-	}
-
-	const parts = dateString.split('-');
-	if (parts.length !== 3) {
-		return dateString;
-	}
-
-	const [year, month, day] = parts;
-	const monthIndex = parseInt(month, 10) - 1;
-	const monthName = DUTCH_MONTHS[monthIndex];
-
-	if (!monthName) {
-		return dateString;
-	}
-
-	return `${parseInt(day, 10)} ${monthName} ${year}`;
-}
-
 export default function Edit(props) {
 	const { attributes, setAttributes } = props;
 	const { title, maxEvents } = attributes;
@@ -81,7 +55,7 @@ export default function Edit(props) {
 									{events.map((event, index) => {
 										const imageUrl = event._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
 										const excerpt = stripHtmlText(event.excerpt?.rendered || event.excerpt || '');
-										const eventDate = formatEventDate(event.meta?.event_date || '');
+										const eventDate = event.meta?.event_date || '';
 
 										return (
 											<li key={event.id} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', paddingTop: index > 0 ? '8px' : 0, borderTop: index > 0 ? '1px solid #f0f0f0' : 'none' }}>
