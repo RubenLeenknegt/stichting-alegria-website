@@ -67,3 +67,20 @@ npm run build:css
 npm run block:new hero --dynamic --title "Hero"
 ```
 
+
+### Todo:
+- Ask for svg version of logo
+- Implement svg version of logo in header and nav
+- Make logo a bit smaller
+- Add a favicon
+- Add Contact form 
+- Newsletter sign up form 
+- Update newsletter archive with sign up form
+- Check if both forms work 
+- Create basic text block for content pages
+- Basic image block for content pages
+- Scroll lint block for sponsor logos
+- Donor box integration
+- Upcoming events block on home page
+- Site content met Stijn
+- 

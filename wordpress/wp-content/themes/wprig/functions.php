@@ -317,6 +317,7 @@ add_filter( 'allowed_block_types_all', function ( $allowed_blocks, $block_editor
 		'wp-rig/feature-split',
 		'wp-rig/aboutus',
 		'wp-rig/newsletter-overview',
+		'wp-rig/upcoming-events',
 		'core/paragraph',
 		'core/heading',
 		'core/group',
