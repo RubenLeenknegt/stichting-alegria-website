@@ -347,6 +347,23 @@
 }
 
 /*--------------------------------------------------------------
+## Custom post type single pages
+--------------------------------------------------------------*/
+.single-header{
+	width: 100%;
+	background-color: var(--color-theme-light-grey, #f5f5f5);
+	padding-top: 3rem;
+	padding-bottom: 2rem;
+}
+
+.single-title{
+	margin: 0 auto;
+	font-size: var(--font-size-xl);
+	color: var(--color-theme-primary);
+	max-width: 1200px;
+	font-weight: 800;
+}
+/*--------------------------------------------------------------
 ## Alignments
 --------------------------------------------------------------*/
 .alignleft {
