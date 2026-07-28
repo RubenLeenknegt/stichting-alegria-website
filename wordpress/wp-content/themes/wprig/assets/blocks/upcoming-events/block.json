@@ -1,0 +1,27 @@
+{
+  "name": "wp-rig/upcoming-events",
+  "apiVersion": 3,
+  "title": "Upcoming events",
+  "category": "design",
+  "icon": "calendar-alt",
+  "description": "Displays upcoming events in a swiper.",
+  "textdomain": "wp-rig",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "maxEvents": {
+      "type": "number",
+      "default": 6
+    }
+  },
+  "editorScript": "file:./build/index.js",
+  "style": "file:./build/style.css",
+  "editorStyle": "file:./build/editor.css",
+  "viewScript": "file:./build/view.js",
+  "render": "file:./render.php",
+  "supports": {
+    "align": ["wide", "full"]
+  }
+}
