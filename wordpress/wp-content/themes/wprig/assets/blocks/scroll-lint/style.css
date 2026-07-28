@@ -13,18 +13,19 @@
 	background-color: var(--color-theme-light-grey);
 }
 
+/* Full-bleed fallback for themes/containers that don't already
+   give "alignfull" blocks true 100vw width. Safe to remove if
+   wp-rig's alignfull already breaks out of the content column. */
 .scrolllint.alignfull {
 	margin-left: calc(50% - 50vw);
 	margin-right: calc(50% - 50vw);
 	width: 100vw;
 	max-width: 100vw;
-	padding: 0;
 }
 
 .scrolllint__viewport {
 	width: 100%;
 	overflow: hidden;
-	padding-bottom: 3rem;
 }
 
 .scrolllint__track {
@@ -45,14 +46,12 @@
 .scrolllint__item {
 	flex: 0 0 auto;
 	padding: 0 24px;
-	align-content: center;
 }
 
-/* Mobile-first: smaller logo size by default. */
 .scrolllint__image {
 	display: block;
 	height: auto;
-	max-height: 56px;
+	max-height: 80px;
 	width: auto;
 	max-width: none;
 	object-fit: contain;
@@ -61,12 +60,13 @@
 	user-select: none;
 }
 
-@media (min-width: 48em) {
+@media (max-width: 600px) {
 	.scrolllint__image {
-		max-height: 80px;
+		max-height: 56px;
 	}
 }
 
+/* Respect reduced-motion preference: still show images, just static. */
 @media (prefers-reduced-motion: reduce) {
 	.scrolllint__track {
 		animation: none;

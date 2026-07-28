@@ -318,6 +318,7 @@ add_filter( 'allowed_block_types_all', function ( $allowed_blocks, $block_editor
 		'wp-rig/aboutus',
 		'wp-rig/newsletter-overview',
 		'wp-rig/upcoming-events',
+		'wp-rig/scroll-lint',
 		'core/paragraph',
 		'core/heading',
 		'core/group',
