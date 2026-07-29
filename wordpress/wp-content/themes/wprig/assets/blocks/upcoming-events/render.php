@@ -21,6 +21,9 @@ $max_events = max( 1, $max_events );
 
 $today = current_time( 'Y-m-d' );
 
+$cutoff_timestamp = strtotime( '-1 day', current_time( 'timestamp' ) );
+$cutoff_date       = gmdate( 'Y-m-d', $cutoff_timestamp );
+
 $events_query = new WP_Query(
 	array(
 		'post_type'      => 'event',
@@ -31,7 +34,7 @@ $events_query = new WP_Query(
 		'meta_query'     => array(
 			array(
 				'key'     => 'event_date',
-				'value'   => $today,
+				'value'   => $cutoff_date,
 				'compare' => '>=',
 				'type'    => 'DATE',
 			),
@@ -52,7 +55,7 @@ $wrapper_attrs = wp_rig()->block_wrapper_attributes(
 );
 
 ?>
-	<div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<div <?php echo $wrapper_attrs; ?>>
 		<?php if ( $title ) : ?>
 			<h2 class="upcoming-events-heading"><?php echo esc_html( $title ); ?></h2>
 		<?php endif; ?>

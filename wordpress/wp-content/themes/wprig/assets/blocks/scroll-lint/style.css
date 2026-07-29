@@ -24,6 +24,7 @@
 .scrolllint__viewport {
 	width: 100%;
 	overflow: hidden;
+	padding-bottom: 4rem;
 }
 
 .scrolllint__track {
