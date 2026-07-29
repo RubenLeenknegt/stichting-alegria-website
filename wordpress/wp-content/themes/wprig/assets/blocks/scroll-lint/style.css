@@ -13,14 +13,12 @@
 	background-color: var(--color-theme-light-grey);
 }
 
-/* Full-bleed fallback for themes/containers that don't already
-   give "alignfull" blocks true 100vw width. Safe to remove if
-   wp-rig's alignfull already breaks out of the content column. */
 .scrolllint.alignfull {
 	margin-left: calc(50% - 50vw);
 	margin-right: calc(50% - 50vw);
 	width: 100vw;
 	max-width: 100vw;
+	padding: 0;
 }
 
 .scrolllint__viewport {
@@ -60,9 +58,21 @@
 	user-select: none;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 48em) {
+	.scrolllint-heading {
+		display: flex;
+		justify-content: center;
+	}
+
 	.scrolllint__image {
 		max-height: 56px;
+	}
+}
+
+@media (min-width: 48em) and (max-width: 87em) {
+	.scrolllint-heading {
+		margin: 0 auto 3rem;
+		padding-left: 2rem;
 	}
 }
 
