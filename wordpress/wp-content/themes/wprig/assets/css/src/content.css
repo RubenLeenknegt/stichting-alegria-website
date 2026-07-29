@@ -350,6 +350,8 @@
 ## Custom post type single pages
 --------------------------------------------------------------*/
 .single-header{
+	display: flex;
+	justify-content: center;
 	width: 100%;
 	background-color: var(--color-theme-light-grey);
 	padding-top: 3rem;

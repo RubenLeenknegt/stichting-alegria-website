@@ -25,7 +25,7 @@ $wrapper_attributes = get_block_wrapper_attributes(
 ?>
 <div <?php echo $wrapper_attributes; ?>>
 	<?php if ( ! empty( $title ) ) : ?>
-		<h2 class="upcoming-events-heading">
+		<h2 class="scrolllint-heading">
 			<?php echo wp_kses_post( $title ); ?>
 		</h2>
 	<?php endif; ?>
