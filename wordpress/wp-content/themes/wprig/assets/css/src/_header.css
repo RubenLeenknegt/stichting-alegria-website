@@ -125,7 +125,7 @@
 --------------------------------------------------------------*/
 @media (--above-desktop) {
 	.site-header {
-		padding: 2rem 4rem;
+		padding: 1.5rem 4rem;
 		position: relative;
 		justify-content: end;
 	}
@@ -138,8 +138,8 @@
 	/* Logo - absolutely positioned on desktop */
 	.site-header > .site-branding {
 		position: absolute;
-		top: 40px;
-		left: 10rem;
+		top: 30px;
+		left: 8rem;
 		max-width: 260px;
 		z-index: 8;
 	}

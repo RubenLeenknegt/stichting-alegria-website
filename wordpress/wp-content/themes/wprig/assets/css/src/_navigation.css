@@ -280,12 +280,6 @@
 		background-color: #000000;
 	}
 
-	/* Offcanvas panel - full height, starting at the very top, but its
-	   content is pushed down by padding-top rather than by offsetting
-	   the box itself. The sticky header (higher z-index) then always
-	   covers this padded region exactly, so there's no seam even if
-	   --nav-mobile-header-height doesn't match the real header height
-	   to the pixel. */
 	.primary-menu-container {
 		position: fixed;
 		top: 0;
