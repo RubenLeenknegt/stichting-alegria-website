@@ -23,6 +23,7 @@ wp_rig()->print_styles( 'wp-rig-content' );
 						<p class="archive-description">
 							<?php esc_html_e( 'Alle gepubliceerde nieuwsbrieven. Schrijf je in om nieuwe uitgaven rechtstreeks in je inbox te ontvangen. ', 'wp-rig' ); ?>
 						</p>
+						<?php echo do_shortcode( '[contact-form-7 id="fdcb489" title="Nieuwsbrief"]' ); ?>
 					</div>
 				</header>
 

@@ -315,6 +315,7 @@ add_filter( 'allowed_block_types_all', function () {
 		'wp-rig/scroll-lint',
 		'wp-rig/txt',
 		'wp-rig/img',
+		'wp-rig/embed-shortcode',
 		'core/paragraph',
 		'core/heading',
 		'core/group',

@@ -70,9 +70,9 @@ npm run block:new hero --dynamic --title "Hero"
 
 ### Todo:
 - Ask for svg version of logo x 
-- Implement svg version of logo in header and nav
-- Make logo a bit smaller
-- Add a favicon
+- Implement svg version of logo in header and nav x
+- Make logo a bit smaller x
+- Add a favicon x
 - Add Contact form 
 - Newsletter sign up form 
 - Update newsletter archive with sign up form 

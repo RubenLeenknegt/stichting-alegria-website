@@ -1,0 +1,14 @@
+.embed-shortcode-block {
+	display: flex;
+	justify-content: center;
+}
+
+.embed-shortcode-block__inner {
+	width: 100%;
+	max-width: 800px;
+	text-align: center;
+}
+
+.embed-shortcode-block__inner iframe {
+	max-width: 100%;
+}

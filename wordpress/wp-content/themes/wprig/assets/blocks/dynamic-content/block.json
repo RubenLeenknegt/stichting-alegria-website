@@ -1,0 +1,27 @@
+{
+  "name": "wp-rig/embed-shortcode",
+  "apiVersion": 2,
+  "title": "Embed / Shortcode",
+  "category": "widgets",
+  "icon": "embed-generic",
+  "description": "Outputs a WordPress shortcode, or embeds raw iframe/HTML markup, centered on the page.",
+  "textdomain": "wp-rig",
+  "attributes": {
+    "content": {
+      "type": "string",
+      "default": ""
+    },
+    "isIframe": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"]
+  },
+  "render": "file:./render.php",
+  "editorScript": "file:./build/index.js",
+  "style": "file:./build/style.css",
+  "editorStyle": "file:./build/editor.css"
+}
