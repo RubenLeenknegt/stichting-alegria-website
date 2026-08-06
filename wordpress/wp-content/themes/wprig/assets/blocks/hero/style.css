@@ -13,6 +13,14 @@
 	position: relative;
 }
 
+.hero-container {
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+	position: relative;
+	z-index: 1;
+}
+
 .hero-block::before {
 	content: "";
 	position: absolute;
@@ -23,9 +31,7 @@
 
 .hero-content {
 	max-width: 600px;
-	position: relative;
-	z-index: 1;
-	margin-left: 7rem;
+	width: 100%;
 }
 
 .hero-heading {
@@ -63,7 +69,7 @@
 	}
 
 	.hero-content {
-		margin-left: clamp(1.5rem, 4vw, 4rem);
+		max-width: 600px;
 	}
 
 	.hero-heading {
@@ -78,7 +84,7 @@
 	}
 
 	.hero-content {
-		margin-left: 0;
+		max-width: 600px;
 	}
 
 	.hero-heading {
