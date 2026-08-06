@@ -3,7 +3,7 @@
 --------------------------------------------------------------*/
 :root {
 	/* Navigation-specific variables */
-	--nav-mobile-header-height: 80px;
+	--nav-mobile-header-height: 96px;
 	--nav-transition-speed: 0.3s;
 	--nav-dropdown-width: 220px;
 	--dropdown-symbol-width: 24px;
@@ -95,13 +95,6 @@
 	justify-content: flex-start;
 	align-items: center;
 	width: 100%;
-}
-
-/*--------------------------------------------------------------
-# Mobile Menu Header (Inside Overlay)
---------------------------------------------------------------*/
-.mobile-menu-header {
-	display: none; /* Only visible when mobile menu is open */
 }
 
 /*--------------------------------------------------------------
@@ -272,14 +265,27 @@
 		display: flex;
 	}
 
-	/* Hamburger in header is WHITE */
+	/* Hamburger in header is WHITE by default (header is still green/brand-colored) */
 	.site-header > .menu-toggle::before,
 	.site-header > .menu-toggle::after,
 	.site-header > .menu-toggle span {
 		background-color: var(--color-theme-white);
 	}
 
-	/* Mobile menu container - hidden by default */
+	/* Hamburger turns black once the menu is open, since the header
+	   background switches to white at that point (see _header.css). */
+	.site-header > .menu-toggle[aria-expanded="true"]::before,
+	.site-header > .menu-toggle[aria-expanded="true"]::after,
+	.site-header > .menu-toggle[aria-expanded="true"] span {
+		background-color: #000000;
+	}
+
+	/* Offcanvas panel - full height, starting at the very top, but its
+	   content is pushed down by padding-top rather than by offsetting
+	   the box itself. The sticky header (higher z-index) then always
+	   covers this padded region exactly, so there's no seam even if
+	   --nav-mobile-header-height doesn't match the real header height
+	   to the pixel. */
 	.primary-menu-container {
 		position: fixed;
 		top: 0;
@@ -288,7 +294,7 @@
 		height: 100vh;
 		background: #ffffff;
 		z-index: var(--z-index-mobile-menu);
-		padding: 0;
+		padding: var(--nav-mobile-header-height) 0 0;
 		overflow-y: auto;
 		justify-content: flex-start;
 
@@ -312,45 +318,9 @@
 		transform var(--nav-transition-speed) ease;
 	}
 
-	/* Mobile menu header - visible in overlay */
-	.mobile-menu-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-top: 1rem;
-		padding: 1rem 2rem;
-		background: #ffffff;
-		position: sticky;
-		top: 0;
-		z-index: 10;
-		width: 100%;
-		min-height: 80px;
-	}
-
-	.mobile-menu-header .site-branding {
-		order: 1;
-		max-height: 60px;
-	}
-
-	.mobile-menu-header .site-branding img,
-	.mobile-menu-header .site-branding svg {
-		max-height: 60px;
-	}
-
 	.site-branding img,
 	.site-branding svg {
 		max-height: 60px;
-	}
-
-	.mobile-menu-header .menu-toggle {
-		order: 2;
-		margin-left: auto;
-	}
-
-	.mobile-menu-header .menu-toggle::before,
-	.mobile-menu-header .menu-toggle::after,
-	.mobile-menu-header .menu-toggle span {
-		background-color: var(--global-font-color);
 	}
 
 	.main-navigation {
@@ -479,10 +449,6 @@
 @media (--above-desktop) {
 	/* Hide mobile menu elements */
 	.menu-toggle {
-		display: none !important;
-	}
-
-	.mobile-menu-header {
 		display: none !important;
 	}
 

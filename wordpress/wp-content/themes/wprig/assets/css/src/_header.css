@@ -14,6 +14,7 @@
 	justify-content: space-between;
 	align-items: center;
 	position: relative;
+	transition: background-color var(--nav-transition-speed) ease;
 }
 
 .header-image {
@@ -79,68 +80,43 @@
 # MOBILE STYLES (< 1400px)
 --------------------------------------------------------------*/
 @media (--below-desktop) {
-	/* Header layout on mobile */
+	/* Header stays pinned at the top on mobile so the single logo +
+	   toggle are always visible above the offcanvas panel, whether
+	   it's open or closed. */
 	.site-header {
 		padding: 1rem 2rem;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		position: sticky;
+		top: 0;
+		z-index: calc(var(--z-index-mobile-menu) + 2);
 	}
 
-	/* Logo in header */
 	.site-header > .site-branding {
 		order: 1;
 		max-height: 60px;
 	}
 
+	.site-header > .site-branding svg,
 	.site-header > .site-branding img {
 		max-height: 60px;
 	}
 
-	/* Hamburger in header */
 	.site-header > .menu-toggle {
 		order: 2;
 		margin-left: auto;
-		display: flex; /* Make visible on mobile */
+		display: flex;
 	}
 
-	/* Hide primary menu container by default */
 	.site-header > .primary-menu-container {
 		order: 3;
 	}
 
-	/* When mobile menu is open, hide header's logo and hamburger */
-	body:has(.nav--toggled-on) .site-header > .site-branding,
-	body:has(.nav--toggled-on) .site-header > .menu-toggle {
-		visibility: hidden; /* Hide but keep space */
-	}
-
-	/* Mobile menu header - visible in overlay */
-	.mobile-menu-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 1rem 2rem;
-		background: #ffffff;
-		position: sticky;
-		top: 0;
-		z-index: 10;
-		height: auto;
-		min-height: 60px;
-	}
-
-	.mobile-menu-header .site-branding {
-		order: 1;
-		max-height: 60px;
-	}
-
-	.mobile-menu-header .site-branding img {
-		max-height: 60px;
-	}
-
-	.mobile-menu-header .menu-toggle {
-		order: 2;
-		margin-left: auto;
+	/* Match header background to the offcanvas panel color while the
+	   menu is open, so the two elements read as one continuous surface. */
+	body:has(.nav--toggled-on) .site-header {
+		background-color: #ffffff;
 	}
 }
 
@@ -172,11 +148,6 @@
 		width: 100%;
 		max-height: none;
 		height: auto;
-	}
-
-	/* Hide mobile menu header on desktop */
-	.mobile-menu-header {
-		display: none !important;
 	}
 
 	/* Navigation container */

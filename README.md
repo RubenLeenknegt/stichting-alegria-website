@@ -69,7 +69,7 @@ npm run block:new hero --dynamic --title "Hero"
 
 
 ### Todo:
-- Ask for svg version of logo
+- Ask for svg version of logo x 
 - Implement svg version of logo in header and nav
 - Make logo a bit smaller
 - Add a favicon
@@ -85,8 +85,7 @@ npm run block:new hero --dynamic --title "Hero"
 - Upcoming events archive page X
 - Newsletter single x
 - Event single x
-- Full mobile pass of site 
-- Site content met Stijn
+- Full mobile pass of site
 - Minify photos used on site (Currently 15+ MB page load)
 - SMTP setup 
 - Setup outgoing newsletter emails
