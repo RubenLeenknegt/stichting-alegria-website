@@ -304,13 +304,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 	require_once get_template_directory() . '/wp-cli/wp-rig-commands.php';
 }
 
-add_filter( 'allowed_block_types_all', function ( $allowed_blocks, $block_editor_context ) {
-	$post = $block_editor_context->post ?? null;
-
-	if ( ! $post || 'page' !== $post->post_type ) {
-		return $allowed_blocks; // Don't touch other post types.
-	}
-
+add_filter( 'allowed_block_types_all', function () {
 	return array(
 		'wp-rig/hero',
 		'wp-rig/card',
@@ -318,12 +312,14 @@ add_filter( 'allowed_block_types_all', function ( $allowed_blocks, $block_editor
 		'wp-rig/aboutus',
 		'wp-rig/newsletter-overview',
 		'wp-rig/upcoming-events',
+		'wp-rig/scroll-lint',
+		'wp-rig/txt',
+		'wp-rig/img',
 		'core/paragraph',
 		'core/heading',
 		'core/group',
 		'core/columns',
 		'core/column',
-		'core/image',
 	);
 }, 10, 2 );
 

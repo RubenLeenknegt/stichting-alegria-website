@@ -3,7 +3,7 @@
  */
 
 .hero-block {
-	min-height: 70vh;
+	min-height: 65vh;
 	display: flex;
 	align-items: center;
 	background-size: cover;

@@ -1,0 +1,95 @@
+.scrolllint-heading {
+	font-size: var(--font-size-xl);
+	color: var(--color-theme-primary);
+	max-width: 1200px;
+	margin: 0 auto 3rem;
+	padding-top: 2rem;
+	font-weight: 800;
+}
+
+.scrolllint {
+	width: 100%;
+	max-width: 100%;
+	background-color: var(--color-theme-light-grey);
+}
+
+.scrolllint.alignfull {
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+	width: 100vw;
+	max-width: 100vw;
+	padding: 0;
+}
+
+.scrolllint__viewport {
+	width: 100%;
+	overflow: hidden;
+	padding-bottom: 4rem;
+}
+
+.scrolllint__track {
+	display: flex;
+	width: max-content;
+	animation: scrolllint-ltr 53.5s linear infinite;
+	will-change: transform;
+}
+
+/* Pause on hover, desktop/pointer devices only, so touch scrolling
+   doesn't get "stuck" paused after a tap. */
+@media (hover: hover) and (pointer: fine) {
+	.scrolllint:hover .scrolllint__track {
+		animation-play-state: paused;
+	}
+}
+
+.scrolllint__item {
+	flex: 0 0 auto;
+	padding: 0 24px;
+}
+
+.scrolllint__image {
+	display: block;
+	height: auto;
+	max-height: 80px;
+	width: auto;
+	max-width: none;
+	object-fit: contain;
+	border-radius: 4px;
+	pointer-events: none;
+	user-select: none;
+}
+
+@media (max-width: 48em) {
+	.scrolllint-heading {
+		display: flex;
+		justify-content: center;
+	}
+
+	.scrolllint__image {
+		max-height: 56px;
+	}
+}
+
+@media (min-width: 48em) and (max-width: 87em) {
+	.scrolllint-heading {
+		margin: 0 auto 3rem;
+		padding-left: 2rem;
+	}
+}
+
+/* Respect reduced-motion preference: still show images, just static. */
+@media (prefers-reduced-motion: reduce) {
+	.scrolllint__track {
+		animation: none;
+		transform: translateX(0);
+	}
+}
+
+@keyframes scrolllint-ltr {
+	from {
+		transform: translateX(-50%);
+	}
+	to {
+		transform: translateX(0%);
+	}
+}

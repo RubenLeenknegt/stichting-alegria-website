@@ -69,7 +69,7 @@ npm run block:new hero --dynamic --title "Hero"
 
 
 ### Todo:
-- Ask for svg version of logo
+- Ask for svg version of logo x 
 - Implement svg version of logo in header and nav
 - Make logo a bit smaller
 - Add a favicon
@@ -77,15 +77,15 @@ npm run block:new hero --dynamic --title "Hero"
 - Newsletter sign up form 
 - Update newsletter archive with sign up form 
 - Check if both forms work 
-- Create basic text block for content pages
-- Basic image block for content pages
-- Scroll lint block for sponsor logos
+- Create basic text block for content pages x
+- Basic image block for content pages x
+- Scroll lint block for sponsor logos x
 - Donor box integration
 - Upcoming events block on home page X
 - Upcoming events archive page X
-- Newsletter single
-- Event single
-- Site content met Stijn
+- Newsletter single x
+- Event single x
+- Full mobile pass of site
 - Minify photos used on site (Currently 15+ MB page load)
 - SMTP setup 
 - Setup outgoing newsletter emails
