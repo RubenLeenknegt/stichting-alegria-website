@@ -137,32 +137,16 @@ class Theme {
 	 * @return array List of theme components to use by default.
 	 */
 	protected function get_default_components(): array {
-		$components = array(
-			new Localization\Component(),
+		return array(
 			new Base_Support\Component(),
 			new Editor\Component(),
 			new Accessibility\Component(),
-			new Image_Sizes\Component(),
-			new PWA\Component(),
-			new Comments\Component(),
 			new Nav_Menus\Component(),
-			new Sidebars\Component(),
-			new Custom_Background\Component(),
-			new Custom_Header\Component(),
-			new Custom_Logo\Component(),
 			new Post_Thumbnails\Component(),
 			new Fonts\Component(),
 			new Styles\Component(),
 			new Scripts\Component(),
-			new Excerpts\Component(),
-			new Options\Component(),
 			new Blocks\Component(),
 		);
-
-		if ( defined( 'JETPACK__VERSION' ) ) {
-			$components[] = new Jetpack\Component();
-		}
-
-		return $components;
 	}
 }

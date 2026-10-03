@@ -243,21 +243,9 @@ class Component implements Component_Interface, Templating_Component_Interface {
 				'file'   => 'global.min.css',
 				'global' => true,
 			),
-			'wp-rig-comments'   => array(
-				'file'             => 'comments.min.css',
-				'preload_callback' => function () {
-					return ! post_password_required() && is_singular() && ( comments_open() || get_comments_number() );
-				},
-			),
 			'wp-rig-content'    => array(
 				'file'             => 'content.min.css',
 				'preload_callback' => '__return_true',
-			),
-			'wp-rig-widgets'    => array(
-				'file'             => 'widgets.min.css',
-				'preload_callback' => function () {
-					return wp_rig()->is_primary_sidebar_active();
-				},
 			),
 			'wp-rig-front-page' => array(
 				'file'             => 'front-page.min.css',
