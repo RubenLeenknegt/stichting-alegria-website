@@ -31,13 +31,6 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	const PRIMARY_NAV_MENU_SLUG = 'primary';
 
 	/**
-	 * All theme settings - from JSON file.
-	 *
-	 * @var $theme_settings array
-	 */
-	public $theme_settings;
-
-	/**
 	 * Dropdown symbol SVG content.
 	 *
 	 * @var string
@@ -106,7 +99,6 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	 * Adds the action and filter hooks to integrate with WordPress.
 	 */
 	public function initialize() {
-		$this->get_theme_settings_config();
 		$this->preload_svg_assets();
 		$this->hooks();
 	}
@@ -133,14 +125,8 @@ class Component implements Component_Interface, Templating_Component_Interface {
 		$this->dropdown_symbol_svg = apply_filters( 'wp_rig_dropdown_icon_svg', $dropdown_svg );
 
 		// Load menu toggle icons.
-		$menu_icon_path  = get_theme_file_uri() . '/assets/svg/menu-icon.svg';
-		$close_icon_path = get_theme_file_uri() . '/assets/svg/close-icon.svg';
-
-		$menu_response  = wp_remote_get( $menu_icon_path );
-		$close_response = wp_remote_get( $close_icon_path );
-
-		$menu_icon_svg  = is_wp_error( $menu_response ) ? '' : wp_remote_retrieve_body( $menu_response );
-		$close_icon_svg = is_wp_error( $close_response ) ? '' : wp_remote_retrieve_body( $close_response );
+		$menu_icon_svg  = (string) wp_rig()->get_theme_asset( 'menu-icon.svg', 'svg', true );
+		$close_icon_svg = (string) wp_rig()->get_theme_asset( 'close-icon.svg', 'svg', true );
 
 		/**
 		 * Filters the mobile menu toggle (hamburger) icon SVG markup.
@@ -223,21 +209,6 @@ class Component implements Component_Interface, Templating_Component_Interface {
 			'get_instagram_logo_svg'     => array( $this, 'get_instagram_logo_svg' ),
 			'get_linkedin_logo_svg'      => array( $this, 'get_linkedin_logo_svg' ),
 		);
-	}
-
-	/**
-	 * Retrieves the theme settings from the JSON file and stores them in class-level variable.
-	 */
-	private function get_theme_settings_config() {
-		$url      = get_theme_file_uri() . '/inc/EZ_Customizer/themeCustomizeSettings.json';
-		$response = wp_remote_get( $url );
-		if ( is_wp_error( $response ) ) {
-			return null;
-		} else {
-			$theme_settings_json  = wp_remote_retrieve_body( $response );
-			$this->theme_settings = apply_filters( 'wp_rig_customizer_settings', json_decode( $theme_settings_json, FILE_USE_INCLUDE_PATH ) );
-		}
-		return null;
 	}
 
 	/**

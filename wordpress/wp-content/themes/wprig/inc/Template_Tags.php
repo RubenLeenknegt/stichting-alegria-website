@@ -147,17 +147,13 @@ class Template_Tags {
 	/**
 	 * Gets the version for a given asset.
 	 *
-	 * Returns filemtime when WP_DEBUG is true, otherwise the theme version.
+	 * Uses the file modification time so browsers pick up rebuilt assets after a deploy.
 	 *
 	 * @param string $filepath Asset file path.
 	 * @return string Asset version number.
 	 */
 	public function get_asset_version( string $filepath ): string {
-		if ( WP_DEBUG ) {
-			return (string) filemtime( $filepath );
-		}
-
-		return $this->get_version();
+		return file_exists( $filepath ) ? (string) filemtime( $filepath ) : $this->get_version();
 	}
 
 	/**

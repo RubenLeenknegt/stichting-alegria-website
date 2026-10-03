@@ -25,6 +25,13 @@ use WP_Rig\WP_Rig\Templating_Component_Interface;
 class Component implements Component_Interface, Templating_Component_Interface {
 
 	/**
+	 * Names of the blocks registered from assets/blocks.
+	 *
+	 * @var string[]
+	 */
+	protected $block_names = array();
+
+	/**
 	 * Retrieve the slug identifying the component or module.
 	 *
 	 * @return string The slug, typically used as an identifier.
@@ -40,6 +47,25 @@ class Component implements Component_Interface, Templating_Component_Interface {
 	 */
 	public function initialize(): void {
 		add_action( 'init', array( $this, 'register_blocks' ) );
+		add_filter( 'allowed_block_types_all', array( $this, 'filter_allowed_block_types' ) );
+	}
+
+	/**
+	 * Limits the inserter to the theme's own blocks plus a few core layout blocks.
+	 *
+	 * @return array Allowed block names.
+	 */
+	public function filter_allowed_block_types(): array {
+		return array_merge(
+			$this->block_names,
+			array(
+				'core/paragraph',
+				'core/heading',
+				'core/group',
+				'core/columns',
+				'core/column',
+			)
+		);
 	}
 
 
@@ -89,35 +115,12 @@ class Component implements Component_Interface, Templating_Component_Interface {
 				continue;
 			}
 
-			// Get the block name from the directory name.
-			$block_name = basename( $dir );
-
-			// Register block scripts directly.
-			$src_dir = $dir . '/src';
-			if ( file_exists( $src_dir ) ) {
-				$editor_js = $src_dir . '/index.js';
-				if ( file_exists( $editor_js ) ) {
-					// Register unminified script for development.
-					wp_register_script(
-						"wprig-{$block_name}-editor",
-						"{$blocks_uri}/{$block_name}/src/index.js",
-						array(
-							'wp-blocks',
-							'wp-element',
-							'wp-i18n',
-							'wp-block-editor',
-							'wp-components',
-							'wp-server-side-render',
-						),
-						filemtime( $editor_js ),
-						true
-					);
-				}
-			}
-
 			try {
 				// Register the block using WordPress core function.
-				register_block_type( $dir );
+				$block_type = register_block_type( $dir );
+				if ( $block_type instanceof \WP_Block_Type ) {
+					$this->block_names[] = $block_type->name;
+				}
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 					// Log successful block registration.
 					do_action( 'wp_rig_log', '[WP Rig Blocks] registered: ' . $dir );
