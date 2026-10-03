@@ -1,6 +1,6 @@
 {
   "name": "wp-rig/embed-shortcode",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "title": "Embed / Shortcode",
   "category": "widgets",
   "icon": "embed-generic",

@@ -1,6 +1,6 @@
 <?php
 /**
- * Markup tweaks for the primary menu, used by assets/js/src/navigation.ts.
+ * Markup tweaks for the primary menu, used by assets/js/navigation.ts.
  *
  * @package alegria
  */

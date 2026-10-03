@@ -1,6 +1,6 @@
 {
   "name": "wp-rig/img",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "title": "Image",
   "category": "media",
   "icon": "format-image",

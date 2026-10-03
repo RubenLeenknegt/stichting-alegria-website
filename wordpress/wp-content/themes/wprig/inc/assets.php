@@ -16,14 +16,14 @@ add_action(
 	'wp_enqueue_scripts',
 	function () {
 		wp_enqueue_style( 'alegria-fonts', ALEGRIA_FONTS_URL, array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
-		wp_enqueue_style( 'alegria-global', get_theme_file_uri( 'assets/css/global.min.css' ), array(), alegria_asset_version( 'assets/css/global.min.css' ) );
-		wp_enqueue_style( 'alegria-content', get_theme_file_uri( 'assets/css/content.min.css' ), array( 'alegria-global' ), alegria_asset_version( 'assets/css/content.min.css' ) );
+		wp_enqueue_style( 'alegria-global', get_theme_file_uri( 'assets/dist/global.css' ), array(), alegria_asset_version( 'assets/dist/global.css' ) );
+		wp_enqueue_style( 'alegria-content', get_theme_file_uri( 'assets/dist/content.css' ), array( 'alegria-global' ), alegria_asset_version( 'assets/dist/content.css' ) );
 
 		wp_enqueue_script(
 			'alegria-navigation',
-			get_theme_file_uri( 'assets/js/navigation.min.js' ),
+			get_theme_file_uri( 'assets/dist/navigation.js' ),
 			array(),
-			alegria_asset_version( 'assets/js/navigation.min.js' ),
+			alegria_asset_version( 'assets/dist/navigation.js' ),
 			array( 'strategy' => 'defer' )
 		);
 		wp_localize_script(
@@ -55,6 +55,6 @@ add_filter(
 add_action(
 	'after_setup_theme',
 	function () {
-		add_editor_style( array( ALEGRIA_FONTS_URL, 'assets/css/editor/editor-styles.min.css' ) );
+		add_editor_style( array( ALEGRIA_FONTS_URL, 'assets/dist/editor.css' ) );
 	}
 );

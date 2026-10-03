@@ -1,6 +1,6 @@
 {
   "name": "wp-rig/txt",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "title": "Text",
   "category": "text",
   "icon": "text",

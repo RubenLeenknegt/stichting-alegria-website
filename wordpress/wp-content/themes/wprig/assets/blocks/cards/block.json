@@ -1,6 +1,6 @@
 {
   "name": "wp-rig/cards",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "title": "Cards",
   "category": "design",
   "icon": "grid-view",

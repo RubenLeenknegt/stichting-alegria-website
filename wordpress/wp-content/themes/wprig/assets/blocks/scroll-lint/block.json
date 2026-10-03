@@ -1,6 +1,6 @@
 {
   "name": "wp-rig/scrolllint",
-  "apiVersion": 2,
+  "apiVersion": 3,
   "title": "Scrolllint",
   "category": "widgets",
   "icon": "images-alt2",
@@ -14,7 +14,9 @@
     "images": {
       "type": "array",
       "default": [],
-      "items": { "type": "object" }
+      "items": {
+        "type": "object"
+      }
     }
   },
   "supports": {
