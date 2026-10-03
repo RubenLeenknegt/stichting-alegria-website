@@ -2,7 +2,7 @@
 /**
  * Feature Split Block Template
  *
- * @package wp_rig
+ * @package alegria
  */
 
 declare( strict_types=1 );
@@ -10,8 +10,6 @@ declare( strict_types=1 );
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-use function WP_Rig\WP_Rig\wp_rig;
 
 $attributes = is_array( $attributes ?? null ) ? $attributes : array();
 $block      = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
@@ -28,12 +26,9 @@ if ( ! $image_url || ! $cta_text || ! $cta_url ) {
 	return;
 }
 
-$primary_button_icon = wp_rig()->get_cta_arrow_svg();
+$primary_button_icon = alegria_svg( 'arrow_right' );
 
-$wrapper_attrs = wp_rig()->block_wrapper_attributes(
-	array( 'feature-split-block' ),
-	$attributes
-);
+$wrapper_attrs = get_block_wrapper_attributes( array( 'class' => 'feature-split-block' ) );
 
 ?>
 <div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>

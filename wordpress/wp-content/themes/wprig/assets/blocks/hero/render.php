@@ -2,7 +2,7 @@
 /**
  * Hero Block Template
  *
- * @package wp_rig
+ * @package alegria
  */
 
 declare( strict_types=1 );
@@ -10,8 +10,6 @@ declare( strict_types=1 );
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-use function WP_Rig\WP_Rig\wp_rig;
 
 $attributes = is_array( $attributes ?? null ) ? $attributes : array();
 $block = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
@@ -26,13 +24,10 @@ $primary_button_url    = $attributes['primaryButtonUrl'] ?? '';
 $secondary_button_text = $attributes['secondaryButtonText'] ?? '';
 $secondary_button_url  = $attributes['secondaryButtonUrl'] ?? '';
 
-$primary_button_icon = wp_rig()->get_cta_arrow_svg();
+$primary_button_icon = alegria_svg( 'arrow_right' );
 
 // Build wrapper attributes
-$wrapper_attrs = wp_rig()->block_wrapper_attributes(
-	array( 'hero-block', 'overlay-dark' ),
-	$attributes
-);
+$wrapper_attrs = get_block_wrapper_attributes( array( 'class' => 'hero-block overlay-dark' ) );
 
 // Inline background style
 $bg_style = '';

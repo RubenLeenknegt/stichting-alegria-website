@@ -2,7 +2,7 @@
 /**
  * Cards Block Template
  *
- * @package wp_rig
+ * @package alegria
  */
 
 declare( strict_types=1 );
@@ -10,8 +10,6 @@ declare( strict_types=1 );
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-use function WP_Rig\WP_Rig\wp_rig;
 
 $attributes = is_array( $attributes ?? null ) ? $attributes : array();
 $block = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
@@ -41,10 +39,7 @@ $card3_text      = $attributes['card3Text'] ?? '';
 $card3_url       = $attributes['card3Url'] ?? '';
 
 // Build wrapper attributes
-$wrapper_attrs = wp_rig()->block_wrapper_attributes(
-	array( 'cards-block' ),
-	$attributes
-);
+$wrapper_attrs = get_block_wrapper_attributes( array( 'class' => 'cards-block' ) );
 
 // Local renderer avoids global function redeclaration when this template is included multiple times.
 $render_card = static function ( $image_url, $image_alt, $title, $text, $url ): void {

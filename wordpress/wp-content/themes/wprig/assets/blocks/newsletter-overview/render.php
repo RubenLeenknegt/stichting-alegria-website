@@ -2,7 +2,7 @@
 /**
  * Newsletter Overview Block Template
  *
- * @package wp_rig
+ * @package alegria
  */
 
 declare( strict_types=1 );
@@ -10,8 +10,6 @@ declare( strict_types=1 );
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-use function WP_Rig\WP_Rig\wp_rig;
 
 $attributes = is_array( $attributes ?? null ) ? $attributes : array();
 $block      = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
@@ -25,12 +23,9 @@ if ( ! is_string( $cta_url ) || '' === $cta_url ) {
 	$cta_url = home_url( '/newsletter/' );
 }
 
-$primary_button_icon = wp_rig()->get_cta_arrow_svg();
+$primary_button_icon = alegria_svg( 'arrow_right' );
 
-$wrapper_attrs = wp_rig()->block_wrapper_attributes(
-	array( 'newsletter-overview-block' ),
-	$attributes
-);
+$wrapper_attrs = get_block_wrapper_attributes( array( 'class' => 'newsletter-overview-block' ) );
 
 $newsletter_query = new WP_Query(
 	array(

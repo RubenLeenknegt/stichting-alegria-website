@@ -4,10 +4,8 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
- * @package wp_rig
+ * @package alegria
  */
-
-namespace WP_Rig\WP_Rig;
 
 ?>
 <!doctype html>

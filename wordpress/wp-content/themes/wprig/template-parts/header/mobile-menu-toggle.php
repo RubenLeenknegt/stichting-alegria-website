@@ -3,10 +3,8 @@
  * Template part for displaying the mobile menu toggle button
  * Pure CSS hamburger - no SVG needed
  *
- * @package wp_rig
+ * @package alegria
  */
-
-namespace WP_Rig\WP_Rig;
 
 ?>
 <button class="menu-toggle" aria-label="<?php esc_attr_e( 'Open menu', 'wp-rig' ); ?>" aria-controls="primary-menu" aria-expanded="false">

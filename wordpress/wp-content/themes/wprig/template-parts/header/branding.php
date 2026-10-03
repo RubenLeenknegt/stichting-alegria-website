@@ -5,9 +5,7 @@
  * @package WP_Rig
  */
 
-namespace WP_Rig\WP_Rig;
-
-$logo_svg = wp_rig()->get_logo_svg();
+$logo_svg = alegria_svg( 'logo' );
 
 ?>
 <div class="site-branding">

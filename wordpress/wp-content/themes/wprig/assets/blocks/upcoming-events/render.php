@@ -2,7 +2,7 @@
 /**
  * Upcoming Events Block Template
  *
- * @package wp_rig
+ * @package alegria
  */
 
 declare( strict_types=1 );
@@ -10,8 +10,6 @@ declare( strict_types=1 );
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
-use function WP_Rig\WP_Rig\wp_rig;
 
 $attributes = is_array( $attributes ?? null ) ? $attributes : array();
 
@@ -46,13 +44,10 @@ if ( ! $events_query->have_posts() ) {
 	return;
 }
 
-$primary_button_icon = wp_rig()->get_cta_arrow_svg();
+$primary_button_icon = alegria_svg( 'arrow_right' );
 $total_events        = $events_query->post_count;
 
-$wrapper_attrs = wp_rig()->block_wrapper_attributes(
-	array( 'upcoming-events-block' ),
-	$attributes
-);
+$wrapper_attrs = get_block_wrapper_attributes( array( 'class' => 'upcoming-events-block' ) );
 
 ?>
 	<div <?php echo $wrapper_attrs; ?>>

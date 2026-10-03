@@ -1,19 +1,25 @@
 <?php
 /**
- * Template part for displaying the header navigation menu
+ * Primary navigation menu. The nav--toggle-* classes are used by navigation.ts.
  *
- * @package wp_rig
+ * @package alegria
  */
 
-namespace WP_Rig\WP_Rig;
-
-if ( ! wp_rig()->is_primary_nav_menu_active() ) {
+if ( ! has_nav_menu( 'primary' ) ) {
 	return;
 }
 
 ?>
 <div class="primary-menu-container">
-	<nav id="<?php echo esc_attr( apply_filters( 'wp_rig_site_navigation_id', 'site-navigation' ) ); ?>" class="<?php echo esc_attr( apply_filters( 'wp_rig_site_navigation_classes', 'main-navigation nav--toggle-sub nav--toggle-small' ) ); ?>" aria-label="<?php esc_attr_e( 'Main menu', 'wp-rig' ); ?>">
-		<?php wp_rig()->display_primary_nav_menu( array( 'menu_id' => 'primary-menu' ) ); ?>
-	</nav><!-- #site-navigation -->
+	<nav id="site-navigation" class="main-navigation nav--toggle-sub nav--toggle-small icon-nav" aria-label="<?php esc_attr_e( 'Hoofdmenu', 'wp-rig' ); ?>">
+		<?php
+		wp_nav_menu(
+			array(
+				'theme_location' => 'primary',
+				'menu_id'        => 'primary-menu',
+				'container'      => '',
+			)
+		);
+		?>
+	</nav>
 </div>

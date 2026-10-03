@@ -1,21 +1,22 @@
 <?php
 /**
- * The template for displaying 404 pages (not found)
+ * Page not found.
  *
- * @link https://codex.wordpress.org/Creating_an_Error_404_Page
- *
- * @package wp_rig
+ * @package alegria
  */
 
-namespace WP_Rig\WP_Rig;
-
 get_header();
-
-wp_rig()->print_styles( 'wp-rig-content' );
-
 ?>
 	<main id="primary" class="site-main">
-		<?php get_template_part( 'template-parts/content/error', '404' ); ?>
-	</main><!-- #primary -->
+		<section class="error">
+			<header class="page-header">
+				<h1 class="page-title"><?php esc_html_e( 'Pagina niet gevonden', 'wp-rig' ); ?></h1>
+			</header>
+
+			<div class="page-content">
+				<p><?php esc_html_e( 'De door u opgevraagde pagina kon niet worden gevonden. Controleer het webadres of probeer het later opnieuw.', 'wp-rig' ); ?></p>
+			</div>
+		</section>
+	</main>
 <?php
 get_footer();

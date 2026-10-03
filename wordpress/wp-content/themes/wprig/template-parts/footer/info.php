@@ -2,14 +2,12 @@
 /**
  * Template part for displaying the footer info
  *
- * @package wp_rig
+ * @package alegria
  */
 
-namespace WP_Rig\WP_Rig;
-
-$facebook_logo_svg  = wp_rig()->get_facebook_logo_svg();
-$instagram_logo_svg = wp_rig()->get_instagram_logo_svg();
-$linkedin_logo_svg  = wp_rig()->get_linkedin_logo_svg();
+$facebook_logo_svg  = alegria_svg( 'facebook-logo' );
+$instagram_logo_svg = alegria_svg( 'instagram-logo' );
+$linkedin_logo_svg  = alegria_svg( 'linkedin-logo' );
 $privacy_policy_url = home_url( '/privacy-policy/' );
 $cookie_policy_url  = home_url( '/cookie-policy/' );
 
