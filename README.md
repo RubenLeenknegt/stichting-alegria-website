@@ -56,16 +56,19 @@ docker compose exec php bash
 Then go to the theme project root:
 
 ```bash
-cd wp-content/themes/wprig
+cd wp-content/themes/alegria
 ```
 
 Run basic commands:
 
 ```bash
-npm run build:blocks
-npm run build:css
-npm run block:new hero --dynamic --title "Hero"
+npm install
+npm run dev     # build and rebuild on change
+npm run build   # production build
+npm run zip     # build + alegria.zip for uploading to the live site
 ```
+
+See `wordpress/wp-content/themes/alegria/README.md` for how the theme is organised.
 
 
 ### Todo:
@@ -73,10 +76,10 @@ npm run block:new hero --dynamic --title "Hero"
 - Implement svg version of logo in header and nav x
 - Make logo a bit smaller x
 - Add a favicon x
-- Add Contact form 
-- Newsletter sign up form 
-- Update newsletter archive with sign up form 
-- Check if both forms work 
+- Add Contact form x
+- Newsletter sign up form  x
+- Update newsletter archive with sign up form  x
+- Check if both forms work  x
 - Create basic text block for content pages x
 - Basic image block for content pages x
 - Scroll lint block for sponsor logos x
