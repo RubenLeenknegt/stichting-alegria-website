@@ -68,7 +68,7 @@ $newsletter_query = new WP_Query(
 						</div>
 
 						<div class="newsletter-overview-card-content">
-							<time class="newsletter-overview-card-date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'j F Y' ) ); ?></time>
+							<time class="post-date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'j F Y' ) ); ?></time>
 
 							<h3 class="newsletter-overview-card-title"><?php the_title(); ?></h3>
 

@@ -114,16 +114,6 @@
 	background: var(--color-theme-white);
 }
 
-/* Same look as .upcoming-events-date. */
-.newsletter-overview-card-date {
-	display: block;
-	font-size: var(--font-size-regular);
-	font-weight: 600;
-	color: var(--global-font-color);
-	opacity: 0.75;
-	margin: 0 0 0.6rem;
-}
-
 .newsletter-overview-card-title {
 	font-size: var(--font-size-large);
 	font-weight: 700;

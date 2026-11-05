@@ -39,7 +39,7 @@ if ( ! have_posts() ) {
 
 				<div class="archive-card-content">
 					<?php if ( $timestamp ) : ?>
-						<time class="archive-card-date" datetime="<?php echo esc_attr( wp_date( 'c', $timestamp ) ); ?>"><?php echo esc_html( wp_date( 'j F Y', $timestamp ) ); ?></time>
+						<time class="post-date" datetime="<?php echo esc_attr( wp_date( 'c', $timestamp ) ); ?>"><?php echo esc_html( wp_date( 'j F Y', $timestamp ) ); ?></time>
 					<?php endif; ?>
 
 					<h2 class="archive-card-title"><?php echo esc_html( get_the_title() ); ?></h2>

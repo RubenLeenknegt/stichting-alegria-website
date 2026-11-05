@@ -36,7 +36,7 @@ Deploying: run `npm run zip` and upload `alegria.zip` as a theme in wp-admin. Ac
 
 **PHP.** `functions.php` only requires the files in `inc/`. These are plain hooks and functions with an `alegria_` prefix: no classes, no namespaces.
 - `setup.php`:
-  - theme supports and the `primary` menu location ("Hoofdmenu");
+  - theme supports and the menu locations: `primary` ("Hoofdmenu") and the three footer columns `footer-info`, `footer-projects`, `footer-contact` ("Footer: over ons / projecten / contact");
   - turns off comments, the default Posts type and the site editor;
   - points the blog index query at newsletters.
 - `post-types.php`:
@@ -57,6 +57,7 @@ Deploying: run `npm run zip` and upload `alegria.zip` as a theme in wp-admin. Ac
   - Items whose URL is empty or `#` become a `<button class="submenu-toggle">`.
   - The "Doneer nu" item (CSS class `donate-menu-item`, or a title starting with "Doneer nu") is a `.btn-primary` link with the arrow inside it (`alegria_is_donate_item()`).
   - Each parent with a URL is repeated as the first submenu item, with class `menu-item--injected-parent-link` (hidden on desktop).
+- `customizer.php`: the Appearance → Customize → Footer section (intro text, Instagram/Facebook/LinkedIn URLs, CTA button and text link), read with `alegria_footer_setting( $id )`. Empty settings are left out of the footer.
 - `helpers.php`:
   - `alegria_svg( $name )` returns the inline markup of `assets/svg/<name>.svg`.
   - `alegria_block_image()` / `alegria_block_image_url()` render block images.
@@ -68,6 +69,7 @@ Deploying: run `npm run zip` and upload `alegria.zip` as a theme in wp-admin. Ac
 - **Archives:** `archive-event.php` and `archive-newsletter.php` share `template-parts/archive/grid.php`.
 - **Errors and empty states:** `404.php` is the not-found page; `template-parts/content/none.php` covers empty results.
 - **Header and footer:** `header.php` and `footer.php` use `template-parts/header/{branding,mobile-menu-toggle,navigation}.php` and `template-parts/footer/info.php`.
+- **Footer layout:** on the left the logo (an `<img>` of `assets/svg/logo.svg`), intro text, round social links and the actions (a `.btn-primary` and a text link); on the right the three footer menus, each headed by its menu's name and shown only when a menu is assigned; below, a bottom bar with copyright and legal links. Stacked below `--wide-query` (64em), with the menus in three columns from `--content-query`.
 
 The logo and social icons are inline SVGs. The mobile menu button is pure CSS.
 
@@ -95,8 +97,8 @@ Editor strings use the `alegria` text domain and are written in Dutch. Don't cha
 In `render.php`, output images with `alegria_block_image( $id, $url, $alt, $size, $attr )`, or `alegria_block_image_url()` for CSS backgrounds. These use the attachment ID when it exists, so WordPress adds `srcset`, dimensions and lazy-loading, and fall back to the stored URL.
 
 **Image sizes.** Every image call uses a named size registered in `inc/setup.php` (no core `large`/`full`):
-- `alegria-card` 900×600 crop: event/newsletter cards and the upcoming-events slider (3:2);
-- `alegria-hero` 1920×1080 crop, `alegria-portrait` 600×800 crop (cards), `alegria-square` 600×600 and `alegria-wide` 1200×600 crop (about-us), `alegria-feature` 1200×675 crop (txt-img);
+- `alegria-card` 900×600 crop: event/newsletter cards (3:2);
+- `alegria-hero` 1920×1080 crop, `alegria-portrait` 600×800 crop (cards), `alegria-square` 600×600 and `alegria-wide` 1200×600 crop (about-us), `alegria-feature` 1200×675 crop (txt-img, upcoming-events slider);
 - `alegria-logo` 160px tall (scrolllint), `alegria-content` 1600px wide (img block, page featured image).
 
 After adding or changing a size, regenerate thumbnails for existing uploads; until then WordPress serves the closest existing file.
@@ -113,12 +115,12 @@ After adding or changing a size, regenerate thumbnails for existing uploads; unt
   - Each entry must `@import "_custom-media.css"` before using custom media queries.
 - **`main.css` imports, in order:** `_custom-properties`, `_custom-media`, `_reset`, `_typography`, `_elements`, `_links`, `_header` (which imports `_navigation`), `_footer`, `_accessibility`, `_buttons`, `_contact-form` (CF7 forms), `_media` (iframe sizing), `_forms`, `_content` (page content, archives, single pages, pagination, alignments, layout).
 - **Block styles live with each block**, in its `style.css`. WordPress inlines them only on pages that contain the block. Don't put block styles in `main.css`.
-- **Breakpoints** are custom media in `_custom-media.css`, in range syntax so they don't overlap. The mobile/desktop navigation switch is `--below-desktop` `(width < 87em)` / `--above-desktop` `(width >= 87em)`, and `navigation.ts` uses the same value via `matchMedia`. Block stylesheets are built separately and write their media queries out (use `47.99em` / `48em` style pairs so they don't overlap).
+- **Breakpoints** are custom media in `_custom-media.css`, in range syntax so they don't overlap. The mobile/desktop navigation switch is `--below-desktop` `(width < 87em)` / `--above-desktop` `(width >= 87em)`, and `navigation.ts` uses the same value via `matchMedia`. `--content-query` is `(width >= 48em)`, `--wide-query` `(width >= 64em)`. Block stylesheets are built separately and write their media queries out (use `47.99em` / `48em` style pairs so they don't overlap).
 - **Font sizes** (`--font-size-*`) are computed from `--global-font-size: 20`. The scale is uneven on purpose (it is what the design was built on): `-regular` divides by 16 (20px) while the others divide by 20, so `-small` is 12.8px, `-medium` 19.2px, `-large` 28.8px, and `-larger` and `-xl` are both 38.4px. Don't "fix" it; components are tuned to these values.
 - **Widths:** `--content-width` 50rem and `--wide-width` 75rem match theme.json's `contentSize`/`wideSize`; the editor uses them too.
 - **Buttons:** `.btn-primary` (`_buttons.css`) is the red CTA (`--color-theme-red`, hover `--color-theme-dark-red`), with an optional `<span class="btn-icon">` arrow. The CF7 submit (`.cf7-submit-btn`, class set in the form templates in the database) shares it. `.btn-secondary` is the hero's white text link.
 - **Two colour systems coexist:**
-  - The CSS uses its own tokens from `_custom-properties.css` (`--color-theme-primary` #1D9741, `--color-theme-red` #D32F2F, `--color-theme-light-grey`, `--header-background-color`, `--footer-background-color` #062E13, `--font-size-*`, …).
+  - The CSS uses its own tokens from `_custom-properties.css` (`--color-theme-primary` #1D9741, `--color-theme-red` #D32F2F, `--color-theme-light-grey`, `--header-background-color`, `--footer-background-color` #11652B, `--font-size-*`, …).
   - `theme.json` defines the editor palette (`primary`, `primary-dark`, `secondary`, `light-grey`, `black`, `white` → `--wp--preset--color--*`).
 
   These aren't linked; keep them in sync, or make one derive from the other.
@@ -142,7 +144,7 @@ After adding or changing a size, regenerate thumbnails for existing uploads; unt
 ## Known gaps (content and copy, not code)
 
 - **Copy:**
-  - The footer social links in `template-parts/footer/info.php` still point to `example.com`.
+  - The footer content (intro text, social links, CTA) is empty until it is filled in the Customizer.
   - The privacy and cookie links go to `/privacy-policy/` and `/cookie-policy/`.
   - The skip link reads "Skip to content" (English).
 - **Settings:**
@@ -159,6 +161,7 @@ After adding or changing a size, regenerate thumbnails for existing uploads; unt
 After a fresh install, configure these in wp-admin:
 - **Static front page:** Settings → Reading.
 - **Permalinks:** "Post name". Save again after changing post type slugs.
-- **Menu:** assign one to the "Hoofdmenu" location.
+- **Menus:** assign one to the "Hoofdmenu" location, and one to each of the three "Footer: …" locations. A footer column's heading is its menu's name.
+- **Footer content:** Appearance → Customize → Footer.
 - **"Doneer nu" item:** it becomes a red button with an arrow. Give it the CSS class `donate-menu-item`, which you enable through Screen Options → CSS Classes (a title starting with "Doneer nu" also works).
 - **Thumbnails:** after installing the theme, or after changing an image size, regenerate thumbnails (the Regenerate Thumbnails plugin, or `wp media regenerate --yes` where wp-cli is available).

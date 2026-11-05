@@ -27,3 +27,13 @@ h6 {
 	margin-top: 1em;
 	margin-bottom: 1em;
 }
+
+/* Post and event dates: upcoming-events slider, newsletter overview, archive cards. */
+.post-date {
+	display: block;
+	font-size: var(--font-size-regular);
+	font-weight: 600;
+	color: var(--global-font-color);
+	opacity: 0.75;
+	margin: 0 0 1rem;
+}

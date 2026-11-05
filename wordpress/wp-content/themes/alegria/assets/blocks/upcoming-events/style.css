@@ -48,15 +48,6 @@
 	margin: 0 0 0.5rem 0;
 }
 
-.upcoming-events-date {
-	display: block;
-	font-size: var(--font-size-regular);
-	font-weight: 600;
-	color: var(--global-font-color);
-	opacity: 0.75;
-	margin: 0 0 1rem 0;
-}
-
 .upcoming-events-excerpt {
 	font-size: var(--font-size-medium);
 	font-weight: 400;
@@ -71,7 +62,7 @@
 
 .upcoming-events-image {
 	width: 100%;
-	aspect-ratio: 3 / 2;
+	aspect-ratio: 16 / 9;
 	object-fit: cover;
 	display: block;
 	border-radius: 8px;

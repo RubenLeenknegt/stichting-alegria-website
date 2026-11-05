@@ -71,7 +71,7 @@ $chevron      = '<svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><
 						<h3 class="upcoming-events-title"><?php echo esc_html( get_the_title() ); ?></h3>
 
 						<?php if ( $timestamp ) : ?>
-							<time class="upcoming-events-date" datetime="<?php echo esc_attr( gmdate( 'Y-m-d', $timestamp ) ); ?>"><?php echo esc_html( date_i18n( 'j F Y', $timestamp ) ); ?></time>
+							<time class="post-date" datetime="<?php echo esc_attr( gmdate( 'Y-m-d', $timestamp ) ); ?>"><?php echo esc_html( date_i18n( 'j F Y', $timestamp ) ); ?></time>
 						<?php endif; ?>
 
 						<div class="upcoming-events-excerpt">
@@ -86,7 +86,7 @@ $chevron      = '<svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><
 
 					<div class="upcoming-events-media">
 						<?php if ( has_post_thumbnail() ) : ?>
-							<?php the_post_thumbnail( 'alegria-card', array( 'class' => 'upcoming-events-image' ) ); ?>
+							<?php the_post_thumbnail( 'alegria-feature', array( 'class' => 'upcoming-events-image' ) ); ?>
 						<?php else : ?>
 							<div class="upcoming-events-image upcoming-events-image-placeholder" aria-hidden="true"></div>
 						<?php endif; ?>

@@ -1,0 +1,49 @@
+{
+  "name": "wp-rig/txt-img",
+  "apiVersion": 3,
+  "title": "Tekst met afbeelding",
+  "category": "design",
+  "icon": "block-default",
+  "description": "Tekst en knop naast een afbeelding.",
+  "textdomain": "alegria",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "bodyText": {
+      "type": "string",
+      "default": ""
+    },
+    "imageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "imageId": {
+      "type": "number",
+      "default": 0
+    },
+    "imageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "ctaText": {
+      "type": "string",
+      "default": ""
+    },
+    "ctaUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "imageLeft": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "editorScript": "file:./build/index.js",
+  "style": "file:./build/style.css",
+  "render": "file:./render.php",
+  "supports": {
+    "align": ["wide", "full"]
+  }
+}

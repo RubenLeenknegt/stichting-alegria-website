@@ -2,6 +2,7 @@
  * Custom media queries, compiled by Lightning CSS.
  *
  * --content-query  768px and wider.
+ * --wide-query     1024px and wider: the two-column footer.
  * --below-desktop  narrower than 1392px (87em): the mobile navigation.
  * --above-desktop  1392px and wider: the desktop navigation.
  *
@@ -10,5 +11,6 @@
  */
 
 @custom-media --content-query (width >= 48em);
+@custom-media --wide-query (width >= 64em);
 @custom-media --below-desktop (width < 87em);
 @custom-media --above-desktop (width >= 87em);

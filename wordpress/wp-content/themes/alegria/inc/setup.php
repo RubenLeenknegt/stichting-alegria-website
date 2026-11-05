@@ -17,12 +17,12 @@ add_action(
 		 * Image sizes, one per way the theme shows an image. Every image call in the theme uses one of these.
 		 * After adding or changing a size, regenerate thumbnails for existing uploads (wp media regenerate).
 		 */
-		add_image_size( 'alegria-card', 900, 600, true );        // Event and newsletter cards and the upcoming-events slider (3:2).
+		add_image_size( 'alegria-card', 900, 600, true );        // Event and newsletter cards (3:2).
 		add_image_size( 'alegria-hero', 1920, 1080, true );      // Hero background (16:9).
 		add_image_size( 'alegria-portrait', 600, 800, true );    // Cards block (3:4).
 		add_image_size( 'alegria-square', 600, 600, true );      // About-us top images (1:1).
 		add_image_size( 'alegria-wide', 1200, 600, true );       // About-us bottom image (2:1).
-		add_image_size( 'alegria-feature', 1200, 675, true );    // Txt-img block image (16:9).
+		add_image_size( 'alegria-feature', 1200, 675, true );    // Txt-img block and upcoming-events slider (16:9).
 		add_image_size( 'alegria-logo', 9999, 160, false );      // Scrolling logo strip, up to 80px tall at 2x.
 		add_image_size( 'alegria-content', 1600, 9999, false );  // Image block and page featured image, 800px column at 2x.
 		add_theme_support( 'responsive-embeds' );
@@ -39,7 +39,10 @@ add_action(
 
 		register_nav_menus(
 			array(
-				'primary' => esc_html__( 'Hoofdmenu', 'alegria' ),
+				'primary'         => esc_html__( 'Hoofdmenu', 'alegria' ),
+				'footer-info'     => esc_html__( 'Footer: over ons', 'alegria' ),
+				'footer-projects' => esc_html__( 'Footer: projecten', 'alegria' ),
+				'footer-contact'  => esc_html__( 'Footer: contact', 'alegria' ),
 			)
 		);
 	}
