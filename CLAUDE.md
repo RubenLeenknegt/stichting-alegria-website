@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 WordPress site for Stichting Alegria (Dutch nonprofit), run locally with Docker. Only `wordpress/wp-content/` is tracked; WP core, `wp-config.php`, plugins and uploads are gitignored. All custom work lives in the classic theme at `wordpress/wp-content/themes/alegria/`. It started from the [WP Rig](https://github.com/wprig/wprig) starter, but the WP Rig framework (component classes, `wp_rig()`, its build, test and lint tooling, Composer) has been removed. Don't reintroduce it. Site content and UI copy, including the editor UI of the custom blocks, are in Dutch.
 
-Active plugins: Contact Form 7 (contact and newsletter forms; the newsletter archive embeds one by shortcode), Flamingo, Rank Math SEO (writes the `<head>` SEO tags; set meta descriptions there, not in the theme), Noptin, Donorbox, FluentSMTP, WebP Converter for Media.
+Active plugins: Contact Form 7 (contact and newsletter forms; the newsletter archive embeds one by shortcode), Flamingo, Rank Math SEO (writes the `<head>` SEO tags; set meta descriptions there, not in the theme. Its breadcrumbs are switched on by the theme's `rank-math-breadcrumbs` support and printed by the `post-header` block), Noptin, Donorbox, FluentSMTP, WebP Converter for Media.
 
 ## Environment & Commands
 
@@ -42,6 +42,7 @@ Deploying: run `npm run zip` and upload `alegria.zip` as a theme in wp-admin. Ac
 - `post-types.php`:
   - the `newsletter` (`/nieuwsbrief/`) and `event` (`/evenement/`) CPTs, with Dutch admin labels;
   - the `event_date` meta and its date meta box;
+  - the block `template` both CPTs start with (`alegria_single_template()`): `post-header`, a `txt` block, `share`, `read-more`, with all but `txt` locked against moving and removal. It only applies to new posts;
   - the event archive ordered by `event_date` DESC;
   - 301 redirects from the old `/newsletters/` and `/events/` URLs;
   - `flush_rewrite_rules` on theme activation.
@@ -51,7 +52,7 @@ Deploying: run `npm run zip` and upload `alegria.zip` as a theme in wp-admin. Ac
   - registers (does not enqueue) the shared `alegria-swiper` script and style, `assets/dist/swiper.{js,css}`;
   - the font preload;
   - `should_load_separate_core_block_assets`.
-- `blocks.php`: registers every block folder and limits the editor to those blocks.
+- `blocks.php`: registers every block folder and limits the editor to those blocks; `post-header`, `share` and `read-more` are only offered on newsletters and events.
 - `navigation.php`: primary-menu walker filters.
   - Every parent gets a `.dropdown` icon; `navigation.ts` turns it into a toggle button.
   - Items whose URL is empty or `#` become a `<button class="submenu-toggle">`.
@@ -61,11 +62,12 @@ Deploying: run `npm run zip` and upload `alegria.zip` as a theme in wp-admin. Ac
 - `helpers.php`:
   - `alegria_svg( $name )` returns the inline markup of `assets/svg/<name>.svg`.
   - `alegria_block_image()` / `alegria_block_image_url()` render block images.
+  - `alegria_display_date( $post_id )` returns the date to show (`iso`, `text`): the event date for events, the publish date otherwise.
   - `alegria_asset_version()` returns a file's mtime, used for asset versions.
 
 **Templates.** Classic PHP templates; there is no block theme, `templates/` folder or site editor.
 - **Pages:** `index.php` renders them through `template-parts/content/entry.php` (there is no `page.php`).
-- **Singles:** `single.php` serves both CPTs.
+- **Singles:** `single.php` serves both CPTs. Posts with the `post-header` block get their title from it; older posts without it get a plain `<h1>`.
 - **Archives:** `archive-event.php` and `archive-newsletter.php` share `template-parts/archive/grid.php`.
 - **Errors and empty states:** `404.php` is the not-found page; `template-parts/content/none.php` covers empty results.
 - **Header and footer:** `header.php` and `footer.php` use `template-parts/header/{branding,mobile-menu-toggle,navigation}.php` and `template-parts/footer/info.php`.
@@ -73,7 +75,7 @@ Deploying: run `npm run zip` and upload `alegria.zip` as a theme in wp-admin. Ac
 
 The logo and social icons are inline SVGs. The mobile menu button is pure CSS.
 
-**Custom blocks** (`assets/blocks/<slug>/`): `block.json`, `index.js`, `edit.js`, `render.php` (all blocks are server-rendered), `style.css`, optionally `editor.css`, and optionally `view.js` (`upcoming-events` and `scrolllint`, both Swiper).
+**Custom blocks** (`assets/blocks/<slug>/`): `block.json`, `index.js`, `edit.js`, `render.php` (all blocks are server-rendered), `style.css`, optionally `editor.css`, and optionally `view.js` (`upcoming-events` and `scrolllint`, both Swiper, and `share`).
 - **index.js:** registers using the name from `block.json`.
 - **Registration and the allowlist.** `inc/blocks.php` registers every folder that has a `block.json`. The `allowed_block_types_all` allowlist is exactly those blocks, so no core or plugin blocks can be inserted. A new block folder is picked up automatically.
 - **Imports.** Write editor code with `import … from '@wordpress/…'`. The build maps those imports to `wp.*` globals and writes the real dependency list to `build/index.asset.php`.
@@ -83,7 +85,8 @@ The logo and social icons are inline SVGs. The mobile menu button is pure CSS.
   - `hero`, `aboutus`, `cards` and `txt-img` (text and button beside an image; renders nothing until image and button are set; formerly `feature-split`);
   - `newsletter-overview` (latest 3) and `upcoming-events` (renders nothing when no event is dated yesterday or later);
   - `scrolllint` (decorative image strip, a continuous Swiper marquee), `txt`, `img`;
-  - `embed-shortcode`: raw iframe/HTML only for authors with `unfiltered_html`; shortcode text is sanitized before `do_shortcode`.
+  - `embed-shortcode`: raw iframe/HTML only for authors with `unfiltered_html`; shortcode text is sanitized before `do_shortcode`;
+  - the newsletter/event template blocks (`multiple: false`): `post-header` (Rank Math breadcrumbs, `<h1>`, date, intro, 16:9 `alegria-feature` image falling back to the featured image), `share` (Facebook/LinkedIn share URLs and a copy-link button in `view.js`; no Instagram, which has no web share URL) and `read-more` (three others of the same type; events: upcoming first, then past. Reuses the `newsletter-overview` markup and lists its style handle in block.json).
 
 **Do not use `ServerSideRender` in the block editor.** It does not work in this setup. `render.php` is for the front end only. In the editor, each block's `edit.js` puts its fields in `InspectorControls` and renders a client-side preview from its attributes. Shared pieces live in `assets/blocks/_shared/`:
 - `controls.js`:

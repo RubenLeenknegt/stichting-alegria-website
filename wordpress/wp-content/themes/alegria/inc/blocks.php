@@ -33,9 +33,24 @@ function alegria_register_blocks(): array {
 }
 add_action( 'init', 'alegria_register_blocks' );
 
-/*
- * Only the theme's own blocks can be added in the editor; every core and plugin block is blocked.
+/**
+ * Returns the blocks that can be added in the editor: only the theme's own, never core or plugin blocks.
+ *
  * The list is the set of blocks registered above, so a new block folder is allowed automatically and
- * a typo in a hand-written list can't hide a block.
+ * a typo in a hand-written list can't hide a block. The blocks of the newsletter and event template
+ * (see alegria_single_template()) are only offered on those post types.
+ *
+ * @param bool|string[]           $allowed Blocks allowed so far (unused).
+ * @param WP_Block_Editor_Context $context The editor being loaded.
+ * @return string[] Allowed block names.
  */
-add_filter( 'allowed_block_types_all', 'alegria_register_blocks' );
+function alegria_allowed_blocks( $allowed, WP_Block_Editor_Context $context ): array {
+	$single_only = array( 'wp-rig/post-header', 'wp-rig/share', 'wp-rig/read-more' );
+
+	if ( $context->post && in_array( $context->post->post_type, array( 'newsletter', 'event' ), true ) ) {
+		return alegria_register_blocks();
+	}
+
+	return array_values( array_diff( alegria_register_blocks(), $single_only ) );
+}
+add_filter( 'allowed_block_types_all', 'alegria_allowed_blocks', 10, 2 );

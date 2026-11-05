@@ -1,0 +1,37 @@
+{
+  "name": "wp-rig/post-header",
+  "apiVersion": 3,
+  "title": "Berichtkop",
+  "category": "design",
+  "icon": "heading",
+  "description": "Kruimelpad, titel, datum, introductietekst en afbeelding bovenaan een nieuwsbrief of evenement.",
+  "textdomain": "alegria",
+  "attributes": {
+    "introText": {
+      "type": "string",
+      "default": ""
+    },
+    "imageId": {
+      "type": "number",
+      "default": 0
+    },
+    "imageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "imageAlt": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "usesContext": [ "postId", "postType" ],
+  "supports": {
+    "html": false,
+    "multiple": false,
+    "reusable": false
+  },
+  "render": "file:./render.php",
+  "editorScript": "file:./build/index.js",
+  "style": "file:./build/style.css",
+  "editorStyle": "file:./build/editor.css"
+}

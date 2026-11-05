@@ -72,6 +72,37 @@ function alegria_block_image_url( int $id, string $url, string $size = 'alegria-
 }
 
 /**
+ * Returns the date to show for a newsletter or event: the event date for events, the publish date otherwise.
+ *
+ * Event dates are stored as Y-m-d without a time, so they are read in the site's timezone.
+ *
+ * @param int $post_id Post ID.
+ * @return array{iso: string, text: string} Machine-readable date for <time datetime>, and the date as shown
+ *                                          (e.g. "5 november 2026"). Both empty when an event has no date.
+ */
+function alegria_display_date( int $post_id ): array {
+	if ( 'event' !== get_post_type( $post_id ) ) {
+		return array(
+			'iso'  => (string) get_the_date( 'c', $post_id ),
+			'text' => (string) get_the_date( 'j F Y', $post_id ),
+		);
+	}
+
+	$event_date = (string) get_post_meta( $post_id, 'event_date', true );
+	$event_day  = $event_date ? DateTimeImmutable::createFromFormat( '!Y-m-d', $event_date, wp_timezone() ) : false;
+
+	return $event_day
+		? array(
+			'iso'  => $event_day->format( 'Y-m-d' ),
+			'text' => wp_date( 'j F Y', $event_day->getTimestamp() ),
+		)
+		: array(
+			'iso'  => '',
+			'text' => '',
+		);
+}
+
+/**
  * Returns a version string for a theme asset, based on its modification time.
  *
  * @param string $relative_path Path relative to the theme root.

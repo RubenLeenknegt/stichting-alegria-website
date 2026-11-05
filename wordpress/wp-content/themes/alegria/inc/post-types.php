@@ -5,6 +5,32 @@
  * @package alegria
  */
 
+/**
+ * Returns the block template a new newsletter or event starts with.
+ *
+ * The header (breadcrumbs, title, date, intro, image), the share links and the read-more cards are locked:
+ * they can't be moved or removed. The text block in between is only a starting point for the content.
+ * The template applies to new posts only; existing posts keep their content.
+ *
+ * @param array $read_more Attributes of the read-more block (title and link text).
+ * @return array Block template for register_post_type().
+ */
+function alegria_single_template( array $read_more ): array {
+	$locked = array(
+		'lock' => array(
+			'move'   => true,
+			'remove' => true,
+		),
+	);
+
+	return array(
+		array( 'wp-rig/post-header', $locked ),
+		array( 'wp-rig/txt' ),
+		array( 'wp-rig/share', $locked ),
+		array( 'wp-rig/read-more', array_merge( $read_more, $locked ) ),
+	);
+}
+
 add_action(
 	'init',
 	function () {
@@ -35,6 +61,12 @@ add_action(
 					'with_front' => false,
 				),
 				'supports'      => array( 'title', 'editor', 'excerpt', 'thumbnail', 'revisions' ),
+				'template'      => alegria_single_template(
+					array(
+						'title'    => 'Meer nieuwsbrieven',
+						'linkText' => 'Alle nieuwsbrieven',
+					)
+				),
 				'menu_icon'     => 'dashicons-email-alt',
 				'menu_position' => 5,
 			)
@@ -67,6 +99,12 @@ add_action(
 					'with_front' => false,
 				),
 				'supports'      => array( 'title', 'editor', 'excerpt', 'thumbnail', 'revisions' ),
+				'template'      => alegria_single_template(
+					array(
+						'title'    => 'Meer evenementen',
+						'linkText' => 'Alle evenementen',
+					)
+				),
 				'menu_icon'     => 'dashicons-calendar-alt',
 				'menu_position' => 5,
 			)

@@ -33,6 +33,9 @@ add_action(
 		add_theme_support( 'wp-block-styles' );
 		add_theme_support( 'align-wide' );
 
+		// Turns on Rank Math's breadcrumbs (and their schema) regardless of its settings; the post-header block prints them.
+		add_theme_support( 'rank-math-breadcrumbs' );
+
 		// No site editor or block templates; this is a classic theme.
 		remove_theme_support( 'block-templates' );
 		add_theme_support( 'disable-site-editor' );
@@ -45,6 +48,20 @@ add_action(
 				'footer-contact'  => esc_html__( 'Footer: contact', 'alegria' ),
 			)
 		);
+	}
+);
+
+/*
+ * Breadcrumbs on newsletters and events always end in the current post's title, shown highlighted by the
+ * post-header block, even if Rank Math's "Hide Post Title" breadcrumb setting is on.
+ */
+add_filter(
+	'rank_math/frontend/breadcrumb/settings',
+	function ( array $settings ): array {
+		if ( is_singular( array( 'newsletter', 'event' ) ) ) {
+			$settings['remove_title'] = false;
+		}
+		return $settings;
 	}
 );
 

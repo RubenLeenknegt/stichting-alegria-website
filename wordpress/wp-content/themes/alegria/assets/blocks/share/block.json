@@ -1,0 +1,20 @@
+{
+  "name": "wp-rig/share",
+  "apiVersion": 3,
+  "title": "Deel dit bericht",
+  "category": "design",
+  "icon": "share",
+  "description": "Knoppen om het bericht te delen op Facebook en LinkedIn, en om de link te kopiëren.",
+  "textdomain": "alegria",
+  "attributes": {},
+  "usesContext": [ "postId" ],
+  "supports": {
+    "html": false,
+    "multiple": false,
+    "reusable": false
+  },
+  "render": "file:./render.php",
+  "editorScript": "file:./build/index.js",
+  "viewScript": "file:./build/view.js",
+  "style": "file:./build/style.css"
+}
