@@ -10,7 +10,7 @@
 	<?php if ( is_singular() ) : ?>
 		<?php if ( has_post_thumbnail() ) : ?>
 			<div class="post-thumbnail">
-				<?php the_post_thumbnail( 'large', array( 'class' => 'skip-lazy' ) ); ?>
+				<?php the_post_thumbnail( 'alegria-content', array( 'class' => 'skip-lazy' ) ); ?>
 			</div>
 		<?php endif; ?>
 

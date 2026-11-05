@@ -1,35 +1,14 @@
 /**
- * Custom Media Queries
- * Works like Custom Properties, except for media queries.
+ * Custom media queries, compiled by Lightning CSS.
  *
- * @link: https://drafts.csswg.org/mediaqueries-5/#custom-mq
- **/
-
-@custom-media --narrow-menu-query screen and (max-width: 37em);
-@custom-media --wide-menu-query screen and (min-width: 37em);
-@custom-media --content-query screen and (min-width: 48em);
-@custom-media --sidebar-query screen and (min-width: 60em);
-
-@custom-media --mobile-query screen and (max-width: 23em);
-@custom-media --tablet-query screen and (min-width: 48em) and (max-width: 87em);
-@custom-media --desktop-query screen and (min-width: 87.5em);
-
-@custom-media --below-tablet screen and (max-width: 47em);
-@custom-media --below-desktop screen and (max-width: 87em);
-@custom-media --above-mobile screen and (min-width: 23em);
-@custom-media --above-tablet screen and (min-width: 48em);
-@custom-media --above-desktop screen and (min-width: 87em);
-
-/**
- * Breakpoint Reference:
- * --mobile-query: 375px and below
- * --tablet-query: 768px to 1399px
- * --desktop-query: 1400px and above
+ * --content-query  768px and wider.
+ * --below-desktop  narrower than 1392px (87em): the mobile navigation.
+ * --above-desktop  1392px and wider: the desktop navigation.
  *
- * Mobile-first helpers:
- * --below-tablet: < 768px
- * --below-desktop: < 1400px
- * --above-mobile: >= 376px
- * --above-tablet: >= 768px
- * --above-desktop: >= 1400px
+ * The desktop pair must not overlap. assets/js/navigation.ts uses the same 87em value.
+ * Block stylesheets are built separately and cannot use these; they write the media query out.
  */
+
+@custom-media --content-query (width >= 48em);
+@custom-media --below-desktop (width < 87em);
+@custom-media --above-desktop (width >= 87em);

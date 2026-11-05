@@ -11,7 +11,7 @@ $image = alegria_block_image(
 	(int) ( $attributes['imageId'] ?? 0 ),
 	$attributes['imageUrl'] ?? '',
 	$attributes['imageAlt'] ?? '',
-	'full',
+	'alegria-content',
 	array( 'class' => 'img-block__image' )
 );
 

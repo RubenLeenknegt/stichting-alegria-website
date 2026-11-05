@@ -53,15 +53,6 @@
 	width: 100%;
 }
 
-.about-us-pretitle {
-	font-size: var(--font-size-medium);
-	color: var(--color-theme-blue);
-	text-transform: uppercase;
-	letter-spacing: 0.1em;
-	margin: 0 0 0.5rem 0;
-	font-weight: 600;
-}
-
 .about-us-title {
 	font-size: var(--font-size-larger);
 	font-weight: 700;
@@ -75,14 +66,6 @@
 	line-height: var(--global-font-line-height);
 	margin: 0 0 2rem 0;
 	color: var(--global-font-color);
-}
-
-.about-us-text p {
-	margin: 0 0 1rem 0;
-}
-
-.about-us-text p:last-child {
-	margin-bottom: 0;
 }
 
 .about-us-subtitle {
@@ -140,9 +123,5 @@
 	.image-top-right,
 	.image-bottom {
 		aspect-ratio: 16 / 9;
-	}
-
-	.about-us-title {
-		font-size: var(--font-size-large);
 	}
 }

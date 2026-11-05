@@ -42,15 +42,47 @@ add_filter(
 			$item_output .= $dropdown;
 		}
 
-		// The "Doneer nu" call to action gets an arrow.
-		if ( in_array( 'donate-menu-item', $classes, true ) || 'Doneer nu' === $item->title ) {
-			$item_output .= '<span class="cta-arrow">' . alegria_svg( 'arrow_right' ) . '</span>';
-		}
-
 		return $item_output;
 	},
 	10,
 	4
+);
+
+/**
+ * Whether a menu item is the "Doneer nu" call to action: it has the CSS class donate-menu-item,
+ * or its title starts with "Doneer nu".
+ *
+ * @param WP_Post $item Menu item.
+ * @return bool
+ */
+function alegria_is_donate_item( $item ): bool {
+	return in_array( 'donate-menu-item', (array) $item->classes, true ) || str_starts_with( trim( (string) $item->title ), 'Doneer nu' );
+}
+
+// The donate link is a .btn-primary button (assets/css/_buttons.css)…
+add_filter(
+	'nav_menu_link_attributes',
+	function ( array $atts, $item, $args ): array {
+		if ( alegria_is_primary_menu( $args ) && alegria_is_donate_item( $item ) ) {
+			$atts['class'] = trim( ( $atts['class'] ?? '' ) . ' btn-primary' );
+		}
+		return $atts;
+	},
+	10,
+	3
+);
+
+// …with an arrow inside the link.
+add_filter(
+	'nav_menu_item_title',
+	function ( string $title, $item, $args ): string {
+		if ( alegria_is_primary_menu( $args ) && alegria_is_donate_item( $item ) ) {
+			$title .= ' <span class="btn-icon" aria-hidden="true">' . alegria_svg( 'arrow_right' ) . '</span>';
+		}
+		return $title;
+	},
+	10,
+	3
 );
 
 /*

@@ -15,10 +15,9 @@ $attributes = is_array( $attributes ?? null ) ? $attributes : array();
 $block = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
 
 // Get attributes
-$top_left_image      = alegria_block_image( (int) ( $attributes['topLeftImageId'] ?? 0 ), $attributes['topLeftImageUrl'] ?? '', $attributes['topLeftImageAlt'] ?? '' );
-$top_right_image     = alegria_block_image( (int) ( $attributes['topRightImageId'] ?? 0 ), $attributes['topRightImageUrl'] ?? '', $attributes['topRightImageAlt'] ?? '' );
-$bottom_image        = alegria_block_image( (int) ( $attributes['bottomImageId'] ?? 0 ), $attributes['bottomImageUrl'] ?? '', $attributes['bottomImageAlt'] ?? '' );
-$pre_title           = $attributes['preTitle'] ?? '';
+$top_left_image      = alegria_block_image( (int) ( $attributes['topLeftImageId'] ?? 0 ), $attributes['topLeftImageUrl'] ?? '', $attributes['topLeftImageAlt'] ?? '', 'alegria-square' );
+$top_right_image     = alegria_block_image( (int) ( $attributes['topRightImageId'] ?? 0 ), $attributes['topRightImageUrl'] ?? '', $attributes['topRightImageAlt'] ?? '', 'alegria-square' );
+$bottom_image        = alegria_block_image( (int) ( $attributes['bottomImageId'] ?? 0 ), $attributes['bottomImageUrl'] ?? '', $attributes['bottomImageAlt'] ?? '', 'alegria-wide' );
 $title               = $attributes['title'] ?? '';
 $text_block_1        = $attributes['textBlock1'] ?? '';
 $subtitle            = $attributes['subtitle'] ?? '';
@@ -59,10 +58,6 @@ $wrapper_attrs = get_block_wrapper_attributes( array( 'class' => 'about-us-block
 
 		<!-- Content Column -->
 		<div class="about-us-content">
-			<?php if ( $pre_title ) : ?>
-				<p class="about-us-pretitle"><?php echo esc_html( $pre_title ); ?></p>
-			<?php endif; ?>
-
 			<?php if ( $title ) : ?>
 				<h2 class="about-us-title"><?php echo esc_html( $title ); ?></h2>
 			<?php endif; ?>

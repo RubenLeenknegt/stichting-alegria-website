@@ -1,85 +1,64 @@
-document.addEventListener('DOMContentLoaded', () => {
-	document.querySelectorAll('.upcoming-events-block').forEach(initSlider);
-});
+/**
+ * Starts the Swiper slider of each upcoming-events block that has more than one event.
+ *
+ * It moves to the next event every 5 seconds, unless the visitor prefers reduced motion.
+ * Autoplay pauses while the mouse is over the slider or keyboard focus is inside the block,
+ * so nobody has to read or use a slide that is moving away.
+ *
+ * `swiper` resolves to the shared alegria-swiper script (see build.mjs).
+ */
+import Swiper from 'swiper';
 
-function initSlider(root) {
-	const track = root.querySelector('.upcoming-events-track');
-	const slides = root.querySelectorAll('.upcoming-events-slide');
-	const dots = root.querySelectorAll('.upcoming-events-dot');
-	const prevBtn = root.querySelector('.upcoming-events-arrow-prev');
-	const nextBtn = root.querySelector('.upcoming-events-arrow-next');
+const AUTOPLAY_DELAY = 5000;
+const reduceMotion = window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 
-	if (!track || slides.length <= 1) {
+document.querySelectorAll( '.upcoming-events-block' ).forEach( ( block ) => {
+	const slider = block.querySelector( '.upcoming-events-slider' );
+	if ( ! slider || slider.querySelectorAll( '.swiper-slide' ).length < 2 ) {
 		return;
 	}
 
-	let index = 0;
-	let startX = 0;
-	let currentX = 0;
-	let isDragging = false;
+	const labels = slider.dataset;
 
-	function goTo(newIndex) {
-		index = (newIndex + slides.length) % slides.length;
-		track.style.transform = `translateX(-${index * 100}%)`;
+	const swiper = new Swiper( slider, {
+		rewind: true,
+		spaceBetween: 48,
+		keyboard: { enabled: true, onlyInViewport: true },
+		autoplay: reduceMotion
+			? false
+			: {
+				delay: AUTOPLAY_DELAY,
+				disableOnInteraction: false,
+				pauseOnMouseEnter: true,
+			},
+		navigation: {
+			prevEl: block.querySelector( '.swiper-button-prev' ),
+			nextEl: block.querySelector( '.swiper-button-next' ),
+		},
+		pagination: {
+			el: block.querySelector( '.swiper-pagination' ),
+			clickable: true,
+		},
+		a11y: {
+			prevSlideMessage: labels.labelPrev,
+			nextSlideMessage: labels.labelNext,
+			firstSlideMessage: labels.labelFirst,
+			lastSlideMessage: labels.labelLast,
+			paginationBulletMessage: labels.labelBullet,
+		},
+	} );
 
-		dots.forEach((dot, i) => {
-			const isActive = i === index;
-			dot.classList.toggle('is-active', isActive);
-			dot.setAttribute('aria-current', isActive ? 'true' : 'false');
-		});
+	if ( ! reduceMotion ) {
+		// Keyboard focus only: a mouse click on an arrow also focuses it, but shouldn't stop autoplay.
+		block.addEventListener( 'focusin', ( event ) => {
+			if ( event.target.matches( ':focus-visible' ) ) {
+				swiper.autoplay.stop();
+			}
+		} );
+		block.addEventListener( 'focusout', ( event ) => {
+			if ( ! swiper.autoplay.running && ! block.contains( event.relatedTarget ) ) {
+				swiper.autoplay.start();
+			}
+		} );
 	}
-
-	if (prevBtn) {
-		prevBtn.addEventListener('click', () => goTo(index - 1));
-	}
-
-	if (nextBtn) {
-		nextBtn.addEventListener('click', () => goTo(index + 1));
-	}
-
-	dots.forEach((dot) => {
-		dot.addEventListener('click', () => {
-			goTo(parseInt(dot.dataset.index, 10));
-		});
-	});
-
-	const SWIPE_THRESHOLD = 40;
-
-	track.addEventListener('touchstart', (e) => {
-		startX = e.touches[0].clientX;
-		currentX = startX;
-		isDragging = true;
-		track.style.transition = 'none';
-	}, { passive: true });
-
-	track.addEventListener('touchmove', (e) => {
-		if (!isDragging) {
-			return;
-		}
-		currentX = e.touches[0].clientX;
-		const delta = currentX - startX;
-		const percentDelta = (delta / track.clientWidth) * 100;
-		track.style.transform = `translateX(calc(-${index * 100}% + ${percentDelta}%))`;
-	}, { passive: true });
-
-	track.addEventListener('touchend', () => {
-		if (!isDragging) {
-			return;
-		}
-		isDragging = false;
-		track.style.transition = '';
-
-		const delta = currentX - startX;
-
-		if (delta > SWIPE_THRESHOLD) {
-			goTo(index - 1);
-		} else if (delta < -SWIPE_THRESHOLD) {
-			goTo(index + 1);
-		} else {
-			goTo(index);
-		}
-
-		startX = 0;
-		currentX = 0;
-	});
-}
+} );

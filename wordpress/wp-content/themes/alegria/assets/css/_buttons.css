@@ -1,99 +1,117 @@
-/**
- * Reusable Button Components
- * Used across blocks and theme
- */
-
-/* Primary CTA Button */
-.btn-primary {
+/*--------------------------------------------------------------
+# Buttons
+#
+# .btn-primary is the red call-to-action button: block CTAs, the "Doneer nu"
+# menu item and (as .cf7-submit-btn) the Contact Form 7 submit button.
+# An arrow goes in a <span class="btn-icon"> inside the button.
+--------------------------------------------------------------*/
+.btn-primary,
+.wpcf7-form .cf7-submit-btn {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.5em;
 	padding: 0.6em 1.2em;
-	background-color: var(--color-theme-primary);
-	border-radius: 9999px;
-	text-decoration: none;
-	color: var(--color-theme-white);
-	font-weight: 700;
-	transition: background-color 0.2s ease, transform 0.2s ease;
+	background-color: var(--color-theme-red);
 	border: none;
-	cursor: pointer;
+	border-radius: 9999px;
+	color: var(--color-theme-white);
 	font-family: var(--global-font-family);
 	font-size: var(--font-size-regular);
-}
-
-.btn-primary:hover,
-.btn-primary:focus {
-	background-color: var(--primary-btn-hover);
-	transform: translateY(-2px);
+	font-weight: 700;
+	line-height: var(--global-font-line-height);
 	text-decoration: none;
-	color: var(--color-theme-white);
+	cursor: pointer;
+	transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .btn-primary:visited {
 	color: var(--color-theme-white);
 }
 
-.btn-primary .btn-icon {
+.btn-primary:hover,
+.btn-primary:focus,
+.wpcf7-form .cf7-submit-btn:hover,
+.wpcf7-form .cf7-submit-btn:focus {
+	background-color: var(--color-theme-dark-red);
+	color: var(--color-theme-white);
+	text-decoration: none;
+	transform: translateY(-2px);
+}
+
+.btn-primary .btn-icon,
+.cf7-submit-btn .btn-icon {
 	display: inline-flex;
 	align-items: center;
 	line-height: 0;
 	transition: transform 0.2s ease;
 }
 
-.btn-primary .btn-icon svg {
+.btn-primary .btn-icon svg,
+.cf7-submit-btn .btn-icon svg {
 	display: block;
 	width: 1.5em;
 	height: 1.5em;
 }
 
 .btn-primary .btn-icon svg,
-.btn-primary .btn-icon svg * {
+.btn-primary .btn-icon svg *,
+.cf7-submit-btn .btn-icon svg,
+.cf7-submit-btn .btn-icon svg * {
 	fill: currentColor;
 	stroke: currentColor;
 }
 
 .btn-primary:hover .btn-icon,
 .btn-primary:focus .btn-icon,
-.btn-primary:focus-visible .btn-icon {
+.cf7-submit-btn:hover .btn-icon,
+.cf7-submit-btn:focus .btn-icon {
 	transform: translateX(3px);
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.btn-primary .btn-icon {
+	.btn-primary,
+	.btn-primary .btn-icon,
+	.cf7-submit-btn,
+	.cf7-submit-btn .btn-icon {
 		transition: none;
 	}
 
+	.btn-primary:hover,
+	.btn-primary:focus,
 	.btn-primary:hover .btn-icon,
 	.btn-primary:focus .btn-icon,
-	.btn-primary:focus-visible .btn-icon {
+	.wpcf7-form .cf7-submit-btn:hover,
+	.wpcf7-form .cf7-submit-btn:focus,
+	.cf7-submit-btn:hover .btn-icon,
+	.cf7-submit-btn:focus .btn-icon {
 		transform: none;
 	}
 }
 
-/* Secondary Link Button */
+/* Secondary link button (hero), white on a dark background. */
 .btn-secondary {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.5em;
 	padding: 0.6em 1.2em;
 	background-color: transparent;
-	text-decoration: none;
-	color: var(--color-theme-white);
-	font-weight: 500;
-	transition: opacity 0.2s ease;
 	border: none;
-	cursor: pointer;
+	color: var(--color-theme-white);
 	font-family: var(--global-font-family);
 	font-size: var(--font-size-regular);
+	font-weight: 500;
+	text-decoration: none;
+	cursor: pointer;
+	transition: opacity 0.2s ease;
+}
+
+.btn-secondary:visited {
+	color: var(--color-theme-white);
 }
 
 .btn-secondary:hover,
 .btn-secondary:focus {
 	opacity: 0.8;
 	text-decoration: underline;
-	color: var(--color-theme-white);
-}
-
-.btn-secondary:visited {
 	color: var(--color-theme-white);
 }

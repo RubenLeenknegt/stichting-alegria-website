@@ -83,14 +83,6 @@
 	color: var(--color-theme-white);
 }
 
-.card-text p {
-	margin: 0 0 0.5rem 0;
-}
-
-.card-text p:last-child {
-	margin-bottom: 0;
-}
-
 /* Tablet styles */
 @media (min-width: 48em) {
 	.cards-grid {
@@ -125,16 +117,10 @@
 	}
 
 	.cards-section-title {
-		font-size: var(--font-size-xl);
 		margin-bottom: 2rem;
 	}
 
-	.cards-grid {
-		gap: 1.5rem;
-	}
-
 	.card-item {
-		aspect-ratio: 3 / 4;
 		min-height: clamp(24rem, 120vw, 31rem);
 	}
 

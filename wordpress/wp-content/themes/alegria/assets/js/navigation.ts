@@ -12,7 +12,7 @@
 declare const alegriaNav: { expand: string; collapse: string };
 
 // Matches --below-desktop in _custom-media.css, where the menu switches to its mobile layout.
-const mobileLayout = window.matchMedia( '(max-width: 87em)' );
+const mobileLayout = window.matchMedia( '(width < 87em)' );
 
 function setSubmenuOpen( item: HTMLElement, open: boolean ): void {
 	item.classList.toggle( 'menu-item--toggled-on', open );

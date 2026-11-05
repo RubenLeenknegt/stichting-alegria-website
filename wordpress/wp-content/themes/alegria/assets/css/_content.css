@@ -6,32 +6,12 @@
 	margin: 0 auto;
 }
 
-.entry-content > ul,
-.entry-content > ol {
-	padding-left: 3.5em;
-}
-
 .page-content > *,
 .entry-content > *,
 .entry-summary > *,
-.page-header,
-.site-info {
+.page-header {
 	padding-right: 1.5rem;
 	padding-left: 1.5rem;
-}
-
-@media (--content-query) {
-
-	.entry-content > ul,
-	.entry-content > ol {
-		padding-left: 2.5em;
-		padding-right: 2.5em;
-	}
-}
-
-.page-links {
-	clear: both;
-	margin-bottom: 1.5em;
 }
 
 /*--------------------------------------------------------------
@@ -108,7 +88,7 @@
 
 .archive-page .archive-card {
 	display: grid;
-	grid-template-rows: minmax(15rem, 1fr) auto;
+	grid-template-rows: auto 1fr;
 	min-height: 100%;
 	text-decoration: none;
 	color: var(--global-font-color);
@@ -127,7 +107,7 @@
 }
 
 .archive-page .archive-card-image {
-	min-height: 15rem;
+	aspect-ratio: 3 / 2;
 	background: var(--color-theme-light-grey);
 	position: relative;
 }
@@ -148,27 +128,14 @@
 	background: var(--color-theme-white);
 }
 
-.archive-page .archive-card-date-row {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.4rem;
-	font-size: var(--font-size-small);
+/* Same look as .upcoming-events-date. */
+.archive-page .archive-card-date {
+	display: block;
+	font-size: var(--font-size-regular);
+	font-weight: 600;
 	color: var(--global-font-color);
 	opacity: 0.75;
 	margin: 0 0 0.6rem;
-}
-
-.archive-page .archive-card-date-icon {
-	display: inline-flex;
-	line-height: 0;
-}
-
-.archive-page .archive-card-date-icon svg {
-	width: 2rem;
-	height: 2rem;
-	display: block;
-	fill: currentColor;
-	stroke: none;
 }
 
 .archive-page .archive-card-title {
@@ -278,10 +245,6 @@
 		padding: 3rem 1.5rem 4rem;
 	}
 
-	.archive-card {
-		grid-template-rows: minmax(13rem, 1fr) auto;
-	}
-
 	.archive-page .archive-pagination .nav-links {
 		gap: 0.5rem;
 	}
@@ -316,42 +279,17 @@
 	max-width: 1200px;
 	font-weight: 800;
 }
+
 /*--------------------------------------------------------------
 ## Alignments
 --------------------------------------------------------------*/
-.alignleft {
-	float: left;
-	margin-right: 1.5rem;
-}
-
-.alignright {
-	float: right;
-	margin-left: 1.5rem;
-}
-
-.aligncenter {
-	clear: both;
-	display: block;
-}
-
 .alignwide {
-	max-width: calc(50% + var(--content-width) / 2);
+	max-width: var(--wide-width);
+	margin-inline: auto;
 }
 
 .alignfull {
 	max-width: 100%;
-}
-
-.page-content > .alignleft,
-.entry-content > .alignleft,
-.entry-summary > .alignleft {
-	margin-left: 1.5rem;
-}
-
-.page-content > .alignright,
-.entry-content > .alignright,
-.entry-summary > .alignright {
-	margin-right: 1.5rem;
 }
 
 /*--------------------------------------------------------------
@@ -359,12 +297,11 @@
 --------------------------------------------------------------*/
 .site-main .pagination {
 	border-bottom: 1px solid var(--border-color-dark);
-	margin: 0 auto 2em;
+	margin: 0 auto 1.5em;
 	max-width: var(--content-width);
 	overflow: hidden;
 	padding: 0 1.5rem 2em;
 	font-family: var(--highlight-font-family);
-	font-stretch: condensed;
 }
 
 @media (--content-query) {
@@ -377,10 +314,6 @@
 
 .nav-links {
 	display: flex;
-}
-
-.site-main .pagination {
-	margin-bottom: 1.5em;
 }
 
 .pagination .nav-links {

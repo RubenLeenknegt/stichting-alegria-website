@@ -68,8 +68,7 @@
 }
 
 .newsletter-overview-cta-link:hover .btn-icon,
-.newsletter-overview-cta-link:focus .btn-icon,
-.newsletter-overview-cta-link:focus-visible .btn-icon {
+.newsletter-overview-cta-link:focus .btn-icon {
 	transform: translate(3px);
 }
 
@@ -81,8 +80,7 @@
 
 .newsletter-overview-card {
 	display: grid;
-	grid-template-rows: 2fr 1fr;
-	min-height: 30rem;
+	grid-template-rows: auto 1fr;
 	text-decoration: none;
 	color: inherit;
 	background: var(--color-theme-white);
@@ -95,6 +93,11 @@
 .newsletter-overview-card:hover {
 	transform: translateY(-10px);
 	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.newsletter-overview-card-image {
+	aspect-ratio: 3 / 2;
+	background: var(--color-theme-light-grey);
 }
 
 .newsletter-overview-card-image img {
@@ -111,25 +114,14 @@
 	background: var(--color-theme-white);
 }
 
-.newsletter-overview-card-date-row {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.4rem;
-	font-size: var(--font-size-small);
+/* Same look as .upcoming-events-date. */
+.newsletter-overview-card-date {
+	display: block;
+	font-size: var(--font-size-regular);
+	font-weight: 600;
 	color: var(--global-font-color);
+	opacity: 0.75;
 	margin: 0 0 0.6rem;
-}
-
-.newsletter-overview-card-date-icon {
-	display: inline-flex;
-	line-height: 0;
-}
-
-.newsletter-overview-card-date-icon svg {
-	width: 2rem;
-	height: 2rem;
-	fill: currentColor;
-	stroke: none;
 }
 
 .newsletter-overview-card-title {
@@ -142,7 +134,7 @@
 
 .newsletter-overview-card-excerpt {
 	font-size: var(--font-size-medium);
-	font-weight: 700;
+	font-weight: 400;
 	line-height: var(--global-font-line-height);
 	color: #000;
 	margin: 0;
@@ -186,9 +178,5 @@
 @media (max-width: 47em) {
 	.newsletter-overview-block {
 		padding: 3rem 1.5rem;
-	}
-
-	.newsletter-overview-card {
-		min-height: 26rem;
 	}
 }

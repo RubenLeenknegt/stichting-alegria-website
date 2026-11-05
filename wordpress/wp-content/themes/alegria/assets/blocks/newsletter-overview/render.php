@@ -17,10 +17,10 @@ $block      = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
 $title     = $attributes['title'] ?? '';
 $link_text = $attributes['linkText'] ?? '';
 
-// Always point CTA to the newsletter archive.
-$cta_url = get_post_type_archive_link( 'newsletter' );
-if ( ! is_string( $cta_url ) || '' === $cta_url ) {
-	$cta_url = home_url( '/newsletter/' );
+// The link goes to the URL set in the block, or else the newsletter archive.
+$cta_url = $attributes['linkUrl'] ?? '';
+if ( '' === $cta_url ) {
+	$cta_url = get_post_type_archive_link( 'newsletter' ) ?: home_url( '/nieuwsbrief/' );
 }
 
 $primary_button_icon = alegria_svg( 'arrow_right' );
@@ -64,20 +64,11 @@ $newsletter_query = new WP_Query(
 					?>
 					<a href="<?php the_permalink(); ?>" class="newsletter-overview-card">
 						<div class="newsletter-overview-card-image">
-							<?php the_post_thumbnail( 'large' ); ?>
+							<?php the_post_thumbnail( 'alegria-card' ); ?>
 						</div>
 
 						<div class="newsletter-overview-card-content">
-							<div class="newsletter-overview-card-date-row">
-								<span class="newsletter-overview-card-date-icon" aria-hidden="true">
-									<svg viewBox="0 0 24 24" focusable="false">
-										<path d="M7 2a1 1 0 0 1 1 1v1h8V3a1 1 0 1 1 2 0v1h1a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h1V3a1 1 0 0 1 1-1Zm13 8H4v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8ZM5 6a1 1 0 0 0-1 1v1h16V7a1 1 0 0 0-1-1H5Z" />
-									</svg>
-								</span>
-								<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
-									<?php echo esc_html( get_the_date() ); ?>
-								</time>
-							</div>
+							<time class="newsletter-overview-card-date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'j F Y' ) ); ?></time>
 
 							<h3 class="newsletter-overview-card-title"><?php the_title(); ?></h3>
 

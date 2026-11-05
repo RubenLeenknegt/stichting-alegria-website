@@ -36,7 +36,7 @@ function alegria_svg( string $name ): string {
  * @param array  $attr Extra attributes, e.g. class.
  * @return string Image markup, or an empty string when there is no image.
  */
-function alegria_block_image( int $id, string $url, string $alt = '', string $size = 'large', array $attr = array() ): string {
+function alegria_block_image( int $id, string $url, string $alt = '', string $size = 'alegria-content', array $attr = array() ): string {
 	if ( $id && wp_attachment_is_image( $id ) ) {
 		if ( '' !== $alt ) {
 			$attr['alt'] = $alt;
@@ -65,7 +65,7 @@ function alegria_block_image( int $id, string $url, string $alt = '', string $si
  * @param string $size Image size to request.
  * @return string Image URL, or an empty string when there is no image.
  */
-function alegria_block_image_url( int $id, string $url, string $size = 'full' ): string {
+function alegria_block_image_url( int $id, string $url, string $size = 'alegria-hero' ): string {
 	$attachment_url = $id ? wp_get_attachment_image_url( $id, $size ) : false;
 
 	return $attachment_url ? $attachment_url : $url;

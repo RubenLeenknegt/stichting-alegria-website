@@ -11,6 +11,26 @@
 // Load each block's stylesheet only on pages that use the block, instead of all of them everywhere.
 add_filter( 'should_load_separate_core_block_assets', '__return_true' );
 
+/*
+ * Swiper, shared by the upcoming-events and scrolllint blocks. Only registered here: the blocks list
+ * `alegria-swiper` in their block.json style and (through build/view.asset.php) as a view script dependency,
+ * so it loads once, and only on pages that contain one of them. Registered before the blocks (init, 10).
+ */
+add_action(
+	'init',
+	function () {
+		wp_register_script(
+			'alegria-swiper',
+			get_theme_file_uri( 'assets/dist/swiper.js' ),
+			array(),
+			alegria_asset_version( 'assets/dist/swiper.js' ),
+			array( 'strategy' => 'defer' )
+		);
+		wp_register_style( 'alegria-swiper', get_theme_file_uri( 'assets/dist/swiper.css' ), array(), alegria_asset_version( 'assets/dist/swiper.css' ) );
+	},
+	5
+);
+
 add_action(
 	'wp_enqueue_scripts',
 	function () {
@@ -39,8 +59,8 @@ add_action(
 	'wp_head',
 	function () {
 		printf(
-			'<link rel="preload" href="%s" as="font" type="font/ttf" crossorigin>' . "\n",
-			esc_url( get_theme_file_uri( 'assets/fonts/Rubik-VariableFont_wght.ttf' ) )
+			'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+			esc_url( get_theme_file_uri( 'assets/fonts/rubik-latin-wght-normal.woff2' ) )
 		);
 	},
 	1

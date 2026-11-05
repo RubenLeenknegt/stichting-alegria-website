@@ -17,7 +17,7 @@ $block = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
 // Get attributes
 $heading               = $attributes['heading'] ?? '';
 $subheading            = $attributes['subheading'] ?? '';
-$background_image_url  = alegria_block_image_url( (int) ( $attributes['backgroundImageId'] ?? 0 ), $attributes['backgroundImageUrl'] ?? '' );
+$background_image_url  = alegria_block_image_url( (int) ( $attributes['backgroundImageId'] ?? 0 ), $attributes['backgroundImageUrl'] ?? '', 'alegria-hero' );
 $primary_button_text   = $attributes['primaryButtonText'] ?? '';
 $primary_button_url    = $attributes['primaryButtonUrl'] ?? '';
 $secondary_button_text = $attributes['secondaryButtonText'] ?? '';
@@ -26,7 +26,7 @@ $secondary_button_url  = $attributes['secondaryButtonUrl'] ?? '';
 $primary_button_icon = alegria_svg( 'arrow_right' );
 
 // Build wrapper attributes
-$wrapper_attrs = get_block_wrapper_attributes( array( 'class' => 'hero-block overlay-dark' ) );
+$wrapper_attrs = get_block_wrapper_attributes( array( 'class' => 'hero-block' ) );
 
 // Inline background style
 $bg_style = '';

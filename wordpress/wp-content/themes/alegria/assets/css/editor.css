@@ -1,6 +1,5 @@
 /**
- * Styles for the WordPress post/page editor.
- * Ensures a visual match between back- and front-end.
+ * Styles for the block editor canvas.
  */
 
 @import "_custom-properties.css";
@@ -10,12 +9,7 @@
 @import "_links.css";
 @import "_media.css";
 
-/*--------------------------------------------------------------
-# Adjustments for the editor
---------------------------------------------------------------*/
-button,
-select,
-option {
+button {
 	color: inherit;
 	font-family: inherit;
 	font-size: inherit;
@@ -25,24 +19,21 @@ option {
 
 .editor-post-title__input {
 	font-family: var(--highlight-font-family);
-	font-stretch: condensed;
 	font-size: 2.5rem;
 	line-height: 1.4;
 	margin-top: 0;
 	margin-bottom: 0;
 }
 
-/* Main column width */
+/* Column widths, matching layout.contentSize and layout.wideSize in theme.json. */
 .wp-block {
-	max-width: calc(var(--content-width) + 30px);
+	max-width: var(--content-width);
 }
 
-/* Width of "wide" blocks */
 .wp-block[data-align="wide"] {
-	max-width: calc(50% + var(--content-width) / 2 + 76px);
+	max-width: var(--wide-width);
 }
 
-/* Width of "full-wide" blocks */
 .wp-block[data-align="full"] {
 	max-width: none;
 }

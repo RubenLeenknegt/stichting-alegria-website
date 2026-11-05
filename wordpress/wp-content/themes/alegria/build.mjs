@@ -5,12 +5,13 @@
  *   node build.mjs --watch  Development build that rebuilds on change.
  *   node build.mjs --zip    Production build, then a zip of only the files the site needs at runtime.
  *
- * Theme assets:  assets/css/*.css (files not starting with "_") and assets/js/*.ts -> assets/dist/
+ * Theme assets:  assets/css/*.css (files not starting with "_") and assets/js/*.{js,ts} -> assets/dist/
  * Blocks:        assets/blocks/<slug>/{index,view}.js and {style,editor}.css -> assets/blocks/<slug>/build/
  *
- * @wordpress/* and React imports are not bundled. They resolve to the globals WordPress provides
- * (wp.blockEditor, React, ...), and each block script gets an index.asset.php listing the matching
- * script handles, so WordPress loads them first.
+ * In block scripts, @wordpress/* and React imports are not bundled. They resolve to the globals WordPress
+ * provides (wp.blockEditor, React, ...), and each block script gets an <entry>.asset.php listing the
+ * matching script handles, so WordPress loads them first. The same goes for `swiper`: block scripts get the
+ * window.Swiper global from assets/js/swiper.js (script handle `alegria-swiper`), which bundles the real package.
  */
 import crypto from 'node:crypto';
 import fs from 'node:fs';
@@ -48,6 +49,9 @@ const log = ( message ) =>
  * @return {{global: string, handle: string}} Global and handle.
  */
 function wpExternal( request ) {
+	if ( request === 'swiper' ) {
+		return { global: 'Swiper', handle: 'alegria-swiper' };
+	}
 	if ( request === 'react/jsx-runtime' ) {
 		return { global: 'ReactJSXRuntime', handle: 'react-jsx-runtime' };
 	}
@@ -66,8 +70,9 @@ function wpExternal( request ) {
  * with the script handles the entry depends on.
  *
  * @param {string} assetFile Path of the .asset.php file to write, or null for none.
+ * @param {boolean} externalSwiper Whether `swiper` resolves to the shared global instead of being bundled.
  */
-function wpGlobals( assetFile ) {
+function wpGlobals( assetFile, externalSwiper ) {
 	return {
 		name: 'wp-globals',
 		setup( build ) {
@@ -77,7 +82,11 @@ function wpGlobals( assetFile ) {
 				handles = new Set();
 			} );
 
-			build.onResolve( { filter: /^(@wordpress\/|react(-dom)?(\/jsx-runtime)?$)/ }, ( args ) => {
+			const filter = externalSwiper
+				? /^(@wordpress\/|react(-dom)?(\/jsx-runtime)?$|swiper$)/
+				: /^(@wordpress\/|react(-dom)?(\/jsx-runtime)?$)/;
+
+			build.onResolve( { filter }, ( args ) => {
 				const external = wpExternal( args.path );
 				handles.add( external.handle );
 				return { path: external.global, namespace: 'wp-global' };
@@ -132,7 +141,7 @@ async function buildJs() {
 			jsx: 'automatic',
 			loader: { '.js': 'jsx' },
 			logLevel: 'warning',
-			plugins: [ wpGlobals( assetFile ) ],
+			plugins: [ wpGlobals( assetFile, assetFile !== null ) ],
 		};
 
 		if ( watch ) {
@@ -224,7 +233,7 @@ async function buildZip() {
 		'*.php',
 		'style.css',
 		'theme.json',
-		'screenshot.png',
+		'screenshot.*',
 		'inc/**',
 		'template-parts/**',
 		'assets/dist/**',

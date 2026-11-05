@@ -1,8 +1,14 @@
 /**
- * Upcoming Events Block Styles
+ * Upcoming events block. The slider itself is Swiper (the alegria-swiper style, loaded first).
  */
 
 .upcoming-events-block {
+	--swiper-theme-color: var(--color-theme-primary);
+	--swiper-pagination-bullet-size: 0.6rem;
+	--swiper-pagination-bullet-inactive-color: rgba(1, 33, 105, 0.2);
+	--swiper-pagination-bullet-inactive-opacity: 1;
+	--swiper-pagination-bullet-horizontal-gap: 0.5rem;
+
 	background-color: var(--color-theme-light-grey);
 	padding: 3rem 1.5rem;
 }
@@ -15,28 +21,23 @@
 	margin: 0 auto 1rem;
 }
 
-.upcoming-events-viewport {
+.upcoming-events-slider {
 	max-width: 1200px;
-	margin: 0 auto;
-	overflow: hidden;
-	touch-action: pan-y;
 }
 
-.upcoming-events-track {
-	display: flex;
-	transition: transform 0.4s ease;
+/* Each slide keeps its own height. Stretched to the tallest slide (the flex default), a slide with
+   a short description spreads the extra height over its grid rows, leaving a gap above the text. */
+.upcoming-events-slider .swiper-wrapper {
+	align-items: flex-start;
 }
 
 .upcoming-events-slide {
-	flex: 0 0 100%;
 	display: grid;
 	gap: 1rem;
 	grid-template-columns: 1fr;
 	align-items: center;
-}
-
-.upcoming-events-content {
-	width: 100%;
+	align-content: start;
+	height: auto;
 }
 
 .upcoming-events-title {
@@ -48,7 +49,8 @@
 }
 
 .upcoming-events-date {
-	font-size: var(--font-size-small);
+	display: block;
+	font-size: var(--font-size-regular);
 	font-weight: 600;
 	color: var(--global-font-color);
 	opacity: 0.75;
@@ -57,31 +59,19 @@
 
 .upcoming-events-excerpt {
 	font-size: var(--font-size-medium);
-	font-weight: 700;
+	font-weight: 400;
 	line-height: var(--global-font-line-height);
 	color: #000;
 	margin: 0;
-}
-
-.upcoming-events-excerpt p {
-	margin: 0 0 1rem 0;
-}
-
-.upcoming-events-excerpt p:last-child {
-	margin-bottom: 0;
 }
 
 .upcoming-events-cta {
 	margin-top: 1.5rem;
 }
 
-.upcoming-events-media {
-	width: 100%;
-}
-
 .upcoming-events-image {
 	width: 100%;
-	aspect-ratio: 16 / 9;
+	aspect-ratio: 3 / 2;
 	object-fit: cover;
 	display: block;
 	border-radius: 8px;
@@ -91,6 +81,7 @@
 	background: var(--color-theme-white);
 }
 
+/* Arrows and bullets sit in a row below the slider instead of on top of it. */
 .upcoming-events-controls {
 	display: flex;
 	align-items: center;
@@ -100,62 +91,46 @@
 	margin: 2rem auto 0;
 }
 
-.upcoming-events-arrow {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
+.upcoming-events-block .upcoming-events-arrow {
+	position: static;
+	margin: 0;
 	width: 2.5rem;
 	height: 2.5rem;
-	padding: 0;
+	padding: 0.6rem;
 	border: 1px solid rgba(1, 33, 105, 0.2);
 	border-radius: 9999px;
 	background: var(--color-theme-white);
 	color: var(--color-theme-primary);
-	cursor: pointer;
 	transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
-.upcoming-events-arrow:hover,
-.upcoming-events-arrow:focus-visible {
+.upcoming-events-block .upcoming-events-arrow::after {
+	content: none;
+}
+
+.upcoming-events-block .swiper-button-prev svg {
+	transform: scaleX(-1);
+}
+
+.upcoming-events-block .upcoming-events-arrow:hover,
+.upcoming-events-block .upcoming-events-arrow:focus-visible {
 	border-color: var(--color-theme-primary);
 	transform: translateY(-1px);
 }
 
-.upcoming-events-arrow svg {
-	width: 1.25rem;
-	height: 1.25rem;
-}
-
-.upcoming-events-dots {
+.upcoming-events-block .upcoming-events-pagination {
+	position: static;
+	width: auto;
 	display: flex;
 	align-items: center;
-	gap: 1rem;
+	transform: none;
 }
 
-.upcoming-events-dot {
-	position: relative;
-	width: 0.6rem;
-	height: 0.6rem;
-	padding: 0;
-	border: none;
-	border-radius: 50%;
-	background: rgba(1, 33, 105, 0.2);
-	cursor: pointer;
+.upcoming-events-block .swiper-pagination-bullet {
 	transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.upcoming-events-dot::before {
-	content: '';
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 24px;
-	height: 24px;
-	transform: translate(-50%, -50%);
-}
-
-.upcoming-events-dot.is-active {
-	background: var(--color-theme-primary);
+.upcoming-events-block .swiper-pagination-bullet-active {
 	transform: scale(1.2);
 }
 
@@ -172,9 +147,7 @@
 	.upcoming-events-heading {
 		font-size: var(--font-size-xl);
 		font-weight: 800;
-		color: var(--color-theme-primary);
-		max-width: 1200px;
-		margin: 0 auto 3rem;
+		margin-bottom: 3rem;
 	}
 }
 
@@ -184,7 +157,7 @@
 	}
 }
 
-@media (max-width: 47em) {
+@media (max-width: 47.99em) {
 	.upcoming-events-media {
 		order: 1;
 	}
@@ -199,5 +172,12 @@
 
 	.upcoming-events-excerpt {
 		font-size: var(--font-size-regular);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.upcoming-events-block .upcoming-events-arrow,
+	.upcoming-events-block .swiper-pagination-bullet {
+		transition: none;
 	}
 }

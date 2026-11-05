@@ -68,10 +68,6 @@
 		padding: 1.75rem;
 	}
 
-	.hero-content {
-		max-width: 600px;
-	}
-
 	.hero-heading {
 		font-size: var(--font-size-larger);
 	}
@@ -83,20 +79,12 @@
 		padding: 1.25rem;
 	}
 
-	.hero-content {
-		max-width: 600px;
-	}
-
 	.hero-heading {
 		font-size: var(--font-size-large);
 	}
 
 	.hero-subheading {
 		font-size: var(--font-size-regular);
-	}
-
-	.hero-buttons {
-		flex-direction: row;
 	}
 }
 

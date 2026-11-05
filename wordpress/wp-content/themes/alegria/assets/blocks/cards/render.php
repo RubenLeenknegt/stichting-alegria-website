@@ -18,19 +18,19 @@ $block = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
 $section_title = $attributes['sectionTitle'] ?? '';
 
 // Card 1
-$card1_image_url = alegria_block_image_url( (int) ( $attributes['card1ImageId'] ?? 0 ), $attributes['card1ImageUrl'] ?? '', 'large' );
+$card1_image_url = alegria_block_image_url( (int) ( $attributes['card1ImageId'] ?? 0 ), $attributes['card1ImageUrl'] ?? '', 'alegria-portrait' );
 $card1_title     = $attributes['card1Title'] ?? '';
 $card1_text      = $attributes['card1Text'] ?? '';
 $card1_url       = $attributes['card1Url'] ?? '';
 
 // Card 2
-$card2_image_url = alegria_block_image_url( (int) ( $attributes['card2ImageId'] ?? 0 ), $attributes['card2ImageUrl'] ?? '', 'large' );
+$card2_image_url = alegria_block_image_url( (int) ( $attributes['card2ImageId'] ?? 0 ), $attributes['card2ImageUrl'] ?? '', 'alegria-portrait' );
 $card2_title     = $attributes['card2Title'] ?? '';
 $card2_text      = $attributes['card2Text'] ?? '';
 $card2_url       = $attributes['card2Url'] ?? '';
 
 // Card 3
-$card3_image_url = alegria_block_image_url( (int) ( $attributes['card3ImageId'] ?? 0 ), $attributes['card3ImageUrl'] ?? '', 'large' );
+$card3_image_url = alegria_block_image_url( (int) ( $attributes['card3ImageId'] ?? 0 ), $attributes['card3ImageUrl'] ?? '', 'alegria-portrait' );
 $card3_title     = $attributes['card3Title'] ?? '';
 $card3_text      = $attributes['card3Text'] ?? '';
 $card3_url       = $attributes['card3Url'] ?? '';

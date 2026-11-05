@@ -12,7 +12,7 @@ const IMAGES = [
 ];
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { preTitle, title, textBlock1, subtitle, textBlock2, buttonText, buttonUrl } = attributes;
+	const { title, textBlock1, subtitle, textBlock2, buttonText, buttonUrl } = attributes;
 	const image = ( key ) => ( {
 		id: attributes[ `${ key }ImageId` ],
 		url: attributes[ `${ key }ImageUrl` ],
@@ -25,7 +25,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		useMediaUrl( attributes.topRightImageId, attributes.topRightImageUrl ),
 		useMediaUrl( attributes.bottomImageId, attributes.bottomImageUrl ),
 	];
-	const hasContent = preTitle || title || textBlock1 || subtitle || textBlock2 || buttonText || buttonUrl || previewUrls.some( Boolean );
+	const hasContent = title || textBlock1 || subtitle || textBlock2 || buttonText || buttonUrl || previewUrls.some( Boolean );
 
 	return (
 		<>
@@ -44,12 +44,6 @@ export default function Edit( { attributes, setAttributes } ) {
 				</PanelBody>
 
 				<PanelBody title={ __( 'Inhoud', 'alegria' ) } initialOpen={ true }>
-					<TextControl
-						label={ __( 'Bovenkop (kleine tekst boven de titel)', 'alegria' ) }
-						value={ preTitle }
-						onChange={ ( value ) => setAttributes( { preTitle: value } ) }
-						placeholder={ __( 'bijv. Wie wij zijn', 'alegria' ) }
-					/>
 					<TextControl
 						label={ __( 'Titel', 'alegria' ) }
 						value={ title }
@@ -91,7 +85,6 @@ export default function Edit( { attributes, setAttributes } ) {
 				{ hasContent ? (
 					<PreviewCard title={ stripHtmlText( title ) || __( 'Over ons', 'alegria' ) } style={ { maxWidth: '780px' } }>
 						<div style={ { display: 'grid', gap: '10px' } }>
-							{ preTitle ? <PreviewField label={ __( 'Bovenkop', 'alegria' ) } value={ preTitle } maxLines={ 1 } /> : null }
 							{ textBlock1 ? <PreviewField label={ __( 'Eerste tekstblok', 'alegria' ) } value={ textBlock1 } maxLines={ 3 } /> : null }
 							{ subtitle ? <PreviewField label={ __( 'Tussenkop', 'alegria' ) } value={ subtitle } maxLines={ 1 } /> : null }
 							{ textBlock2 ? <PreviewField label={ __( 'Tweede tekstblok', 'alegria' ) } value={ textBlock2 } maxLines={ 3 } /> : null }
