@@ -55,11 +55,14 @@ if ( ! have_posts() ) {
 
 <div class="archive-pagination">
 	<?php
+	$arrow = '<span aria-hidden="true">' . alegria_svg( 'arrow_right' ) . '</span>';
+
 	the_posts_pagination(
 		array(
-			'mid_size'  => 2,
-			'prev_text' => '&larr;',
-			'next_text' => '&rarr;',
+			'mid_size'           => 1,
+			'prev_text'          => $arrow . '<span class="screen-reader-text">' . esc_html__( 'Vorige pagina', 'alegria' ) . '</span>',
+			'next_text'          => $arrow . '<span class="screen-reader-text">' . esc_html__( 'Volgende pagina', 'alegria' ) . '</span>',
+			'before_page_number' => '<span class="screen-reader-text">' . esc_html__( 'Pagina', 'alegria' ) . ' </span>',
 		)
 	);
 	?>

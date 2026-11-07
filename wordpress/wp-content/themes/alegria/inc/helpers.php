@@ -113,3 +113,36 @@ function alegria_asset_version( string $relative_path ): ?string {
 
 	return file_exists( $path ) ? (string) filemtime( $path ) : null;
 }
+
+/**
+ * Returns Rank Math's breadcrumbs as a <nav>, or an empty string when Rank Math is not active.
+ *
+ * @param string $class Extra class for the <nav>, next to rank-math-breadcrumb and breadcrumbs.
+ * @return string Breadcrumb markup, escaped by Rank Math.
+ */
+function alegria_breadcrumbs( string $class = '' ): string {
+	if ( ! function_exists( 'rank_math_get_breadcrumbs' ) ) {
+		return '';
+	}
+
+	return (string) rank_math_get_breadcrumbs(
+		array(
+			'separator'   => '/',
+			'wrap_before' => '<nav aria-label="' . esc_attr__( 'Kruimelpad', 'alegria' ) . '" class="' . esc_attr( trim( 'rank-math-breadcrumb breadcrumbs ' . $class ) ) . '"><p>',
+		)
+	);
+}
+
+/**
+ * Whether header.php prints the breadcrumb bar below the site header: on every page except the front page,
+ * and except posts with the post-header block, which prints the breadcrumbs itself.
+ *
+ * @return bool
+ */
+function alegria_show_site_breadcrumbs(): bool {
+	if ( is_front_page() || ! function_exists( 'rank_math_get_breadcrumbs' ) ) {
+		return false;
+	}
+
+	return ! ( is_singular() && has_block( 'wp-rig/post-header', get_queried_object_id() ) );
+}

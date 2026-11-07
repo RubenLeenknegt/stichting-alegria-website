@@ -1,10 +1,10 @@
 {
   "name": "wp-rig/post-header",
   "apiVersion": 3,
-  "title": "Berichtkop",
+  "title": "Paginakop",
   "category": "design",
   "icon": "heading",
-  "description": "Kruimelpad, titel, datum, introductietekst en afbeelding bovenaan een nieuwsbrief of evenement.",
+  "description": "Kruimelpad, titel, introductietekst en afbeelding bovenaan een pagina. Nieuwsbrieven en evenementen tonen ook hun datum.",
   "textdomain": "alegria",
   "attributes": {
     "introText": {

@@ -52,7 +52,7 @@ Deploying: run `npm run zip` and upload `alegria.zip` as a theme in wp-admin. Ac
   - registers (does not enqueue) the shared `alegria-swiper` script and style, `assets/dist/swiper.{js,css}`;
   - the font preload;
   - `should_load_separate_core_block_assets`.
-- `blocks.php`: registers every block folder and limits the editor to those blocks; `post-header`, `share` and `read-more` are only offered on newsletters and events.
+- `blocks.php`: registers every block folder and limits the editor to those blocks; `share` and `read-more` are only offered on newsletters and events.
 - `navigation.php`: primary-menu walker filters.
   - Every parent gets a `.dropdown` icon; `navigation.ts` turns it into a toggle button.
   - Items whose URL is empty or `#` become a `<button class="submenu-toggle">`.
@@ -66,7 +66,7 @@ Deploying: run `npm run zip` and upload `alegria.zip` as a theme in wp-admin. Ac
   - `alegria_asset_version()` returns a file's mtime, used for asset versions.
 
 **Templates.** Classic PHP templates; there is no block theme, `templates/` folder or site editor.
-- **Pages:** `index.php` renders them through `template-parts/content/entry.php` (there is no `page.php`).
+- **Pages:** `index.php` renders them through `template-parts/content/entry.php` (there is no `page.php`). It prints no title, and skips the featured image when the page has a `post-header` block.
 - **Singles:** `single.php` serves both CPTs. Posts with the `post-header` block get their title from it; older posts without it get a plain `<h1>`.
 - **Archives:** `archive-event.php` and `archive-newsletter.php` share `template-parts/archive/grid.php`.
 - **Errors and empty states:** `404.php` is the not-found page; `template-parts/content/none.php` covers empty results.
@@ -86,7 +86,8 @@ The logo and social icons are inline SVGs. The mobile menu button is pure CSS.
   - `newsletter-overview` (latest 3) and `upcoming-events` (renders nothing when no event is dated yesterday or later);
   - `scrolllint` (decorative image strip, a continuous Swiper marquee), `txt`, `img`;
   - `embed-shortcode`: raw iframe/HTML only for authors with `unfiltered_html`; shortcode text is sanitized before `do_shortcode`;
-  - the newsletter/event template blocks (`multiple: false`): `post-header` (Rank Math breadcrumbs, `<h1>`, date, intro, 16:9 `alegria-feature` image falling back to the featured image), `share` (Facebook/LinkedIn share URLs and a copy-link button in `view.js`; no Instagram, which has no web share URL) and `read-more` (three others of the same type; events: upcoming first, then past. Reuses the `newsletter-overview` markup and lists its style handle in block.json).
+  - `post-header` ("Paginakop", `multiple: false`, usable everywhere): Rank Math breadcrumbs, `<h1>`, intro, 16:9 `alegria-feature` image falling back to the featured image; only newsletters and events also show their date;
+  - the newsletter/event-only template blocks (`multiple: false`): `share` (Facebook/LinkedIn share URLs and a copy-link button in `view.js`; no Instagram, which has no web share URL) and `read-more` (three others of the same type; events: upcoming first, then past. Reuses the `newsletter-overview` markup and lists its style handle in block.json).
 
 **Do not use `ServerSideRender` in the block editor.** It does not work in this setup. `render.php` is for the front end only. In the editor, each block's `edit.js` puts its fields in `InspectorControls` and renders a client-side preview from its attributes. Shared pieces live in `assets/blocks/_shared/`:
 - `controls.js`:

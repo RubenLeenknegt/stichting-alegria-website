@@ -32,3 +32,9 @@
 		get_template_part( 'template-parts/header/navigation' );
 		?>
 	</header><!-- #masthead -->
+
+	<?php if ( alegria_show_site_breadcrumbs() ) : ?>
+		<div class="site-breadcrumbs">
+			<?php echo alegria_breadcrumbs(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by Rank Math. ?>
+		</div>
+	<?php endif; ?>

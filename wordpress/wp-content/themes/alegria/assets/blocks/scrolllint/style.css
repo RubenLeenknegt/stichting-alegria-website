@@ -10,7 +10,7 @@
 	margin-left: calc(50% - 50vw);
 	margin-right: calc(50% - 50vw);
 	padding: 0 0 4rem;
-	background-color: var(--color-theme-light-grey);
+	background-color: var(--color-theme-white);
 }
 
 .scrolllint-heading {

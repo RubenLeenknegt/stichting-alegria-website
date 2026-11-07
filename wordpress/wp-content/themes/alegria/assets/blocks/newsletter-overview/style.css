@@ -97,7 +97,7 @@
 
 .newsletter-overview-card-image {
 	aspect-ratio: 3 / 2;
-	background: var(--color-theme-light-grey);
+	background: var(--color-theme-white);
 }
 
 .newsletter-overview-card-image img {

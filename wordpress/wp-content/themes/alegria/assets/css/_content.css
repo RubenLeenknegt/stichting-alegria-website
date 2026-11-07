@@ -37,7 +37,7 @@
 --------------------------------------------------------------*/
 
 .archive-page .archive-block {
-	background-color: var(--color-theme-light-grey);
+	background-color: var(--color-theme-white);
 	padding: 7rem 2rem 5rem;
 }
 
@@ -108,7 +108,7 @@
 
 .archive-page .archive-card-image {
 	aspect-ratio: 3 / 2;
-	background: var(--color-theme-light-grey);
+	background: var(--color-theme-white);
 	position: relative;
 }
 
@@ -158,6 +158,8 @@
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+/* Pagination: round buttons in the theme colours. Numbers are outlined, the
+   current page is filled green, previous/next carry the theme's arrow icon. */
 .archive-page .archive-pagination {
 	margin-top: 3rem;
 }
@@ -171,31 +173,40 @@
 }
 
 .archive-page .archive-pagination .nav-links {
-	gap: 0.75rem;
+	flex-wrap: wrap;
+	gap: 0.5rem;
 	justify-content: center;
 	align-items: center;
 }
 
 .archive-page .archive-pagination .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 2.75rem;
+	height: 2.75rem;
 	margin: 0;
-	min-width: 2.5rem;
-	padding: 0.7rem 1rem;
-	border: 1px solid rgba(1, 33, 105, 0.2);
+	padding: 0 0.75rem;
+	border: 1px solid var(--border-color-light);
 	border-radius: 9999px;
 	background: var(--color-theme-white);
 	color: var(--global-font-color);
+	font-size: var(--font-size-regular);
 	font-weight: 700;
-	line-height: 1.2;
+	line-height: 1;
 	text-decoration: none;
 	transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
-.archive-page .archive-pagination .page-numbers:hover,
-.archive-page .archive-pagination .page-numbers:focus,
-.archive-page .archive-pagination .page-numbers:active {
+.archive-page .archive-pagination a.page-numbers:visited {
+	color: var(--global-font-color);
+}
+
+.archive-page .archive-pagination a.page-numbers:hover,
+.archive-page .archive-pagination a.page-numbers:focus-visible {
 	border-color: var(--color-theme-primary);
 	color: var(--color-theme-primary);
-	transform: translateY(-1px);
+	transform: translateY(-2px);
 }
 
 .archive-page .archive-pagination .page-numbers.current {
@@ -206,41 +217,44 @@
 
 .archive-page .archive-pagination .page-numbers.prev,
 .archive-page .archive-pagination .page-numbers.next {
-	min-width: auto;
-	padding-left: 1rem;
-	padding-right: 1rem;
-	background: var(--color-theme-light-grey);
-	border-color: transparent;
-	text-decoration: none;
+	padding: 0;
+	color: var(--color-theme-primary);
 }
 
-.archive-page .archive-pagination .page-numbers.prev:hover,
-.archive-page .archive-pagination .page-numbers.prev:focus,
-.archive-page .archive-pagination .page-numbers.prev:active,
-.archive-page .archive-pagination .page-numbers.next:hover,
-.archive-page .archive-pagination .page-numbers.next:focus,
-.archive-page .archive-pagination .page-numbers.next:active {
-	border-color: transparent;
+.archive-page .archive-pagination .prev {
+	margin-right: 0.5rem;
+}
+
+.archive-page .archive-pagination .next {
+	margin-left: 0.5rem;
+}
+
+.archive-page .archive-pagination .page-numbers svg {
+	display: block;
+	width: 1.5rem;
+	height: 1.5rem;
+	fill: currentColor;
+}
+
+.archive-page .archive-pagination .prev svg {
+	transform: rotate(180deg);
 }
 
 .archive-page .archive-pagination .page-numbers.dots {
+	min-width: auto;
+	padding: 0 0.25rem;
 	border: none;
 	background: transparent;
-	padding-left: 0.35rem;
-	padding-right: 0.35rem;
 }
 
-@media (max-width: 47em) {
+@media (max-width: 47.99em) {
 	.archive-page .archive-block {
 		padding: 3rem 1.5rem 4rem;
 	}
 
-	.archive-page .archive-pagination .nav-links {
-		gap: 0.5rem;
-	}
-
 	.archive-page .archive-pagination .page-numbers {
-		padding: 0.65rem 0.9rem;
+		min-width: 2.5rem;
+		height: 2.5rem;
 	}
 }
 
@@ -251,7 +265,7 @@
 	display: flex;
 	justify-content: center;
 	width: 100%;
-	background-color: var(--color-theme-light-grey);
+	background-color: var(--color-theme-white);
 	padding-top: 3rem;
 }
 

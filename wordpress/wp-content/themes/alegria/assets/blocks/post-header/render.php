@@ -1,10 +1,10 @@
 <?php
 /**
- * Post header for newsletters and events: Rank Math breadcrumbs, the title (h1), the date, an intro text
- * and a 16:9 image.
+ * Page header: Rank Math breadcrumbs, the title (h1), an intro text and a 16:9 image. Usable on any page
+ * or post type; the newsletter and event template starts with it.
  *
- * Events show their event date, newsletters their publish date. Without an image of its own, the block
- * shows the post's featured image.
+ * Only newsletters and events show a date: events their event date, newsletters their publish date.
+ * Without an image of its own, the block shows the post's featured image.
  *
  * @package alegria
  *
@@ -36,16 +36,11 @@ $image = alegria_block_image(
 	)
 );
 
-$date = alegria_display_date( $post_id );
+$date = in_array( get_post_type( $post_id ), array( 'newsletter', 'event' ), true )
+	? alegria_display_date( $post_id )
+	: array( 'text' => '' );
 
-$breadcrumbs = function_exists( 'rank_math_get_breadcrumbs' )
-	? rank_math_get_breadcrumbs(
-		array(
-			'separator'   => '/',
-			'wrap_before' => '<nav aria-label="' . esc_attr__( 'Kruimelpad', 'alegria' ) . '" class="rank-math-breadcrumb post-header-breadcrumbs"><p>',
-		)
-	)
-	: '';
+$breadcrumbs = alegria_breadcrumbs( 'post-header-breadcrumbs' );
 ?>
 <header <?php echo get_block_wrapper_attributes( array( 'class' => 'post-header' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="post-header-container">

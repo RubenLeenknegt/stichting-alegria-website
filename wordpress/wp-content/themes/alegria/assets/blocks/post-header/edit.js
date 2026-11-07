@@ -30,6 +30,8 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const formatDate = ( value ) =>
 		value ? new Date( value ).toLocaleDateString( 'nl-NL', { day: 'numeric', month: 'long', year: 'numeric' } ) : '';
+	// Only newsletters and events show a date, as in render.php.
+	const hasDate = postType === 'event' || postType === 'newsletter';
 	const shownDate =
 		postType === 'event'
 			? formatDate( eventDate ) || __( 'Nog geen evenementdatum (zie Evenementdetails)', 'alegria' )
@@ -38,7 +40,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Berichtkop', 'alegria' ) } initialOpen={ true }>
+				<PanelBody title={ __( 'Paginakop', 'alegria' ) } initialOpen={ true }>
 					<RichTextField
 						label={ __( 'Introductietekst', 'alegria' ) }
 						value={ introText }
@@ -51,16 +53,18 @@ export default function Edit( { attributes, setAttributes } ) {
 						onChange={ ( image ) => setAttributes( { imageId: image.id, imageUrl: image.url, imageAlt: image.alt } ) }
 					/>
 					<p style={ { fontSize: '12px', color: '#666' } }>
-						{ __( 'Zonder afbeelding wordt de uitgelichte afbeelding van het bericht getoond. Titel en datum komen uit het bericht zelf.', 'alegria' ) }
+						{ __( 'Zonder afbeelding wordt de uitgelichte afbeelding van het bericht getoond. De titel (en bij nieuwsbrieven en evenementen de datum) komt uit de pagina zelf.', 'alegria' ) }
 					</p>
 				</PanelBody>
 			</InspectorControls>
 
 			<div { ...blockProps }>
-				<PreviewCard title={ __( 'Berichtkop', 'alegria' ) } style={ { maxWidth: '780px' } }>
+				<PreviewCard title={ __( 'Paginakop', 'alegria' ) } style={ { maxWidth: '780px' } }>
 					<PreviewField label={ __( 'Kruimelpad', 'alegria' ) } value={ __( 'Automatisch (Rank Math)', 'alegria' ) } maxLines={ 1 } />
 					<PreviewField label={ __( 'Titel', 'alegria' ) } value={ title || __( 'Zonder titel', 'alegria' ) } maxLines={ 2 } />
-					<PreviewField label={ postType === 'event' ? __( 'Evenementdatum', 'alegria' ) : __( 'Datum', 'alegria' ) } value={ shownDate } maxLines={ 1 } />
+					{ hasDate ? (
+						<PreviewField label={ postType === 'event' ? __( 'Evenementdatum', 'alegria' ) : __( 'Datum', 'alegria' ) } value={ shownDate } maxLines={ 1 } />
+					) : null }
 					<PreviewField label={ __( 'Introductietekst', 'alegria' ) } value={ introText || __( 'Vul in de zijbalk een introductietekst in.', 'alegria' ) } maxLines={ 3 } />
 					{ previewImage ? (
 						<img src={ previewImage } alt={ imageAlt } style={ { width: '100%', aspectRatio: '16 / 9', objectFit: 'cover', borderRadius: 4 } } />

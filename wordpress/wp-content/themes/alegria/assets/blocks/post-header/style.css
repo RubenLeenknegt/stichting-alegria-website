@@ -1,5 +1,5 @@
 /**
- * Post header: breadcrumbs, title, date, intro text and image at the top of a newsletter or event.
+ * Page header: breadcrumbs, title, date (newsletters and events only), intro text and image at the top of a page.
  */
 
 .post-header {
@@ -11,31 +11,9 @@
 	margin: 0 auto;
 }
 
-/* Breadcrumbs: 15px and black, the current post bold in the primary colour. */
+/* The breadcrumb style itself is in assets/css/_breadcrumbs.css. */
 .post-header-breadcrumbs {
 	margin-bottom: 1.5rem;
-}
-
-.post-header-breadcrumbs p {
-	margin: 0;
-	font-size: 0.9375rem; /* 15px */
-	color: #000;
-}
-
-.post-header-breadcrumbs a,
-.post-header-breadcrumbs a:visited {
-	color: #000;
-	text-decoration: none;
-}
-
-.post-header-breadcrumbs a:hover,
-.post-header-breadcrumbs a:focus-visible {
-	text-decoration: underline;
-}
-
-.post-header-breadcrumbs .last {
-	font-weight: 700;
-	color: var(--color-theme-primary);
 }
 
 .post-header-title {
@@ -54,7 +32,6 @@
 
 .post-header-intro {
 	max-width: 800px;
-	padding-inline-start: 1.5rem;
 	margin-bottom: 2rem;
 	font-size: var(--font-size-regular);
 	line-height: var(--global-font-line-height);

@@ -8,7 +8,10 @@
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'entry' ); ?>>
 	<?php if ( is_singular() ) : ?>
-		<?php if ( has_post_thumbnail() ) : ?>
+		<?php
+		// The post-header block shows the featured image itself (when it has no image of its own).
+		if ( has_post_thumbnail() && ! has_block( 'wp-rig/post-header' ) ) :
+			?>
 			<div class="post-thumbnail">
 				<?php the_post_thumbnail( 'alegria-content', array( 'class' => 'skip-lazy' ) ); ?>
 			</div>

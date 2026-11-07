@@ -33,7 +33,8 @@ add_action(
 		add_theme_support( 'wp-block-styles' );
 		add_theme_support( 'align-wide' );
 
-		// Turns on Rank Math's breadcrumbs (and their schema) regardless of its settings; the post-header block prints them.
+		// Turns on Rank Math's breadcrumbs (and their schema) regardless of its settings. header.php prints them on
+		// every page except the front page; on newsletters and events the post-header block prints them.
 		add_theme_support( 'rank-math-breadcrumbs' );
 
 		// No site editor or block templates; this is a classic theme.
@@ -52,16 +53,28 @@ add_action(
 );
 
 /*
- * Breadcrumbs on newsletters and events always end in the current post's title, shown highlighted by the
- * post-header block, even if Rank Math's "Hide Post Title" breadcrumb setting is on.
+ * Breadcrumbs always end in the current page's title, shown highlighted, even if Rank Math's
+ * "Hide Post Title" breadcrumb setting is on.
  */
 add_filter(
 	'rank_math/frontend/breadcrumb/settings',
 	function ( array $settings ): array {
-		if ( is_singular( array( 'newsletter', 'event' ) ) ) {
-			$settings['remove_title'] = false;
-		}
+		$settings['remove_title'] = false;
 		return $settings;
+	}
+);
+
+/*
+ * Pages with the breadcrumb bar below the site header get the has-site-breadcrumbs body class, so their
+ * content can drop the top spacing that otherwise clears the logo.
+ */
+add_filter(
+	'body_class',
+	function ( array $classes ): array {
+		if ( alegria_show_site_breadcrumbs() ) {
+			$classes[] = 'has-site-breadcrumbs';
+		}
+		return $classes;
 	}
 );
 
