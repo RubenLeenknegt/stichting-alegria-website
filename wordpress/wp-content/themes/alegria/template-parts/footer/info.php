@@ -8,18 +8,18 @@
  * @package alegria
  */
 
-$footer_text = alegria_footer_setting( 'alegria_footer_text' );
-$cta_text    = alegria_footer_setting( 'alegria_footer_cta_text' );
-$cta_url     = alegria_footer_setting( 'alegria_footer_cta_url' );
-$link_text   = alegria_footer_setting( 'alegria_footer_link_text' );
-$link_url    = alegria_footer_setting( 'alegria_footer_link_url' );
+$footer_text = alegria_setting( 'alegria_footer_text' );
+$cta_text    = alegria_setting( 'alegria_footer_cta_text' );
+$cta_url     = alegria_setting( 'alegria_footer_cta_url' );
+$link_text   = alegria_setting( 'alegria_footer_link_text' );
+$link_url    = alegria_setting( 'alegria_footer_link_url' );
 $arrow_icon  = alegria_svg( 'arrow_right' );
 
 $socials = array_filter(
 	array(
-		'instagram'   => array( 'Instagram', alegria_footer_setting( 'alegria_social_instagram' ) ),
-		'facebook-f'  => array( 'Facebook', alegria_footer_setting( 'alegria_social_facebook' ) ),
-		'linkedin-in' => array( 'LinkedIn', alegria_footer_setting( 'alegria_social_linkedin' ) ),
+		'instagram'   => array( 'Instagram', alegria_setting( 'alegria_social_instagram' ) ),
+		'facebook-f'  => array( 'Facebook', alegria_setting( 'alegria_social_facebook' ) ),
+		'linkedin-in' => array( 'LinkedIn', alegria_setting( 'alegria_social_linkedin' ) ),
 	),
 	static fn( array $social ): bool => '' !== $social[1]
 );

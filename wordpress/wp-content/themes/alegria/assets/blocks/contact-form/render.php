@@ -30,9 +30,9 @@ $form       = shortcode_exists( 'contact-form-7' ) ? do_shortcode( $alegria_cf7_
 // Icons: Font Awesome Free brand icons (CC BY 4.0), assets/svg/{instagram,facebook-f,linkedin-in}.svg.
 $socials = array_filter(
 	array(
-		'instagram'   => array( 'Instagram', alegria_footer_setting( 'alegria_social_instagram' ) ),
-		'facebook-f'  => array( 'Facebook', alegria_footer_setting( 'alegria_social_facebook' ) ),
-		'linkedin-in' => array( 'LinkedIn', alegria_footer_setting( 'alegria_social_linkedin' ) ),
+		'instagram'   => array( 'Instagram', alegria_setting( 'alegria_social_instagram' ) ),
+		'facebook-f'  => array( 'Facebook', alegria_setting( 'alegria_social_facebook' ) ),
+		'linkedin-in' => array( 'LinkedIn', alegria_setting( 'alegria_social_linkedin' ) ),
 	),
 	static fn( array $social ): bool => '' !== $social[1]
 );

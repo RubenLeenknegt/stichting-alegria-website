@@ -71,6 +71,18 @@
 	opacity: 0.8;
 }
 
+.archive-page .archive-description p {
+	margin: 0 0 0.75em;
+}
+
+.archive-page .archive-description p:last-child {
+	margin-bottom: 0;
+}
+
+.archive-page .archive-button {
+	margin-top: 0.75rem;
+}
+
 .archive-page .archive-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));

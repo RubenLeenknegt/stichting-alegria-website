@@ -51,6 +51,15 @@ add_action(
 				'collapse' => __( 'Submenu sluiten', 'alegria' ),
 			)
 		);
+
+		// Opens the newsletter popup (template-parts/footer/newsletter-popup.php) from links to #nieuwsbrief-popup.
+		wp_enqueue_script(
+			'alegria-newsletter-popup',
+			get_theme_file_uri( 'assets/dist/newsletter-popup.js' ),
+			array(),
+			alegria_asset_version( 'assets/dist/newsletter-popup.js' ),
+			array( 'strategy' => 'defer' )
+		);
 	}
 );
 

@@ -16,6 +16,8 @@
 	</footer><!-- #colophon -->
 </div><!-- #page -->
 
+<?php get_template_part( 'template-parts/footer/newsletter-popup' ); ?>
+
 <?php wp_footer(); ?>
 
 </body>

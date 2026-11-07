@@ -1,0 +1,161 @@
+/*--------------------------------------------------------------
+# Newsletter popup
+#
+# A native <dialog> (template-parts/footer/newsletter-popup.php), opened by
+# any link to #nieuwsbrief-popup (assets/js/newsletter-popup.js).
+--------------------------------------------------------------*/
+.newsletter-popup {
+	width: min(100% - 2rem, 32rem);
+	max-height: calc(100dvh - 2rem);
+	margin: auto;
+	padding: 0;
+	border: none;
+	border-radius: 16px;
+	background: var(--color-theme-white);
+	color: var(--global-font-color);
+	box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+	overflow: auto;
+}
+
+.newsletter-popup::backdrop {
+	background: rgba(0, 0, 0, 0.55);
+}
+
+.newsletter-popup[open] {
+	animation: newsletter-popup-in 0.2s ease-out;
+}
+
+.newsletter-popup[open]::backdrop {
+	animation: newsletter-popup-fade 0.2s ease-out;
+}
+
+/* Keep the page behind the popup from scrolling. */
+html:has(.newsletter-popup[open]) {
+	overflow: hidden;
+}
+
+.newsletter-popup-inner {
+	position: relative;
+	padding: 2.5rem 1.5rem 2rem;
+}
+
+.newsletter-popup-close {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0;
+	border: none;
+	border-radius: 9999px;
+	background: transparent;
+	color: var(--global-font-color);
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.newsletter-popup-close:hover,
+.newsletter-popup-close:focus-visible {
+	background-color: rgba(0, 0, 0, 0.06);
+}
+
+.newsletter-popup-close svg {
+	display: block;
+	width: 1.5rem;
+	height: 1.5rem;
+	fill: currentColor;
+}
+
+.newsletter-popup-title {
+	margin: 0 2.5rem 0.75rem 0;
+	font-size: var(--font-size-large);
+	font-weight: 700;
+	line-height: 1.2;
+	color: var(--color-theme-primary);
+}
+
+.newsletter-popup-text {
+	margin-bottom: 1.5rem;
+	font-size: var(--font-size-regular);
+	line-height: var(--global-font-line-height);
+}
+
+.newsletter-popup-text p {
+	margin: 0 0 0.75em;
+}
+
+.newsletter-popup-text p:last-child {
+	margin-bottom: 0;
+}
+
+/*
+ * The CF7 form: not the full-width band from _contact-form.css, and one <p> per field
+ * (label + input on one line in the template) that sets the spacing.
+ */
+.newsletter-popup .wpcf7 {
+	margin: 0;
+	padding: 0;
+	background: none;
+}
+
+.newsletter-popup .wpcf7-form {
+	max-width: none;
+}
+
+.newsletter-popup .wpcf7-form p {
+	margin: 0 0 1.25rem;
+}
+
+.newsletter-popup .wpcf7-form p:last-of-type {
+	margin-bottom: 0;
+}
+
+.newsletter-popup .cf7-label {
+	margin-bottom: 0.375rem;
+}
+
+.newsletter-popup .wpcf7-form .cf7-input,
+.newsletter-popup .wpcf7-form .cf7-submit-btn {
+	margin: 0;
+}
+
+.newsletter-popup .wpcf7-form .cf7-checkbox {
+	margin: 0 0.5rem 0 0;
+}
+
+.newsletter-popup .wpcf7-acceptance {
+	font-size: var(--font-size-small);
+}
+
+.newsletter-popup .wpcf7-acceptance a {
+	color: var(--color-theme-primary);
+}
+
+@media (--content-query) {
+	.newsletter-popup-inner {
+		padding: 3rem 2.5rem 2.5rem;
+	}
+}
+
+@keyframes newsletter-popup-in {
+	from {
+		opacity: 0;
+		transform: translateY(1rem) scale(0.98);
+	}
+}
+
+@keyframes newsletter-popup-fade {
+	from {
+		opacity: 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.newsletter-popup[open],
+	.newsletter-popup[open]::backdrop {
+		animation: none;
+	}
+}
