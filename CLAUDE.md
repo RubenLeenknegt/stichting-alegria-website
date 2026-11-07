@@ -58,8 +58,7 @@ Deploying: run `npm run zip` and upload `alegria.zip` as a theme in wp-admin. Ac
   - Items whose URL is empty or `#` become a `<button class="submenu-toggle">`.
   - The "Doneer nu" item (CSS class `donate-menu-item`, or a title starting with "Doneer nu") is a `.btn-primary` link with the arrow inside it (`alegria_is_donate_item()`).
   - Each parent with a URL is repeated as the first submenu item, with class `menu-item--injected-parent-link` (hidden on desktop).
-- `customizer.php`: the Appearance → Customize → Footer section (intro text, Instagram/Facebook/LinkedIn URLs, CTA button and text link), read with `alegria_footer_setting( $id )`. Empty settings are left out of the footer.
-- `helpers.php`:
+- `customizer.php`: the Appearance → Customize → Footer section (intro text, Instagram/Facebook/LinkedIn URLs, CTA button and text link), read with `alegria_footer_setting( $id )`. Empty settings are left out of the footer.- `helpers.php`:
   - `alegria_svg( $name )` returns the inline markup of `assets/svg/<name>.svg`.
   - `alegria_block_image()` / `alegria_block_image_url()` render block images.
   - `alegria_display_date( $post_id )` returns the date to show (`iso`, `text`): the event date for events, the publish date otherwise.
@@ -85,6 +84,7 @@ The logo and social icons are inline SVGs. The mobile menu button is pure CSS.
   - `hero`, `aboutus`, `cards` and `txt-img` (text and button beside an image; renders nothing until image and button are set; formerly `feature-split`);
   - `newsletter-overview` (latest 3) and `upcoming-events` (renders nothing when no event is dated yesterday or later);
   - `scrolllint` (decorative image strip, a continuous Swiper marquee), `txt`, `img`;
+  - `contact-form`: title, two texts and the green social links (the footer's Customizer URLs) beside the CF7 form "Contact formulier", whose shortcode is hardcoded in `render.php`. The form and mail templates (stored in the database) are in `cf7-templates.md` in the block folder;
   - `embed-shortcode`: raw iframe/HTML only for authors with `unfiltered_html`; shortcode text is sanitized before `do_shortcode`;
   - `post-header` ("Paginakop", `multiple: false`, usable everywhere): Rank Math breadcrumbs, `<h1>`, intro, 16:9 `alegria-feature` image falling back to the featured image; only newsletters and events also show their date;
   - the newsletter/event-only template blocks (`multiple: false`): `share` (Facebook/LinkedIn share URLs and a copy-link button in `view.js`; no Instagram, which has no web share URL) and `read-more` (three others of the same type; events: upcoming first, then past. Reuses the `newsletter-overview` markup and lists its style handle in block.json).

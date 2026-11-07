@@ -2,7 +2,8 @@
 # Buttons
 #
 # .btn-primary is the red call-to-action button: block CTAs, the "Doneer nu"
-# menu item and (as .cf7-submit-btn) the Contact Form 7 submit button.
+# menu item and (as .cf7-submit-btn) the Contact Form 7 submit button,
+# a <button> in the form template so it can hold the arrow.
 # An arrow goes in a <span class="btn-icon"> inside the button.
 --------------------------------------------------------------*/
 .btn-primary,
@@ -66,6 +67,18 @@
 .cf7-submit-btn:hover .btn-icon,
 .cf7-submit-btn:focus .btn-icon {
 	transform: translateX(3px);
+}
+
+/* CF7 disables the submit button until the privacy box is ticked. */
+.wpcf7-form .cf7-submit-btn:disabled {
+	background-color: var(--color-theme-red);
+	opacity: 0.5;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.wpcf7-form .cf7-submit-btn:disabled .btn-icon {
+	transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

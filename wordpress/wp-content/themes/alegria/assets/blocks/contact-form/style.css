@@ -1,0 +1,137 @@
+/**
+ * Contact form block: title, texts and green social links on the left, the CF7 form on the right.
+ * Stacked on phones. The form fields themselves are styled in assets/css/_contact-form.css.
+ */
+
+.contact-form-block {
+	background-color: var(--color-theme-white);
+	padding: 3rem 1.5rem;
+}
+
+.contact-form-container {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 2.5rem;
+	max-width: 1200px;
+	margin: 0 auto;
+	align-items: start;
+}
+
+.contact-form-title {
+	font-size: var(--font-size-large);
+	font-weight: 700;
+	color: var(--color-theme-primary);
+	line-height: 1.2;
+	margin: 0 0 1rem;
+}
+
+.contact-form-text {
+	font-size: var(--font-size-regular);
+	line-height: var(--global-font-line-height);
+	color: #000;
+	margin: 0 0 1.5rem;
+}
+
+.contact-form-text p {
+	margin: 0 0 0.75em;
+}
+
+.contact-form-text p:last-child {
+	margin-bottom: 0;
+}
+
+.contact-form-text a {
+	color: var(--color-theme-primary);
+}
+
+/* Same round icons as the footer, in green on white. */
+.contact-form-social {
+	display: flex;
+	gap: 0.75rem;
+	margin: 2rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.contact-form-social-link,
+.contact-form-social-link:visited {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 3rem;
+	height: 3rem;
+	border: 1px solid var(--color-theme-primary);
+	border-radius: 9999px;
+	color: var(--color-theme-primary);
+	transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.contact-form-social-link:hover,
+.contact-form-social-link:focus-visible {
+	background-color: var(--color-theme-primary);
+	color: var(--color-theme-white);
+}
+
+.contact-form-social-link svg {
+	display: block;
+	width: auto;
+	height: 1.5rem;
+	fill: currentColor;
+}
+
+/* The global CF7 style makes the form a full-width white band; inside this block it is a plain column. */
+.contact-form-block .wpcf7 {
+	margin: 0;
+	padding: 0;
+	background: none;
+}
+
+.contact-form-block .wpcf7-form {
+	max-width: none;
+}
+
+/*
+ * CF7 wraps each field (label + input, one line in the template) in a <p>.
+ * The paragraphs set the space between fields; the inputs and checkbox add none of their own.
+ */
+.contact-form-block .wpcf7-form p {
+	margin: 0 0 1.25rem;
+}
+
+.contact-form-block .wpcf7-form p:last-of-type {
+	margin-bottom: 0;
+}
+
+.contact-form-block .cf7-label {
+	margin-bottom: 0.375rem;
+}
+
+.contact-form-block .wpcf7-form .cf7-input,
+.contact-form-block .wpcf7-form .cf7-textarea {
+	margin-bottom: 0;
+}
+
+.contact-form-block .wpcf7-form .cf7-checkbox {
+	margin: 0 0.5rem 0 0;
+}
+
+.contact-form-block .wpcf7-form .cf7-submit-btn {
+	margin-top: 0;
+}
+
+@media (min-width: 48em) {
+	.contact-form-block {
+		padding: 4rem 2rem;
+	}
+
+	.contact-form-container {
+		grid-template-columns: 1fr 1fr;
+		gap: 3rem;
+	}
+}
+
+@media (min-width: 87em) {
+	.contact-form-container {
+		gap: 4rem;
+	}
+}
