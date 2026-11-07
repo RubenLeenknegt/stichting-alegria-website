@@ -3,11 +3,11 @@ import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, TextControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
-import { LinkField } from '../_shared/controls';
+import { LinkField, RichTextField } from '../_shared/controls';
 import { PreviewCard, PreviewField, PreviewThumb, PreviewEmptyState, stripHtmlText } from '../_shared/editor-preview';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { title, linkText, linkUrl } = attributes;
+	const { title, bodyText, linkText, linkUrl } = attributes;
 
 	const blockProps = useBlockProps();
 
@@ -35,20 +35,33 @@ export default function Edit( { attributes, setAttributes } ) {
 						onChange={ ( value ) => setAttributes( { title: value } ) }
 						placeholder={ __( 'bijv. Laatste nieuwsbrieven', 'alegria' ) }
 					/>
+					<RichTextField
+						label={ __( 'Tekst', 'alegria' ) }
+						value={ bodyText }
+						onChange={ ( value ) => setAttributes( { bodyText: value } ) }
+						placeholder={ __( 'Typ hier de tekst onder de titel…', 'alegria' ) }
+					/>
+				</PanelBody>
+
+				<PanelBody title={ __( 'Knop', 'alegria' ) } initialOpen={ false }>
 					<TextControl
-						label={ __( 'Linktekst', 'alegria' ) }
+						label={ __( 'Knoptekst', 'alegria' ) }
 						value={ linkText }
 						onChange={ ( value ) => setAttributes( { linkText: value } ) }
 						placeholder={ __( 'bijv. Alle nieuwsbrieven', 'alegria' ) }
 					/>
 					<LinkField url={ linkUrl } onChange={ ( url ) => setAttributes( { linkUrl: url } ) } />
+					<p style={ { fontSize: '12px', color: '#666' } }>
+						{ __( 'De knop staat rechts naast de titel. Zonder link gaat hij naar het nieuwsbrievenoverzicht.', 'alegria' ) }
+					</p>
 				</PanelBody>
 			</InspectorControls>
 
 			<div { ...blockProps }>
 				<PreviewCard title={ stripHtmlText( title ) || __( 'Nieuwsbrieven', 'alegria' ) } style={ { maxWidth: '780px' } }>
 					<div style={ { display: 'grid', gap: '10px' } }>
-						{ linkText ? <PreviewField label={ __( 'Linktekst', 'alegria' ) } value={ linkText } maxLines={ 1 } /> : null }
+						{ bodyText ? <PreviewField label={ __( 'Tekst', 'alegria' ) } value={ bodyText } maxLines={ 3 } /> : null }
+						{ linkText ? <PreviewField label={ __( 'Knop', 'alegria' ) } value={ linkText } maxLines={ 1 } /> : null }
 						{ linkUrl ? <PreviewField label={ __( 'Link', 'alegria' ) } value={ linkUrl } maxLines={ 1 } /> : null }
 						{ posts && posts.length > 0 ? (
 							<ul style={ { padding: 0, margin: 0, listStyle: 'none', display: 'grid', gap: '10px' } }>

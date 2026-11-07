@@ -4,6 +4,7 @@
  * from the Customizer (Archief: nieuwsbrieven / evenementen).
  *
  * The title falls back to the post type's name; empty text and an incomplete button are left out.
+ * From tablet width the button sits to the right of the text, top-aligned (see _content.css).
  * A button linking to #nieuwsbrief-popup opens the newsletter popup.
  *
  * @package alegria
@@ -26,14 +27,18 @@ if ( ! $title ) {
 <header class="archive-header">
 	<h1 class="archive-title"><?php echo esc_html( $title ); ?></h1>
 
-	<?php if ( $text ) : ?>
-		<div class="archive-description"><?php echo wpautop( esc_html( $text ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
-	<?php endif; ?>
+	<?php if ( $text || ( $button_text && $button_url ) ) : ?>
+		<div class="archive-intro">
+			<?php if ( $text ) : ?>
+				<div class="archive-description"><?php echo wpautop( esc_html( $text ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
+			<?php endif; ?>
 
-	<?php if ( $button_text && $button_url ) : ?>
-		<a href="<?php echo esc_url( $button_url ); ?>" class="btn-primary archive-button">
-			<?php echo esc_html( $button_text ); ?>
-			<span class="btn-icon" aria-hidden="true"><?php echo alegria_svg( 'arrow_right' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-		</a>
+			<?php if ( $button_text && $button_url ) : ?>
+				<a href="<?php echo esc_url( $button_url ); ?>" class="btn-primary archive-button">
+					<?php echo esc_html( $button_text ); ?>
+					<span class="btn-icon" aria-hidden="true"><?php echo alegria_svg( 'arrow_right' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+				</a>
+			<?php endif; ?>
+		</div>
 	<?php endif; ?>
 </header>

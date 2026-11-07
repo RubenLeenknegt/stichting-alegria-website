@@ -8,7 +8,7 @@ import { PreviewCard, PreviewField, PreviewThumb, PreviewEmptyState, stripHtmlTe
 const CARD_NUMBERS = [ 1, 2, 3 ];
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { sectionTitle } = attributes;
+	const { sectionTitle, sectionText, ctaText, ctaUrl } = attributes;
 	const card = ( n ) => ( {
 		imageId: attributes[ `card${ n }ImageId` ],
 		imageUrl: attributes[ `card${ n }ImageUrl` ],
@@ -26,7 +26,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		useMediaUrl( attributes.card3ImageId, attributes.card3ImageUrl ),
 	];
 	const cards = CARD_NUMBERS.map( ( n ) => ( { n, ...card( n ), previewUrl: previewUrls[ n - 1 ] } ) );
-	const hasContent = sectionTitle || cards.some( ( c ) => c.title || c.text || c.url || c.previewUrl );
+	const hasContent = sectionTitle || sectionText || ctaText || cards.some( ( c ) => c.title || c.text || c.url || c.previewUrl );
 
 	return (
 		<>
@@ -38,6 +38,25 @@ export default function Edit( { attributes, setAttributes } ) {
 						onChange={ ( value ) => setAttributes( { sectionTitle: value } ) }
 						placeholder={ __( 'bijv. Onze projecten', 'alegria' ) }
 					/>
+					<RichTextField
+						label={ __( 'Tekst', 'alegria' ) }
+						value={ sectionText }
+						onChange={ ( value ) => setAttributes( { sectionText: value } ) }
+						placeholder={ __( 'Typ hier de tekst onder de titel…', 'alegria' ) }
+					/>
+				</PanelBody>
+
+				<PanelBody title={ __( 'Knop', 'alegria' ) } initialOpen={ false }>
+					<TextControl
+						label={ __( 'Knoptekst', 'alegria' ) }
+						value={ ctaText }
+						onChange={ ( value ) => setAttributes( { ctaText: value } ) }
+						placeholder={ __( 'bijv. Bekijk alle projecten', 'alegria' ) }
+					/>
+					<LinkField url={ ctaUrl } onChange={ ( url ) => setAttributes( { ctaUrl: url } ) } />
+					<p style={ { fontSize: '12px', color: '#666' } }>
+						{ __( 'De knop staat rechts naast de titel en verschijnt alleen als tekst en link allebei zijn ingevuld.', 'alegria' ) }
+					</p>
 				</PanelBody>
 
 				{ cards.map( ( c ) => (
@@ -70,6 +89,8 @@ export default function Edit( { attributes, setAttributes } ) {
 				{ hasContent ? (
 					<PreviewCard title={ stripHtmlText( sectionTitle ) || __( 'Kaarten', 'alegria' ) } style={ { maxWidth: '680px' } }>
 						<div style={ { display: 'grid', gap: '12px' } }>
+							{ sectionText ? <PreviewField label={ __( 'Tekst', 'alegria' ) } value={ sectionText } maxLines={ 3 } /> : null }
+							{ ctaText ? <PreviewField label={ __( 'Knop', 'alegria' ) } value={ ctaUrl ? ctaText : ctaText + ' ' + __( '(nog zonder link)', 'alegria' ) } maxLines={ 1 } /> : null }
 							{ cards
 								.filter( ( c ) => c.title || c.text || c.url || c.previewUrl )
 								.map( ( c, index ) => (

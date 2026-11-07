@@ -16,6 +16,12 @@ $block = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
 
 // Get attributes
 $section_title = $attributes['sectionTitle'] ?? '';
+$section_text  = $attributes['sectionText'] ?? '';
+$cta_text      = $attributes['ctaText'] ?? '';
+$cta_url       = $attributes['ctaUrl'] ?? '';
+$has_cta       = $cta_text && $cta_url;
+
+$primary_button_icon = alegria_svg( 'arrow_right' );
 
 // Card 1
 $card1_image_url = alegria_block_image_url( (int) ( $attributes['card1ImageId'] ?? 0 ), $attributes['card1ImageUrl'] ?? '', 'alegria-portrait' );
@@ -67,8 +73,31 @@ $render_card = static function ( $image_url, $title, $text, $url ): void {
 
 <div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="cards-container">
-		<?php if ( $section_title ) : ?>
-			<h2 class="cards-section-title"><?php echo esc_html( $section_title ); ?></h2>
+		<?php if ( $section_title || $section_text || $has_cta ) : ?>
+			<div class="cards-header">
+				<?php if ( $section_title || $section_text ) : ?>
+					<div class="cards-intro">
+						<?php if ( $section_title ) : ?>
+							<h2 class="cards-section-title"><?php echo esc_html( $section_title ); ?></h2>
+						<?php endif; ?>
+
+						<?php if ( $section_text ) : ?>
+							<div class="cards-section-text">
+								<?php echo wp_kses_post( $section_text ); ?>
+							</div>
+						<?php endif; ?>
+					</div>
+				<?php endif; ?>
+
+				<?php if ( $has_cta ) : ?>
+					<a href="<?php echo esc_url( $cta_url ); ?>" class="btn-primary cards-cta">
+						<?php echo esc_html( $cta_text ); ?>
+						<?php if ( ! empty( $primary_button_icon ) ) : ?>
+							<span class="btn-icon" aria-hidden="true"><?php echo $primary_button_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+						<?php endif; ?>
+					</a>
+				<?php endif; ?>
+			</div>
 		<?php endif; ?>
 
 		<div class="cards-grid">

@@ -17,6 +17,11 @@ if ( ! $permalink ) {
 	return;
 }
 
+// The label names the post type; the block is only offered on newsletters and events.
+$share_label = 'event' === get_post_type( $post_id )
+	? __( 'Deel dit evenement:', 'alegria' )
+	: __( 'Deel deze nieuwsbrief:', 'alegria' );
+
 $share_links = array(
 	'facebook-f'  => array( 'Facebook', 'https://www.facebook.com/sharer/sharer.php?u=' . rawurlencode( $permalink ) ),
 	'linkedin-in' => array( 'LinkedIn', 'https://www.linkedin.com/sharing/share-offsite/?url=' . rawurlencode( $permalink ) ),
@@ -27,7 +32,7 @@ $share_links = array(
 	data-url="<?php echo esc_url( $permalink ); ?>"
 >
 	<div class="share-container">
-		<p class="share-label" id="share-label-<?php echo esc_attr( (string) $post_id ); ?>"><?php esc_html_e( 'Deel deze post:', 'alegria' ); ?></p>
+		<p class="share-label" id="share-label-<?php echo esc_attr( (string) $post_id ); ?>"><?php echo esc_html( $share_label ); ?></p>
 
 		<ul class="share-links" aria-labelledby="share-label-<?php echo esc_attr( (string) $post_id ); ?>">
 			<?php foreach ( $share_links as $icon => list( $name, $url ) ) : ?>

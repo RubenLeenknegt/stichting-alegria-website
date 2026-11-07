@@ -79,8 +79,33 @@
 	margin-bottom: 0;
 }
 
+/* Text and button: stacked on phones; from tablet width the button sits right of the text, top-aligned. */
+.archive-page .archive-intro {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 1.5rem;
+	align-self: stretch; /* Full container width, so the button can sit at the right edge. */
+}
+
 .archive-page .archive-button {
-	margin-top: 0.75rem;
+	flex-shrink: 0;
+}
+
+@media (--content-query) {
+	.archive-page .archive-intro {
+		flex-direction: row;
+		gap: 2rem;
+	}
+
+	.archive-page .archive-button {
+		margin-left: auto;
+	}
+
+	/* Makes up for the space the button used to take below the text. */
+	.archive-page .archive-description {
+		padding-bottom: 1.5rem;
+	}
 }
 
 .archive-page .archive-grid {

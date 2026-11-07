@@ -15,9 +15,10 @@ $attributes = is_array( $attributes ?? null ) ? $attributes : array();
 $block      = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
 
 $title     = $attributes['title'] ?? '';
+$body_text = $attributes['bodyText'] ?? '';
 $link_text = $attributes['linkText'] ?? '';
 
-// The link goes to the URL set in the block, or else the newsletter archive.
+// The button goes to the URL set in the block, or else the newsletter archive.
 $cta_url = $attributes['linkUrl'] ?? '';
 if ( '' === $cta_url ) {
 	$cta_url = get_post_type_archive_link( 'newsletter' ) ?: home_url( '/nieuwsbrief/' );
@@ -39,14 +40,24 @@ $newsletter_query = new WP_Query(
 
 <div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="newsletter-overview-container">
-		<?php if ( $title || $link_text ) : ?>
+		<?php if ( $title || $body_text || $link_text ) : ?>
 			<div class="newsletter-overview-header">
-				<?php if ( $title ) : ?>
-					<h2 class="newsletter-overview-title"><?php echo esc_html( $title ); ?></h2>
+				<?php if ( $title || $body_text ) : ?>
+					<div class="newsletter-overview-intro">
+						<?php if ( $title ) : ?>
+							<h2 class="newsletter-overview-title"><?php echo esc_html( $title ); ?></h2>
+						<?php endif; ?>
+
+						<?php if ( $body_text ) : ?>
+							<div class="newsletter-overview-text">
+								<?php echo wp_kses_post( $body_text ); ?>
+							</div>
+						<?php endif; ?>
+					</div>
 				<?php endif; ?>
 
 				<?php if ( $link_text ) : ?>
-					<a href="<?php echo esc_url( $cta_url ); ?>" class="newsletter-overview-cta-link">
+					<a href="<?php echo esc_url( $cta_url ); ?>" class="btn-primary newsletter-overview-cta">
 						<?php echo esc_html( $link_text ); ?>
 						<?php if ( ! empty( $primary_button_icon ) ) : ?>
 							<span class="btn-icon" aria-hidden="true"><?php echo $primary_button_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>

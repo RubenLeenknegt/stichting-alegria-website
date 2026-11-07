@@ -4,10 +4,22 @@
   "title": "Kaarten",
   "category": "design",
   "icon": "grid-view",
-  "description": "Drie kaarten met afbeelding, titel, tekst en link.",
+  "description": "Een titel, tekst en knop boven drie kaarten met afbeelding, titel, tekst en link.",
   "textdomain": "alegria",
   "attributes": {
     "sectionTitle": {
+      "type": "string",
+      "default": ""
+    },
+    "sectionText": {
+      "type": "string",
+      "default": ""
+    },
+    "ctaText": {
+      "type": "string",
+      "default": ""
+    },
+    "ctaUrl": {
       "type": "string",
       "default": ""
     },

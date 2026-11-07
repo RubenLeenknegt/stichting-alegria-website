@@ -7,7 +7,7 @@
   "description": "Knoppen om het bericht te delen op Facebook en LinkedIn, en om de link te kopiëren.",
   "textdomain": "alegria",
   "attributes": {},
-  "usesContext": [ "postId" ],
+  "usesContext": [ "postId", "postType" ],
   "supports": {
     "html": false,
     "multiple": false,

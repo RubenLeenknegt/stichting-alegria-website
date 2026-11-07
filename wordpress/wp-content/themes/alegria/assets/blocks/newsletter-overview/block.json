@@ -11,6 +11,10 @@
       "type": "string",
       "default": ""
     },
+    "bodyText": {
+      "type": "string",
+      "default": ""
+    },
     "linkText": {
       "type": "string",
       "default": ""

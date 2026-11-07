@@ -90,7 +90,7 @@ The logo and social icons are inline SVGs. The mobile menu button is pure CSS.
 - **The blocks:**
   - `hero`, `aboutus`, `cards` and `txt-img` (text and button beside an image; renders nothing until image and button are set; formerly `feature-split`);
   - `newsletter-overview` (latest 3) and `upcoming-events` (renders nothing when no event is dated yesterday or later);
-  - `scrolllint` (decorative image strip, a continuous Swiper marquee), `txt`, `img`;
+  - `scrolllint` (decorative image strip, a continuous Swiper marquee), `txt`, `txt-txt` (title above two text columns, stacked on phones), `img`;
   - `contact-form`: title, two texts and the green social links (the footer's Customizer URLs) beside the CF7 form "Contact formulier", whose shortcode is hardcoded in `render.php`;
   - `embed-shortcode`: raw iframe/HTML only for authors with `unfiltered_html`; shortcode text is sanitized before `do_shortcode`;
   - `post-header` ("Paginakop", `multiple: false`, usable everywhere): Rank Math breadcrumbs, `<h1>`, intro, 16:9 `alegria-feature` image falling back to the featured image; only newsletters and events also show their date;
