@@ -1,0 +1,146 @@
+.btn-primary,
+.donate-menu-item > a,
+.wpcf7-form .cf7-submit-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+	padding: 0.6em 1.2em;
+	background-color: var(--color-theme-red);
+	border: none;
+	border-radius: 9999px;
+	color: var(--color-theme-white);
+	font-family: var(--global-font-family);
+	font-size: var(--font-size-regular);
+	font-weight: 700;
+	line-height: var(--global-font-line-height);
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-primary:visited,
+.donate-menu-item > a:visited {
+	color: var(--color-theme-white);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.donate-menu-item > a:hover,
+.donate-menu-item > a:focus,
+.wpcf7-form .cf7-submit-btn:hover,
+.wpcf7-form .cf7-submit-btn:focus {
+	background-color: var(--color-theme-dark-red);
+	color: var(--color-theme-white);
+	text-decoration: none;
+	transform: translateY(-2px);
+}
+
+.btn-primary .btn-icon,
+.cf7-submit-btn .btn-icon {
+	display: inline-flex;
+	align-items: center;
+	line-height: 0;
+	transition: transform 0.2s ease;
+}
+
+.btn-primary .btn-icon svg,
+.cf7-submit-btn .btn-icon svg {
+	display: block;
+	width: 1.5em;
+	height: 1.5em;
+}
+
+.btn-primary .btn-icon svg,
+.btn-primary .btn-icon svg *,
+.cf7-submit-btn .btn-icon svg,
+.cf7-submit-btn .btn-icon svg * {
+	fill: currentColor;
+}
+
+.btn-primary:hover .btn-icon,
+.btn-primary:focus .btn-icon,
+.cf7-submit-btn:hover .btn-icon,
+.cf7-submit-btn:focus .btn-icon {
+	transform: translateX(3px);
+}
+
+/* The menu's donate link: WordPress prints the item's CSS class on the <li>, so the arrow is drawn in CSS. */
+.donate-menu-item > a::after {
+	content: "";
+	flex: none;
+	width: 1.5em;
+	height: 1.5em;
+	background-color: currentColor;
+	mask: url("../svg/arrow_right.svg") center / contain no-repeat;
+	transition: transform 0.2s ease;
+}
+
+.donate-menu-item > a:hover::after,
+.donate-menu-item > a:focus::after {
+	transform: translateX(3px);
+}
+
+/* CF7 disables the submit button until the privacy box is ticked. */
+.wpcf7-form .cf7-submit-btn:disabled {
+	background-color: var(--color-theme-red);
+	opacity: 0.5;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.wpcf7-form .cf7-submit-btn:disabled .btn-icon {
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.btn-primary,
+	.btn-primary .btn-icon,
+	.donate-menu-item > a,
+	.donate-menu-item > a::after,
+	.cf7-submit-btn,
+	.cf7-submit-btn .btn-icon {
+		transition: none;
+	}
+
+	.btn-primary:hover,
+	.btn-primary:focus,
+	.donate-menu-item > a:hover,
+	.donate-menu-item > a:focus,
+	.donate-menu-item > a:hover::after,
+	.donate-menu-item > a:focus::after,
+	.btn-primary:hover .btn-icon,
+	.btn-primary:focus .btn-icon,
+	.wpcf7-form .cf7-submit-btn:hover,
+	.wpcf7-form .cf7-submit-btn:focus,
+	.cf7-submit-btn:hover .btn-icon,
+	.cf7-submit-btn:focus .btn-icon {
+		transform: none;
+	}
+}
+
+.btn-secondary {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+	padding: 0.6em 1.2em;
+	background-color: transparent;
+	border: none;
+	color: var(--color-theme-white);
+	font-family: var(--global-font-family);
+	font-size: var(--font-size-regular);
+	font-weight: 500;
+	text-decoration: none;
+	cursor: pointer;
+	transition: opacity 0.2s ease;
+}
+
+.btn-secondary:visited {
+	color: var(--color-theme-white);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+	opacity: 0.8;
+	text-decoration: underline;
+	color: var(--color-theme-white);
+}

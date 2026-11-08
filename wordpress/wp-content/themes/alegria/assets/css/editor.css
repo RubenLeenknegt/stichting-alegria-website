@@ -1,0 +1,26 @@
+@import "_custom-properties.css";
+@import "_custom-media.css";
+@import "_typography.css";
+@import "_elements.css";
+@import "_links.css";
+@import "_media.css";
+
+button {
+	color: inherit;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	border-radius: inherit;
+}
+
+.editor-post-title__input {
+	font-family: var(--global-font-family);
+	font-size: 2.5rem;
+	line-height: 1.4;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.wp-block {
+	max-width: var(--content-width);
+}

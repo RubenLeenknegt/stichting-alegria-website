@@ -1,0 +1,36 @@
+{
+  "name": "wp-rig/post-header",
+  "apiVersion": 3,
+  "title": "Paginakop",
+  "category": "design",
+  "icon": "heading",
+  "description": "Kruimelpad, titel, introductietekst en afbeelding bovenaan een pagina. Nieuwsbrieven en evenementen tonen ook hun datum.",
+  "textdomain": "alegria",
+  "attributes": {
+    "introText": {
+      "type": "string",
+      "default": ""
+    },
+    "imageId": {
+      "type": "number",
+      "default": 0
+    },
+    "imageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "imageAlt": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "usesContext": [ "postId", "postType" ],
+  "supports": {
+    "html": false,
+    "multiple": false,
+    "reusable": false
+  },
+  "render": "file:./render.php",
+  "editorScript": "file:./build/index.js",
+  "style": "file:./build/style.css"
+}

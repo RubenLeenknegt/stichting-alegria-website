@@ -1,0 +1,19 @@
+html {
+	box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+body {
+	background: var(--content-background-color);
+}
+
+img {
+	display: block;
+	height: auto;
+	max-width: 100%;
+}

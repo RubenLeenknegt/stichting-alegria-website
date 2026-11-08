@@ -1,0 +1,33 @@
+textarea {
+	width: 100%;
+}
+
+button,
+input[type="submit"] {
+	border: 1px solid;
+	border-color: var(--border-color-light) var(--border-color-light) #bbb;
+	border-radius: 3px;
+	background: #eee;
+	color: var(--global-font-color);
+	font-size: 0.75rem;
+	line-height: 1;
+	padding: 0.6em 1em 0.4em;
+	cursor: pointer;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+	color: #666;
+	border: 1px solid var(--border-color-light);
+	border-radius: 3px;
+	padding: 3px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+textarea:focus {
+	color: #111;
+}

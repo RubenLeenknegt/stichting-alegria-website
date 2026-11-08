@@ -1,0 +1,102 @@
+{
+  "name": "wp-rig/cards",
+  "apiVersion": 3,
+  "title": "Kaarten",
+  "category": "design",
+  "icon": "grid-view",
+  "description": "Een titel, tekst en knop boven drie kaarten met afbeelding, titel, tekst en link.",
+  "textdomain": "alegria",
+  "attributes": {
+    "sectionTitle": {
+      "type": "string",
+      "default": ""
+    },
+    "sectionText": {
+      "type": "string",
+      "default": ""
+    },
+    "ctaText": {
+      "type": "string",
+      "default": ""
+    },
+    "ctaUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "card1ImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "card1ImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "card1ImageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "card1Title": {
+      "type": "string",
+      "default": ""
+    },
+    "card1Text": {
+      "type": "string",
+      "default": ""
+    },
+    "card1Url": {
+      "type": "string",
+      "default": ""
+    },
+    "card2ImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "card2ImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "card2ImageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "card2Title": {
+      "type": "string",
+      "default": ""
+    },
+    "card2Text": {
+      "type": "string",
+      "default": ""
+    },
+    "card2Url": {
+      "type": "string",
+      "default": ""
+    },
+    "card3ImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "card3ImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "card3ImageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "card3Title": {
+      "type": "string",
+      "default": ""
+    },
+    "card3Text": {
+      "type": "string",
+      "default": ""
+    },
+    "card3Url": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./build/index.js",
+  "style": "file:./build/style.css",
+  "render": "file:./render.php"
+}

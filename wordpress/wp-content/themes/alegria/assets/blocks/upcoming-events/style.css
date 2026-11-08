@@ -1,0 +1,170 @@
+.upcoming-events-block {
+	--swiper-theme-color: var(--color-theme-primary);
+	--swiper-pagination-bullet-size: 0.6rem;
+	--swiper-pagination-bullet-inactive-color: rgba(1, 33, 105, 0.2);
+	--swiper-pagination-bullet-inactive-opacity: 1;
+	--swiper-pagination-bullet-horizontal-gap: 0.5rem;
+
+	background-color: var(--color-theme-white);
+	padding: 3rem 1.5rem;
+}
+
+.upcoming-events-heading {
+	font-size: var(--font-size-large);
+	font-weight: 700;
+	color: var(--color-theme-primary);
+	max-width: 1200px;
+	margin: 0 auto 1rem;
+}
+
+.upcoming-events-slider {
+	max-width: 1200px;
+}
+
+/* Each slide keeps its own height. Stretched to the tallest slide (the flex default), a slide with
+   a short description spreads the extra height over its grid rows, leaving a gap above the text. */
+.upcoming-events-slider .swiper-wrapper {
+	align-items: flex-start;
+}
+
+.upcoming-events-slide {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: 1fr;
+	align-items: center;
+	align-content: start;
+	height: auto;
+}
+
+.upcoming-events-title {
+	font-size: var(--font-size-large);
+	font-weight: 700;
+	color: var(--color-theme-primary);
+	line-height: 1.2;
+	margin: 0 0 0.5rem 0;
+}
+
+.upcoming-events-excerpt {
+	font-size: var(--font-size-medium);
+	font-weight: 400;
+	line-height: var(--global-font-line-height);
+	color: #000;
+	margin: 0;
+}
+
+.upcoming-events-cta {
+	margin-top: 1.5rem;
+}
+
+.upcoming-events-image {
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+	display: block;
+	border-radius: 8px;
+}
+
+.upcoming-events-image-placeholder {
+	background: var(--color-theme-white);
+}
+
+/* Arrows and bullets sit in a row below the slider instead of on top of it. */
+.upcoming-events-controls {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	max-width: 1200px;
+	margin: 2rem auto 0;
+}
+
+.upcoming-events-block .upcoming-events-arrow {
+	position: static;
+	margin: 0;
+	width: 2.5rem;
+	height: 2.5rem;
+	padding: 0.6rem;
+	border: 1px solid rgba(1, 33, 105, 0.2);
+	border-radius: 9999px;
+	background: var(--color-theme-white);
+	color: var(--color-theme-primary);
+	transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.upcoming-events-block .upcoming-events-arrow::after {
+	content: none;
+}
+
+.upcoming-events-block .swiper-button-prev svg {
+	transform: scaleX(-1);
+}
+
+.upcoming-events-block .upcoming-events-arrow:hover,
+.upcoming-events-block .upcoming-events-arrow:focus-visible {
+	border-color: var(--color-theme-primary);
+	transform: translateY(-1px);
+}
+
+.upcoming-events-block .upcoming-events-pagination {
+	position: static;
+	width: auto;
+	display: flex;
+	align-items: center;
+	transform: none;
+}
+
+.upcoming-events-block .swiper-pagination-bullet {
+	transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.upcoming-events-block .swiper-pagination-bullet-active {
+	transform: scale(1.2);
+}
+
+@media (min-width: 48em) {
+	.upcoming-events-block {
+		padding: 4rem 2rem;
+	}
+
+	.upcoming-events-slide {
+		grid-template-columns: 1fr 1fr;
+		gap: 3rem;
+	}
+
+	.upcoming-events-heading {
+		font-size: var(--font-size-xl);
+		font-weight: 800;
+		margin-bottom: 3rem;
+	}
+}
+
+@media (min-width: 87em) {
+	.upcoming-events-slide {
+		gap: 4rem;
+	}
+}
+
+@media (max-width: 47.99em) {
+	.upcoming-events-media {
+		order: 1;
+	}
+
+	.upcoming-events-content {
+		order: 2;
+	}
+
+	.upcoming-events-title {
+		font-size: var(--font-size-medium);
+	}
+
+	.upcoming-events-excerpt {
+		font-size: var(--font-size-regular);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.upcoming-events-block .upcoming-events-arrow,
+	.upcoming-events-block .swiper-pagination-bullet {
+		transition: none;
+	}
+}

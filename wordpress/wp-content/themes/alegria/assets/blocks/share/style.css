@@ -1,0 +1,129 @@
+.share-block {
+	padding: 2rem 1.5rem;
+}
+
+.share-container {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 1rem 1.5rem;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding-top: 2rem;
+	border-top: 1px solid var(--border-color-light);
+}
+
+.share-label {
+	margin: 0;
+	color: #000;
+	font-size: var(--font-size-regular);
+	font-weight: 600;
+}
+
+.share-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.share-link {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 3rem;
+	height: 3rem;
+	padding: 0;
+	border: 1px solid #000;
+	border-radius: 9999px;
+	background-color: transparent;
+	color: #000;
+	font: inherit;
+	cursor: pointer;
+	transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.share-link:visited {
+	color: #000;
+}
+
+.share-link:hover,
+.share-link:focus-visible {
+	background-color: #000;
+	color: var(--color-theme-white);
+}
+
+.share-link:active {
+	transform: scale(0.92);
+}
+
+.share-icon {
+	display: flex;
+	line-height: 0;
+}
+
+.share-icon svg {
+	display: block;
+	width: auto;
+	height: 1.35rem;
+}
+
+.share-icon-brand svg {
+	fill: currentColor;
+}
+
+.share-icon-copy,
+.share-icon-check {
+	transition: opacity 0.2s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.share-icon-check {
+	position: absolute;
+	inset: 0;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	transform: scale(0.4) rotate(-45deg);
+}
+
+.share-link.is-copied {
+	border-color: var(--color-theme-primary);
+	background-color: var(--color-theme-primary);
+	color: var(--color-theme-white);
+	animation: share-pop 0.35s ease;
+}
+
+.share-link.is-copied .share-icon-copy {
+	opacity: 0;
+	transform: scale(0.4);
+}
+
+.share-link.is-copied .share-icon-check {
+	opacity: 1;
+	transform: none;
+}
+
+@keyframes share-pop {
+	50% {
+		transform: scale(1.15);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.share-link,
+	.share-icon-copy,
+	.share-icon-check {
+		transition: none;
+	}
+
+	.share-link.is-copied {
+		animation: none;
+	}
+
+	.share-icon-check {
+		transform: none;
+	}
+}

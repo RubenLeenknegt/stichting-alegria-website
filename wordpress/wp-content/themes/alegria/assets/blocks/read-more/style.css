@@ -1,0 +1,8 @@
+/**
+ * Read-more block. The cards reuse the newsletter-overview block's markup and stylesheet
+ * (listed first in block.json "style"); this only changes the background to white, to match the rest of the post.
+ */
+
+.read-more-block.newsletter-overview-block {
+	background-color: var(--color-theme-white);
+}

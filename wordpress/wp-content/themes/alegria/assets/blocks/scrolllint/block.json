@@ -1,0 +1,29 @@
+{
+  "name": "wp-rig/scrolllint",
+  "apiVersion": 3,
+  "title": "Afbeeldingenstrook",
+  "category": "widgets",
+  "icon": "images-alt2",
+  "description": "Een strook afbeeldingen over de volle breedte die continu doorschuift. Decoratief, niet klikbaar.",
+  "textdomain": "alegria",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "images": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "render": "file:./render.php",
+  "editorScript": "file:./build/index.js",
+  "style": [ "alegria-swiper", "file:./build/style.css" ],
+  "viewScript": "file:./build/view.js"
+}

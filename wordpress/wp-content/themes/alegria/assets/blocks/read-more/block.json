@@ -1,0 +1,32 @@
+{
+  "name": "wp-rig/read-more",
+  "apiVersion": 3,
+  "title": "Lees verder",
+  "category": "design",
+  "icon": "grid-view",
+  "description": "Drie andere nieuwsbrieven of evenementen onder een bericht. Bij evenementen eerst de aankomende, aangevuld met eerdere.",
+  "textdomain": "alegria",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "linkText": {
+      "type": "string",
+      "default": ""
+    },
+    "linkUrl": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "usesContext": [ "postId", "postType" ],
+  "supports": {
+    "html": false,
+    "multiple": false,
+    "reusable": false
+  },
+  "render": "file:./render.php",
+  "editorScript": "file:./build/index.js",
+  "style": [ "wp-rig-newsletter-overview-style", "file:./build/style.css" ]
+}

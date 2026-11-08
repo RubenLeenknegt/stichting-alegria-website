@@ -1,0 +1,57 @@
+.scrolllint {
+	--swiper-wrapper-transition-timing-function: linear;
+
+	width: 100vw;
+	max-width: 100vw;
+	margin-left: calc(50% - 50vw);
+	margin-right: calc(50% - 50vw);
+	padding: 0 0 4rem;
+	background-color: var(--color-theme-white);
+}
+
+.scrolllint-heading {
+	font-size: var(--font-size-xl);
+	color: var(--color-theme-primary);
+	max-width: 1200px;
+	margin: 0 auto 3rem;
+	padding-top: 2rem;
+	font-weight: 800;
+}
+
+.scrolllint__item.swiper-slide {
+	width: auto;
+}
+
+.scrolllint__image {
+	display: block;
+	width: auto;
+	max-width: none;
+	height: auto;
+	max-height: 80px;
+	object-fit: contain;
+	border-radius: 4px;
+	pointer-events: none;
+	user-select: none;
+}
+
+/* Without Swiper (reduced motion), space the static row the same way. */
+.scrolllint__slider:not(.swiper-initialized) .swiper-wrapper {
+	gap: 48px;
+}
+
+@media (max-width: 47.99em) {
+	.scrolllint-heading {
+		display: flex;
+		justify-content: center;
+	}
+
+	.scrolllint__image {
+		max-height: 56px;
+	}
+}
+
+@media (min-width: 48em) and (max-width: 86.99em) {
+	.scrolllint-heading {
+		padding-left: 2rem;
+	}
+}

@@ -8,17 +8,14 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Composer
-COPY --from=composer:2.9 /usr/bin/composer /usr/bin/composer
-
-# Install Node.js (LTS) and npm 10.x
+# Install Node.js (LTS) and npm 11.x
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm@11 \
     && rm -rf /var/lib/apt/lists/*
 
 # Verify installations
-RUN composer --version && node --version && npm --version
+RUN node --version && npm --version
 
 # Set working directory
 WORKDIR /var/www/html

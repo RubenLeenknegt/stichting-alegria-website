@@ -1,0 +1,65 @@
+.post-header {
+	padding: 3rem 1.5rem 2rem;
+}
+
+.post-header-container {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.post-header .breadcrumbs {
+	margin-bottom: 1.5rem;
+}
+
+.post-header-title {
+	margin: 0 0 0.5rem;
+	font-size: var(--font-size-xl);
+	font-weight: 800;
+	line-height: 1.2;
+	color: var(--color-theme-primary);
+}
+
+.post-header .post-date {
+	font-size: var(--font-size-small);
+	text-align: left;
+	margin-bottom: 1.5rem;
+}
+
+.post-header-intro {
+	max-width: 800px;
+	margin-bottom: 2rem;
+	font-size: var(--font-size-regular);
+	line-height: var(--global-font-line-height);
+}
+
+.post-header-intro > :first-child {
+	margin-top: 0;
+}
+
+.post-header-intro > :last-child {
+	margin-bottom: 0;
+}
+
+.post-header-intro a {
+	color: var(--color-theme-primary);
+}
+
+.post-header-figure {
+	margin: 0;
+}
+
+.post-header-image {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+	border-radius: 16px;
+}
+
+/* On desktop the logo hangs below the site header; keep the breadcrumbs clear of it. */
+@media (min-width: 87em) {
+	.post-header {
+		padding-top: 7rem;
+	}
+}
