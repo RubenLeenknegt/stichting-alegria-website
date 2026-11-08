@@ -24,9 +24,3 @@
 .txt-block__body a {
 	color: var(--color-theme-primary);
 }
-
-/* On newsletters and events the text sits between the white header and share blocks. */
-.single-newsletter .txt-block,
-.single-event .txt-block {
-	background-color: var(--color-theme-white);
-}

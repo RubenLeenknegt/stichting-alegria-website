@@ -1,9 +1,3 @@
-/*--------------------------------------------------------------
-# Forms
-#
-# Base styles for plain form controls, e.g. from plugins.
-# The Contact Form 7 forms are styled in _contact-form.css.
---------------------------------------------------------------*/
 textarea {
 	width: 100%;
 }

@@ -1,38 +1,16 @@
 <?php
-/**
- * Text-and-image block (wp-rig/txt-img)
- *
- * @package alegria
- */
-
-declare( strict_types=1 );
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
-$attributes = is_array( $attributes ?? null ) ? $attributes : array();
-$block      = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
-
 $title     = $attributes['title'] ?? '';
 $body_text = $attributes['bodyText'] ?? '';
-$image = alegria_block_image( (int) ( $attributes['imageId'] ?? 0 ), $attributes['imageUrl'] ?? '', $attributes['imageAlt'] ?? '', 'alegria-feature', array( 'class' => 'txt-img-image' ) );
-$cta_text  = $attributes['ctaText'] ?? '';
-$cta_url   = $attributes['ctaUrl'] ?? '';
+$image     = wp_get_attachment_image( (int) ( $attributes['imageId'] ?? 0 ), 'alegria-feature', false, array( 'class' => 'txt-img-image' ) );
+$button    = alegria_button( $attributes['ctaText'] ?? '', $attributes['ctaUrl'] ?? '' );
 
-// Required fields: image + complete CTA.
-if ( ! $image || ! $cta_text || ! $cta_url ) {
+if ( ! $image || ! $button ) {
 	return;
 }
 
-$primary_button_icon = alegria_svg( 'arrow_right' );
-
-// The image sits on the right unless "Afbeelding links" is switched on (desktop and tablet; on phones it is always on top).
-$block_class   = ! empty( $attributes['imageLeft'] ) ? 'txt-img-block txt-img-block--image-left' : 'txt-img-block';
-$wrapper_attrs = get_block_wrapper_attributes( array( 'class' => $block_class ) );
-
+$block_class = ! empty( $attributes['imageLeft'] ) ? 'txt-img-block txt-img-block--image-left' : 'txt-img-block';
 ?>
-<div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<div <?php echo get_block_wrapper_attributes( array( 'class' => $block_class ) ); ?>>
 	<div class="txt-img-container">
 		<div class="txt-img-content">
 			<?php if ( $title ) : ?>
@@ -45,18 +23,11 @@ $wrapper_attrs = get_block_wrapper_attributes( array( 'class' => $block_class ) 
 				</div>
 			<?php endif; ?>
 
-			<div class="txt-img-cta">
-				<a href="<?php echo esc_url( $cta_url ); ?>" class="btn-primary">
-					<?php echo esc_html( $cta_text ); ?>
-					<?php if ( ! empty( $primary_button_icon ) ) : ?>
-						<span class="btn-icon" aria-hidden="true"><?php echo $primary_button_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-					<?php endif; ?>
-				</a>
-			</div>
+			<div class="txt-img-cta"><?php echo $button; ?></div>
 		</div>
 
 		<div class="txt-img-media">
-			<?php echo $image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo $image; ?>
 		</div>
 	</div>
 </div>

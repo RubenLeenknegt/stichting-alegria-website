@@ -22,7 +22,6 @@ Theme commands (run from the theme root inside the `php` container):
 ```bash
 npm run build   # production build: assets/css + assets/js -> assets/dist, each block -> assets/blocks/<slug>/build
 npm run dev     # same, unminified, rebuilding on every change under assets/ (Ctrl+C to stop)
-npm run zip     # production build + alegria.zip containing only runtime files, for upload
 ```
 
 Everything is in `build.mjs`: esbuild for JS, Lightning CSS for CSS. There are no tests or linters.
@@ -30,21 +29,17 @@ Everything is in `build.mjs`: esbuild for JS, Lightning CSS for CSS. There are n
 - **Build output is owned by root,** because the container builds it.
 - **CSS watching polls file mtimes** in `npm run dev`, because file events don't reliably cross the Docker bind mount.
 
-Deploying: run `npm run zip` and upload `alegria.zip` as a theme in wp-admin. Activating it flushes the rewrite rules.
-
 ## Architecture
 
 **PHP.** `functions.php` only requires the files in `inc/`. These are plain hooks and functions with an `alegria_` prefix: no classes, no namespaces.
 - `setup.php`:
   - theme supports and the menu locations: `primary` ("Hoofdmenu") and the three footer columns `footer-info`, `footer-projects`, `footer-contact` ("Footer: over ons / projecten / contact");
-  - turns off comments, the default Posts type and the site editor;
-  - points the blog index query at newsletters.
+  - turns off comments, the default Posts type and the site editor.
 - `post-types.php`:
   - the `newsletter` (`/nieuwsbrief/`) and `event` (`/evenement/`) CPTs, with Dutch admin labels;
-  - the `event_date` meta and its date meta box;
+  - the `event_date` date meta box;
   - the block `template` both CPTs start with (`alegria_single_template()`): `post-header`, a `txt` block, `share`, `read-more`, with all but `txt` locked against moving and removal. It only applies to new posts;
   - the event archive ordered by `event_date` DESC;
-  - 301 redirects from the old `/newsletters/` and `/events/` URLs;
   - `flush_rewrite_rules` on theme activation.
 - `assets.php`:
   - enqueues `assets/dist/main.css` and the deferred `assets/dist/navigation.js`, with its localized `alegriaNav` strings;
@@ -53,12 +48,8 @@ Deploying: run `npm run zip` and upload `alegria.zip` as a theme in wp-admin. Ac
   - the font preload;
   - `should_load_separate_core_block_assets`.
 - `blocks.php`: registers every block folder and limits the editor to those blocks; `share` and `read-more` are only offered on newsletters and events.
-- `navigation.php`: primary-menu walker filters.
-  - Every parent gets a `.dropdown` icon; `navigation.ts` turns it into a toggle button.
-  - Items whose URL is empty or `#` become a `<button class="submenu-toggle">`.
-  - The "Doneer nu" item (CSS class `donate-menu-item`, or a title starting with "Doneer nu") is a `.btn-primary` link with the arrow inside it (`alegria_is_donate_item()`).
-  - Each parent with a URL is repeated as the first submenu item, with class `menu-item--injected-parent-link` (hidden on desktop).
-- `customizer.php`: the Appearance → Customize sections, all defined in `alegria_customizer_sections()` and read with `alegria_setting( $id )`. Empty settings are left out of the page.
+- `navigation.php`: one walker filter on the primary menu. Every parent gets a `.dropdown` icon that `navigation.js` turns into a toggle button; parents whose URL is empty or `#` become a `<button class="submenu-toggle">`.
+- `customizer.php`: the Appearance → Customize sections, all defined in the `customize_register` hook and read with `alegria_setting( $id )`. Empty settings are left out of the page.
   - "Footer": intro text, Instagram/Facebook/LinkedIn URLs, CTA button and text link;
   - "Archief: nieuwsbrieven" / "Archief: evenementen": the archive header's title (falls back to the post type name), text and button;
   - "Nieuwsbrief-popup": the popup's title and text.
@@ -66,16 +57,16 @@ Deploying: run `npm run zip` and upload `alegria.zip` as a theme in wp-admin. Ac
   Button links use the `link` type, a text field, so `#nieuwsbrief-popup` isn't flagged as an invalid URL.
 - `helpers.php`:
   - `alegria_svg( $name )` returns the inline markup of `assets/svg/<name>.svg`.
-  - `alegria_block_image()` / `alegria_block_image_url()` render block images.
+  - `alegria_button( $text, $url, $class )` returns a link with the arrow icon, or nothing when the text or URL is empty.
   - `alegria_display_date( $post_id )` returns the date to show (`iso`, `text`): the event date for events, the publish date otherwise.
-  - `alegria_asset_version()` returns a file's mtime, used for asset versions.
+  - `alegria_breadcrumbs()` returns Rank Math's breadcrumbs.
 
 **Templates.** Classic PHP templates; there is no block theme, `templates/` folder or site editor.
-- **Pages:** `index.php` renders them through `template-parts/content/entry.php` (there is no `page.php`). It prints no title, and skips the featured image when the page has a `post-header` block.
-- **Singles:** `single.php` serves both CPTs. Posts with the `post-header` block get their title from it; older posts without it get a plain `<h1>`.
+- **Pages and singles:** `index.php` renders both through `template-parts/content/entry.php` (there is no `page.php` or `single.php`). The title and image come from the `post-header` block.
 - **Archives:** `archive-event.php` and `archive-newsletter.php` share `template-parts/archive/header.php` (title, text and button from the Customizer) and `template-parts/archive/grid.php`.
 - **Errors and empty states:** `404.php` is the not-found page; `template-parts/content/none.php` covers empty results.
-- **Header and footer:** `header.php` and `footer.php` use `template-parts/header/{branding,mobile-menu-toggle,navigation}.php` and `template-parts/footer/info.php`.
+- **Header and footer:** the header markup is all in `header.php`, which also prints the breadcrumb bar (not on the front page or on pages with a `post-header` block). `footer.php` uses `template-parts/footer/info.php`.
+- **Shared parts:** `template-parts/social-links.php` (footer and contact block) and `template-parts/post-card.php` (newsletter-overview and read-more).
 - **Newsletter popup:** `footer.php` prints `template-parts/footer/newsletter-popup.php` on every page, a native `<dialog id="nieuwsbrief-popup">` with the Customizer title and text and the CF7 form "Nieuwsbrief" (shortcode hardcoded, id `fdcb489`). Any link to `#nieuwsbrief-popup` opens it (`assets/js/newsletter-popup.js`), as does a URL ending in that hash. Styles in `_newsletter-popup.css`. Its CF7 field ids are `cf7-nb-*`, so they don't clash with the contact form's on the same page.
 - **Footer layout:** on the left the logo (an `<img>` of `assets/svg/logo.svg`), intro text, round social links and the actions (a `.btn-primary` and a text link); on the right the three footer menus, each headed by its menu's name and shown only when a menu is assigned; below, a bottom bar with copyright and legal links. Stacked below `--wide-query` (64em), with the menus in three columns from `--content-query`.
 
@@ -105,7 +96,7 @@ The logo and social icons are inline SVGs. The mobile menu button is pure CSS.
 
 Editor strings use the `alegria` text domain and are written in Dutch. Don't change attribute names: existing content stores them.
 
-In `render.php`, output images with `alegria_block_image( $id, $url, $alt, $size, $attr )`, or `alegria_block_image_url()` for CSS backgrounds. These use the attachment ID when it exists, so WordPress adds `srcset`, dimensions and lazy-loading, and fall back to the stored URL.
+In `render.php`, output images from the stored attachment ID with `wp_get_attachment_image( $id, $size, false, $attr )`, or `wp_get_attachment_image_url()` for CSS backgrounds. WordPress adds `srcset`, dimensions, alt text and lazy-loading.
 
 **Image sizes.** Every image call uses a named size registered in `inc/setup.php` (no core `large`/`full`):
 - `alegria-card` 900×600 crop: event/newsletter cards (3:2);
@@ -118,18 +109,18 @@ After adding or changing a size, regenerate thumbnails for existing uploads; unt
 
 ## Front end (CSS, JS, fonts)
 
-**CSS** is plain CSS with custom properties, custom media and nesting, compiled by Lightning CSS. Browser targets are in `.browserslistrc`.
+**CSS** is plain CSS with custom properties, custom media and nesting, compiled by Lightning CSS. Browser targets are in `build.mjs`.
 - **Entry points** are the files in `assets/css/` that don't start with `_`:
   - `main.css` is the front end, loaded on every page.
   - `swiper.css` is the Swiper bundle, loaded only through the `alegria-swiper` handle.
   - `editor.css` is the editor canvas.
   - Each entry must `@import "_custom-media.css"` before using custom media queries.
-- **`main.css` imports, in order:** `_custom-properties`, `_custom-media`, `_reset`, `_typography`, `_elements`, `_links`, `_header` (which imports `_navigation`), `_footer`, `_accessibility`, `_buttons`, `_contact-form` (CF7 forms), `_newsletter-popup`, `_media` (iframe sizing), `_forms`, `_content` (page content, archives, single pages, pagination, alignments, layout).
+- **`main.css` imports, in order:** `_custom-properties`, `_custom-media`, `_reset`, `_typography`, `_elements`, `_links`, `_header` (which imports `_navigation`), `_breadcrumbs`, `_footer`, `_accessibility`, `_buttons`, `_contact-form` (CF7 forms), `_newsletter-popup`, `_media` (iframe sizing), `_forms`, `_content` (page content, archives, single pages, pagination, alignments, layout).
 - **Block styles live with each block**, in its `style.css`. WordPress inlines them only on pages that contain the block. Don't put block styles in `main.css`.
-- **Breakpoints** are custom media in `_custom-media.css`, in range syntax so they don't overlap. The mobile/desktop navigation switch is `--below-desktop` `(width < 87em)` / `--above-desktop` `(width >= 87em)`, and `navigation.ts` uses the same value via `matchMedia`. `--content-query` is `(width >= 48em)`, `--wide-query` `(width >= 64em)`. Block stylesheets are built separately and write their media queries out (use `47.99em` / `48em` style pairs so they don't overlap).
+- **Breakpoints** are custom media in `_custom-media.css`, in range syntax so they don't overlap. The mobile/desktop navigation switch is `--below-desktop` `(width < 87em)` / `--above-desktop` `(width >= 87em)`, and `navigation.js` uses the same value via `matchMedia`. `--content-query` is `(width >= 48em)`, `--wide-query` `(width >= 64em)`. Block stylesheets are built separately and write their media queries out (use `47.99em` / `48em` style pairs so they don't overlap).
 - **Font sizes** (`--font-size-*`) are computed from `--global-font-size: 20`. The scale is uneven on purpose (it is what the design was built on): `-regular` divides by 16 (20px) while the others divide by 20, so `-small` is 12.8px, `-medium` 19.2px, `-large` 28.8px, and `-larger` and `-xl` are both 38.4px. Don't "fix" it; components are tuned to these values.
-- **Widths:** `--content-width` 50rem and `--wide-width` 75rem match theme.json's `contentSize`/`wideSize`; the editor uses them too.
-- **Buttons:** `.btn-primary` (`_buttons.css`) is the red CTA (`--color-theme-red`, hover `--color-theme-dark-red`), with an optional `<span class="btn-icon">` arrow. The CF7 submit (`.cf7-submit-btn`, class set in the form templates in the database) shares it. `.btn-secondary` is the hero's white text link.
+- **Widths:** `--content-width` 50rem matches theme.json's `contentSize`; the editor uses it too.
+- **Buttons:** `.btn-primary` (`_buttons.css`) is the red CTA, also applied to the menu's `.donate-menu-item > a`, whose arrow is a CSS mask, (`--color-theme-red`, hover `--color-theme-dark-red`), with an optional `<span class="btn-icon">` arrow. The CF7 submit (`.cf7-submit-btn`, class set in the form templates in the database) shares it. `.btn-secondary` is the hero's white text link.
 - **Two colour systems coexist:**
   - The CSS uses its own tokens from `_custom-properties.css` (`--color-theme-primary` #1D9741, `--color-theme-red` #D32F2F, `--color-theme-light-grey`, `--header-background-color`, `--footer-background-color` #11652B, `--font-size-*`, …).
   - `theme.json` defines the editor palette (`primary`, `primary-dark`, `secondary`, `light-grey`, `black`, `white` → `--wp--preset--color--*`).
@@ -141,7 +132,7 @@ After adding or changing a size, regenerate thumbnails for existing uploads; unt
   - `.dropdown-toggle` is the generated submenu button;
   - `.menu-item--has-toggle` is set on parents.
 
-**JS:** the theme scripts, loaded on every page and deferred, are `assets/js/navigation.ts` (mobile menu toggle, submenu toggles, keyboard focus handling) and `assets/js/newsletter-popup.js` (opens the popup). They build to `assets/dist/`.
+**JS:** the theme scripts, loaded on every page and deferred, are `assets/js/navigation.js` (mobile menu toggle, submenu toggles, keyboard focus handling, repeating a parent link in its submenu) and `assets/js/newsletter-popup.js` (opens the popup). They build to `assets/dist/`.
 
 **Fonts:** Rubik, as a single variable Latin WOFF2 (`assets/fonts/rubik-latin-wght-normal.woff2`, weights 300–900). `theme.json` declares it (`fontFace`), WordPress prints the `@font-face` on the front end and in the editor, and `inc/assets.php` preloads it. The CSS refers to it as `"Rubik"` via `--global-font-family`. There are no Google Fonts.
 
@@ -163,9 +154,7 @@ After adding or changing a size, regenerate thumbnails for existing uploads; unt
   - Most block images have no alt text.
   - Pages have no meta descriptions (Rank Math).
 - **Events archive:** it lists all events, newest first; keep that in mind when writing its Customizer text.
-- **Stale page and menu links:**
-  - A page with the slug `nieuwsbrief` is set as the Posts page. It's shadowed by the newsletter archive and should be removed.
-  - The menu's custom links still use `/events/` and `/newsletters/`; they redirect to the new URLs.
+- **Stale page:** a page with the slug `nieuwsbrief` is set as the Posts page. It's shadowed by the newsletter archive and should be removed.
 
 ## Manual WordPress setup
 
@@ -174,5 +163,5 @@ After a fresh install, configure these in wp-admin:
 - **Permalinks:** "Post name". Save again after changing post type slugs.
 - **Menus:** assign one to the "Hoofdmenu" location, and one to each of the three "Footer: …" locations. A footer column's heading is its menu's name.
 - **Footer, archive headers and newsletter popup:** Appearance → Customize → Footer / Archief: nieuwsbrieven / Archief: evenementen / Nieuwsbrief-popup.
-- **"Doneer nu" item:** it becomes a red button with an arrow. Give it the CSS class `donate-menu-item`, which you enable through Screen Options → CSS Classes (a title starting with "Doneer nu" also works).
+- **"Doneer nu" item:** it becomes a red button with an arrow. Give it the CSS class `donate-menu-item`, which you enable through Screen Options → CSS Classes.
 - **Thumbnails:** after installing the theme, or after changing an image size, regenerate thumbnails (the Regenerate Thumbnails plugin, or `wp media regenerate --yes` where wp-cli is available).

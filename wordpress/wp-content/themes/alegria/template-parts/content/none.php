@@ -1,11 +1,3 @@
-<?php
-/**
- * Shown when a query has no results.
- *
- * @package alegria
- */
-
-?>
 <section class="error">
 	<header class="page-header">
 		<h1 class="page-title"><?php esc_html_e( 'Niets gevonden', 'alegria' ); ?></h1>

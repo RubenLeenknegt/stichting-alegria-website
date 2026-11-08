@@ -1,14 +1,4 @@
 <?php
-/**
- * Card grid with pagination for the event and newsletter archives.
- *
- * @package alegria
- *
- * @var array $args {
- *     @type string $empty_text Message shown when there are no posts.
- * }
- */
-
 if ( ! have_posts() ) {
 	?>
 	<div class="archive-empty">
@@ -23,9 +13,7 @@ if ( ! have_posts() ) {
 	while ( have_posts() ) :
 		the_post();
 
-		// Events show their event date, newsletters their publish date.
-		$event_date = 'event' === get_post_type() ? get_post_meta( get_the_ID(), 'event_date', true ) : '';
-		$timestamp  = $event_date ? strtotime( $event_date ) : get_post_timestamp();
+		$date = alegria_display_date( get_the_ID() );
 		?>
 		<article id="post-<?php the_ID(); ?>" <?php post_class( 'archive-entry' ); ?>>
 			<a href="<?php the_permalink(); ?>" class="archive-card">
@@ -38,8 +26,8 @@ if ( ! have_posts() ) {
 				</div>
 
 				<div class="archive-card-content">
-					<?php if ( $timestamp ) : ?>
-						<time class="post-date" datetime="<?php echo esc_attr( wp_date( 'c', $timestamp ) ); ?>"><?php echo esc_html( wp_date( 'j F Y', $timestamp ) ); ?></time>
+					<?php if ( $date['text'] ) : ?>
+						<time class="post-date" datetime="<?php echo esc_attr( $date['iso'] ); ?>"><?php echo esc_html( $date['text'] ); ?></time>
 					<?php endif; ?>
 
 					<h2 class="archive-card-title"><?php echo esc_html( get_the_title() ); ?></h2>

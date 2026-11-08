@@ -6,15 +6,11 @@
 
 :root {
 	--content-width: 50rem; /* theme.json layout.contentSize (800px) */
-	--wide-width: 75rem; /* theme.json layout.wideSize (1200px) */
 
-	/* Typography */
 	--global-font-family: "Rubik", sans-serif;
-	--highlight-font-family: "Rubik", sans-serif;
 	--global-font-size: 20;
 	--global-font-line-height: 1.4;
 
-	/* Font sizes */
 	--font-size-small: calc(16 / var(--global-font-size) * 1rem);
 	--font-size-regular: calc(var(--global-font-size) / 16 * 1rem);
 	--font-size-medium: calc(24 / var(--global-font-size) * 1rem);
@@ -22,12 +18,10 @@
 	--font-size-larger: calc(48 / var(--global-font-size) * 1rem);
 	--font-size-xl: calc(48 / var(--global-font-size) * 1rem);
 
-	/* Colors */
 	--global-font-color: #000;
 	--content-background-color: #fff;
 	--header-background-color: #1D9741;
 	--footer-background-color: #11652B;
-	--border-color-dark: #333;
 	--border-color-light: #ccc;
 	--color-link: #0073aa;
 	--color-link-visited: #333;

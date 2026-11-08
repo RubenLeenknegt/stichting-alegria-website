@@ -1,35 +1,4 @@
-/**
- * Share block: the copy-link button puts the post's link on the clipboard and briefly swaps its icon
- * for a check mark. Screen readers hear the message through the block's status region.
- */
-
 const FEEDBACK_MS = 2500;
-
-/**
- * Copies text to the clipboard, with a fallback for pages not served over HTTPS.
- *
- * @param {string} text Text to copy.
- * @return {Promise<void>} Resolves when copied, rejects when copying failed.
- */
-async function copyText( text ) {
-	if ( navigator.clipboard && window.isSecureContext ) {
-		await navigator.clipboard.writeText( text );
-		return;
-	}
-
-	const field = document.createElement( 'textarea' );
-	field.value = text;
-	field.setAttribute( 'readonly', '' );
-	field.style.position = 'fixed';
-	field.style.opacity = '0';
-	document.body.appendChild( field );
-	field.select();
-	const copied = document.execCommand( 'copy' );
-	field.remove();
-	if ( ! copied ) {
-		throw new Error( 'Copy failed' );
-	}
-}
 
 /**
  * Shows the copied state on a button and announces it to screen readers.
@@ -61,7 +30,7 @@ document.querySelectorAll( '.share-block' ).forEach( ( block ) => {
 	block.querySelectorAll( '.share-copy' ).forEach( ( button ) => {
 		button.addEventListener( 'click', async () => {
 			try {
-				await copyText( url );
+				await navigator.clipboard.writeText( url );
 				showCopied( block, button );
 			} catch ( error ) {
 				window.prompt( button.dataset.message || '', url ); // eslint-disable-line no-alert

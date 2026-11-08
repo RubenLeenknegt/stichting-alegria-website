@@ -1,44 +1,16 @@
 <?php
-/**
- * Hero Block Template
- *
- * @package alegria
- */
-
-declare( strict_types=1 );
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
-$attributes = is_array( $attributes ?? null ) ? $attributes : array();
-$block = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
-
-// Get attributes
 $heading               = $attributes['heading'] ?? '';
 $subheading            = $attributes['subheading'] ?? '';
-$background_image_url  = alegria_block_image_url( (int) ( $attributes['backgroundImageId'] ?? 0 ), $attributes['backgroundImageUrl'] ?? '', 'alegria-hero' );
-$primary_button_text   = $attributes['primaryButtonText'] ?? '';
-$primary_button_url    = $attributes['primaryButtonUrl'] ?? '';
+$background_image_url  = wp_get_attachment_image_url( (int) ( $attributes['backgroundImageId'] ?? 0 ), 'alegria-hero' );
+$primary_button        = alegria_button( $attributes['primaryButtonText'] ?? '', $attributes['primaryButtonUrl'] ?? '' );
 $secondary_button_text = $attributes['secondaryButtonText'] ?? '';
 $secondary_button_url  = $attributes['secondaryButtonUrl'] ?? '';
+$has_secondary_button  = $secondary_button_text && $secondary_button_url;
 
-$primary_button_icon = alegria_svg( 'arrow_right' );
-
-// Build wrapper attributes
-$wrapper_attrs = get_block_wrapper_attributes( array( 'class' => 'hero-block' ) );
-
-// Inline background style
-$bg_style = '';
-if ( $background_image_url ) {
-	$bg_style = sprintf(
-		' style="background-image: url(%s);"',
-		esc_url( $background_image_url )
-	);
-}
+$bg_style = $background_image_url ? ' style="background-image: url(' . esc_url( $background_image_url ) . ');"' : '';
 ?>
 
-<div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo $bg_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<div <?php echo get_block_wrapper_attributes( array( 'class' => 'hero-block' ) ); ?><?php echo $bg_style; ?>>
 	<div class="hero-container">
 		<div class="hero-content">
 			<?php if ( $heading ) : ?>
@@ -49,18 +21,11 @@ if ( $background_image_url ) {
 				<p class="hero-subheading"><?php echo esc_html( $subheading ); ?></p>
 			<?php endif; ?>
 
-			<?php if ( $primary_button_text || $secondary_button_text ) : ?>
+			<?php if ( $primary_button || $has_secondary_button ) : ?>
 				<div class="hero-buttons">
-					<?php if ( $primary_button_text && $primary_button_url ) : ?>
-						<a href="<?php echo esc_url( $primary_button_url ); ?>" class="btn-primary">
-							<?php echo esc_html( $primary_button_text ); ?>
-							<?php if ( ! empty( $primary_button_icon ) ) : ?>
-								<span class="btn-icon" aria-hidden="true"><?php echo $primary_button_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-							<?php endif; ?>
-						</a>
-					<?php endif; ?>
+					<?php echo $primary_button; ?>
 
-					<?php if ( $secondary_button_text && $secondary_button_url ) : ?>
+					<?php if ( $has_secondary_button ) : ?>
 						<a href="<?php echo esc_url( $secondary_button_url ); ?>" class="btn-secondary">
 							<?php echo esc_html( $secondary_button_text ); ?>
 						</a>

@@ -1,62 +1,29 @@
 <?php
-/**
- * About Us Block Template
- *
- * @package alegria
- */
+$images = array(
+	'image-top-left'  => wp_get_attachment_image( (int) ( $attributes['topLeftImageId'] ?? 0 ), 'alegria-square' ),
+	'image-top-right' => wp_get_attachment_image( (int) ( $attributes['topRightImageId'] ?? 0 ), 'alegria-square' ),
+	'image-bottom'    => wp_get_attachment_image( (int) ( $attributes['bottomImageId'] ?? 0 ), 'alegria-wide' ),
+);
 
-declare( strict_types=1 );
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
-$attributes = is_array( $attributes ?? null ) ? $attributes : array();
-$block = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
-
-// Get attributes
-$top_left_image      = alegria_block_image( (int) ( $attributes['topLeftImageId'] ?? 0 ), $attributes['topLeftImageUrl'] ?? '', $attributes['topLeftImageAlt'] ?? '', 'alegria-square' );
-$top_right_image     = alegria_block_image( (int) ( $attributes['topRightImageId'] ?? 0 ), $attributes['topRightImageUrl'] ?? '', $attributes['topRightImageAlt'] ?? '', 'alegria-square' );
-$bottom_image        = alegria_block_image( (int) ( $attributes['bottomImageId'] ?? 0 ), $attributes['bottomImageUrl'] ?? '', $attributes['bottomImageAlt'] ?? '', 'alegria-wide' );
-$title               = $attributes['title'] ?? '';
-$text_block_1        = $attributes['textBlock1'] ?? '';
-$subtitle            = $attributes['subtitle'] ?? '';
-$text_block_2        = $attributes['textBlock2'] ?? '';
-$button_text         = $attributes['buttonText'] ?? '';
-$button_url          = $attributes['buttonUrl'] ?? '';
-
-$primary_button_icon = alegria_svg( 'arrow_right' );
-
-// Build wrapper attributes
-$wrapper_attrs = get_block_wrapper_attributes( array( 'class' => 'about-us-block' ) );
+$title        = $attributes['title'] ?? '';
+$text_block_1 = $attributes['textBlock1'] ?? '';
+$subtitle     = $attributes['subtitle'] ?? '';
+$text_block_2 = $attributes['textBlock2'] ?? '';
+$button       = alegria_button( $attributes['buttonText'] ?? '', $attributes['buttonUrl'] ?? '' );
 ?>
 
-<div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<div <?php echo get_block_wrapper_attributes( array( 'class' => 'about-us-block' ) ); ?>>
 	<div class="about-us-container">
-		<!-- Images Column -->
 		<div class="about-us-images">
 			<div class="image-grid">
-				<?php if ( $top_left_image ) : ?>
-					<div class="image-grid-item image-top-left">
-						<?php echo $top_left_image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php foreach ( array_filter( $images ) as $position => $image ) : ?>
+					<div class="image-grid-item <?php echo esc_attr( $position ); ?>">
+						<?php echo $image; ?>
 					</div>
-				<?php endif; ?>
-
-				<?php if ( $top_right_image ) : ?>
-					<div class="image-grid-item image-top-right">
-						<?php echo $top_right_image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-					</div>
-				<?php endif; ?>
-
-				<?php if ( $bottom_image ) : ?>
-					<div class="image-grid-item image-bottom">
-						<?php echo $bottom_image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-					</div>
-				<?php endif; ?>
+				<?php endforeach; ?>
 			</div>
 		</div>
 
-		<!-- Content Column -->
 		<div class="about-us-content">
 			<?php if ( $title ) : ?>
 				<h2 class="about-us-title"><?php echo esc_html( $title ); ?></h2>
@@ -78,15 +45,8 @@ $wrapper_attrs = get_block_wrapper_attributes( array( 'class' => 'about-us-block
 				</div>
 			<?php endif; ?>
 
-			<?php if ( $button_text && $button_url ) : ?>
-				<div class="about-us-button">
-					<a href="<?php echo esc_url( $button_url ); ?>" class="btn-primary">
-						<?php echo esc_html( $button_text ); ?>
-						<?php if ( ! empty( $primary_button_icon ) ) : ?>
-							<span class="btn-icon" aria-hidden="true"><?php echo $primary_button_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-						<?php endif; ?>
-					</a>
-				</div>
+			<?php if ( $button ) : ?>
+				<div class="about-us-button"><?php echo $button; ?></div>
 			<?php endif; ?>
 		</div>
 	</div>

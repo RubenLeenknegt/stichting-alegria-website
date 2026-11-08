@@ -1,12 +1,3 @@
-/**
- * Newsletter popup (template-parts/footer/newsletter-popup.php).
- *
- * Any link to #nieuwsbrief-popup opens it, on every page: buttons, menu items, links in text.
- * A page opened with #nieuwsbrief-popup in its URL (e.g. from an e-mail) opens it straight away.
- * The native <dialog> handles focus, the Escape key and the backdrop; this script opens it,
- * and closes it from the close button or a click on the backdrop.
- */
-
 const popupHash = '#nieuwsbrief-popup';
 const popup = document.querySelector( popupHash );
 

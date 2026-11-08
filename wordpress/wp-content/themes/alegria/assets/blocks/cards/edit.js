@@ -60,7 +60,6 @@ export default function Edit( { attributes, setAttributes } ) {
 				</PanelBody>
 
 				{ cards.map( ( c ) => (
-					/* translators: %d: card number */
 					<PanelBody key={ c.n } title={ sprintf( __( 'Kaart %d', 'alegria' ), c.n ) } initialOpen={ c.n === 1 }>
 						<ImageControl
 							label={ __( 'Achtergrondafbeelding', 'alegria' ) }

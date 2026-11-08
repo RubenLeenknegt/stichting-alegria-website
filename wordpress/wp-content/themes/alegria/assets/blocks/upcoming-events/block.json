@@ -19,8 +19,5 @@
   "editorScript": "file:./build/index.js",
   "style": [ "alegria-swiper", "file:./build/style.css" ],
   "viewScript": "file:./build/view.js",
-  "render": "file:./render.php",
-  "supports": {
-    "align": ["wide", "full"]
-  }
+  "render": "file:./render.php"
 }

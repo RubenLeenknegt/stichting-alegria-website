@@ -1,10 +1,4 @@
 <?php
-/**
- * Newsletter archive (/nieuwsbrief). The header comes from the Customizer (Archief: nieuwsbrieven).
- *
- * @package alegria
- */
-
 get_header();
 ?>
 	<main id="primary" class="site-main archive-page archive-page--newsletter">

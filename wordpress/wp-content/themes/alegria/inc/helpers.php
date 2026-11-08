@@ -1,74 +1,34 @@
 <?php
 /**
- * Small helpers used by templates and block render files.
- *
- * @package alegria
- */
-
-/**
  * Returns the markup of an SVG from assets/svg, for inlining.
  *
  * @param string $name File name without the .svg extension.
- * @return string SVG markup, or an empty string if the file does not exist.
+ * @return string SVG markup.
  */
 function alegria_svg( string $name ): string {
-	static $cache = array();
-
-	if ( ! isset( $cache[ $name ] ) ) {
-		$path            = get_theme_file_path( "assets/svg/{$name}.svg" );
-		$cache[ $name ] = is_readable( $path ) ? (string) file_get_contents( $path ) : ''; // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-	}
-
-	return $cache[ $name ];
+	return (string) file_get_contents( get_theme_file_path( "assets/svg/{$name}.svg" ) );
 }
 
 /**
- * Returns an <img> for an image picked in a block.
+ * Returns a link with the arrow icon, styled as a button by default.
  *
- * Blocks store the attachment ID, URL and alt text. When the ID still points to an image in the
- * media library, WordPress builds the tag, adding srcset/sizes, dimensions and lazy-loading.
- * Otherwise the stored URL is used as is.
- *
- * @param int    $id   Attachment ID.
- * @param string $url  Stored image URL, used when there is no attachment.
- * @param string $alt  Alt text set in the block. Empty uses the media library's alt text.
- * @param string $size Image size to request.
- * @param array  $attr Extra attributes, e.g. class.
- * @return string Image markup, or an empty string when there is no image.
+ * @param string $text  Link text.
+ * @param string $url   Link URL.
+ * @param string $class Class attribute.
+ * @return string Link markup, or an empty string when the text or URL is missing.
  */
-function alegria_block_image( int $id, string $url, string $alt = '', string $size = 'alegria-content', array $attr = array() ): string {
-	if ( $id && wp_attachment_is_image( $id ) ) {
-		if ( '' !== $alt ) {
-			$attr['alt'] = $alt;
-		}
-		return wp_get_attachment_image( $id, $size, false, $attr );
-	}
-
-	if ( '' === $url ) {
+function alegria_button( string $text, string $url, string $class = 'btn-primary' ): string {
+	if ( '' === $text || '' === $url ) {
 		return '';
 	}
 
-	$attr = array_merge( array( 'loading' => 'lazy' ), $attr, array( 'alt' => $alt ) );
-	$html = '<img src="' . esc_url( $url ) . '"';
-	foreach ( $attr as $name => $value ) {
-		$html .= ' ' . $name . '="' . esc_attr( $value ) . '"';
-	}
-
-	return $html . '>';
-}
-
-/**
- * Returns the URL of an image picked in a block, for use as a CSS background.
- *
- * @param int    $id   Attachment ID.
- * @param string $url  Stored image URL, used when there is no attachment.
- * @param string $size Image size to request.
- * @return string Image URL, or an empty string when there is no image.
- */
-function alegria_block_image_url( int $id, string $url, string $size = 'alegria-hero' ): string {
-	$attachment_url = $id ? wp_get_attachment_image_url( $id, $size ) : false;
-
-	return $attachment_url ? $attachment_url : $url;
+	return sprintf(
+		'<a href="%s" class="%s">%s <span class="btn-icon" aria-hidden="true">%s</span></a>',
+		esc_url( $url ),
+		esc_attr( $class ),
+		esc_html( $text ),
+		alegria_svg( 'arrow_right' )
+	);
 }
 
 /**
@@ -77,8 +37,7 @@ function alegria_block_image_url( int $id, string $url, string $size = 'alegria-
  * Event dates are stored as Y-m-d without a time, so they are read in the site's timezone.
  *
  * @param int $post_id Post ID.
- * @return array{iso: string, text: string} Machine-readable date for <time datetime>, and the date as shown
- *                                          (e.g. "5 november 2026"). Both empty when an event has no date.
+ * @return array{iso: string, text: string} Value for <time datetime> and the date as shown. Empty when an event has no date.
  */
 function alegria_display_date( int $post_id ): array {
 	if ( 'event' !== get_post_type( $post_id ) ) {
@@ -103,24 +62,11 @@ function alegria_display_date( int $post_id ): array {
 }
 
 /**
- * Returns a version string for a theme asset, based on its modification time.
- *
- * @param string $relative_path Path relative to the theme root.
- * @return string|null Version string, or null if the file does not exist.
- */
-function alegria_asset_version( string $relative_path ): ?string {
-	$path = get_theme_file_path( $relative_path );
-
-	return file_exists( $path ) ? (string) filemtime( $path ) : null;
-}
-
-/**
  * Returns Rank Math's breadcrumbs as a <nav>, or an empty string when Rank Math is not active.
  *
- * @param string $class Extra class for the <nav>, next to rank-math-breadcrumb and breadcrumbs.
- * @return string Breadcrumb markup, escaped by Rank Math.
+ * @return string Breadcrumb markup.
  */
-function alegria_breadcrumbs( string $class = '' ): string {
+function alegria_breadcrumbs(): string {
 	if ( ! function_exists( 'rank_math_get_breadcrumbs' ) ) {
 		return '';
 	}
@@ -128,21 +74,7 @@ function alegria_breadcrumbs( string $class = '' ): string {
 	return (string) rank_math_get_breadcrumbs(
 		array(
 			'separator'   => '/',
-			'wrap_before' => '<nav aria-label="' . esc_attr__( 'Kruimelpad', 'alegria' ) . '" class="' . esc_attr( trim( 'rank-math-breadcrumb breadcrumbs ' . $class ) ) . '"><p>',
+			'wrap_before' => '<nav aria-label="' . esc_attr__( 'Kruimelpad', 'alegria' ) . '" class="rank-math-breadcrumb breadcrumbs"><p>',
 		)
 	);
-}
-
-/**
- * Whether header.php prints the breadcrumb bar below the site header: on every page except the front page,
- * and except posts with the post-header block, which prints the breadcrumbs itself.
- *
- * @return bool
- */
-function alegria_show_site_breadcrumbs(): bool {
-	if ( is_front_page() || ! function_exists( 'rank_math_get_breadcrumbs' ) ) {
-		return false;
-	}
-
-	return ! ( is_singular() && has_block( 'wp-rig/post-header', get_queried_object_id() ) );
 }

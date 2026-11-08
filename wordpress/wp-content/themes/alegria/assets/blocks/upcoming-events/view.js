@@ -1,12 +1,3 @@
-/**
- * Starts the Swiper slider of each upcoming-events block that has more than one event.
- *
- * It moves to the next event every 5 seconds, unless the visitor prefers reduced motion.
- * Autoplay pauses while the mouse is over the slider or keyboard focus is inside the block,
- * so nobody has to read or use a slide that is moving away.
- *
- * `swiper` resolves to the shared alegria-swiper script (see build.mjs).
- */
 import Swiper from 'swiper';
 
 const AUTOPLAY_DELAY = 5000;

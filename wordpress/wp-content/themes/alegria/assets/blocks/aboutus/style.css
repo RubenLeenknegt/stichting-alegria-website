@@ -1,7 +1,3 @@
-/**
- * About Us Block Styles
- */
-
 .about-us-block {
 	padding: 4rem 2rem;
 }
@@ -15,7 +11,6 @@
 	align-items: center;
 }
 
-/* Images Column */
 .about-us-images {
 	width: 100%;
 }
@@ -48,7 +43,6 @@
 	aspect-ratio: 2 / 1;
 }
 
-/* Content Column */
 .about-us-content {
 	width: 100%;
 }
@@ -79,8 +73,7 @@
 	margin-top: 2rem;
 }
 
-/* Tablet and below */
-@media (max-width: 87em) {
+@media (max-width: 86.99em) {
 	.about-us-container {
 		gap: 2.5rem;
 	}
@@ -90,8 +83,7 @@
 	}
 }
 
-/* Mobile Styles */
-@media (max-width: 47em) {
+@media (max-width: 47.99em) {
 	.about-us-block {
 		padding: 3rem 1.5rem;
 	}

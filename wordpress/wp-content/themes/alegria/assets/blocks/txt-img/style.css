@@ -1,8 +1,3 @@
-/**
- * Txt-img block: text and a button beside an image.
- * The image is on the right, or on the left with .txt-img-block--image-left. On phones it is always on top.
- */
-
 .txt-img-block {
 	background-color: var(--color-theme-white);
 	padding: 3rem 1.5rem;

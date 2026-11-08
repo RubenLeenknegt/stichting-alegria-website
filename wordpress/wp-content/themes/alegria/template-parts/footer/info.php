@@ -1,30 +1,10 @@
 <?php
-/**
- * Footer content: logo, intro text, social links and call to action on the left,
- * three footer menus on the right, and a bottom bar with copyright and legal links.
- *
- * The text, links and button come from the Customizer (inc/customizer.php); empty ones are left out.
- *
- * @package alegria
- */
-
 $footer_text = alegria_setting( 'alegria_footer_text' );
 $cta_text    = alegria_setting( 'alegria_footer_cta_text' );
 $cta_url     = alegria_setting( 'alegria_footer_cta_url' );
 $link_text   = alegria_setting( 'alegria_footer_link_text' );
 $link_url    = alegria_setting( 'alegria_footer_link_url' );
-$arrow_icon  = alegria_svg( 'arrow_right' );
 
-$socials = array_filter(
-	array(
-		'instagram'   => array( 'Instagram', alegria_setting( 'alegria_social_instagram' ) ),
-		'facebook-f'  => array( 'Facebook', alegria_setting( 'alegria_social_facebook' ) ),
-		'linkedin-in' => array( 'LinkedIn', alegria_setting( 'alegria_social_linkedin' ) ),
-	),
-	static fn( array $social ): bool => '' !== $social[1]
-);
-
-// Icons: Font Awesome Free brand icons (CC BY 4.0), assets/svg/{instagram,facebook-f,linkedin-in}.svg.
 // Each column's heading is the name of the menu assigned to its location.
 $menu_locations = get_nav_menu_locations();
 $footer_menus   = array();
@@ -43,42 +23,15 @@ foreach ( array( 'footer-info', 'footer-projects', 'footer-contact' ) as $locati
 		</a>
 
 		<?php if ( $footer_text ) : ?>
-			<p class="footer-text"><?php echo nl2br( esc_html( $footer_text ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+			<p class="footer-text"><?php echo nl2br( esc_html( $footer_text ) ); ?></p>
 		<?php endif; ?>
 
-		<?php if ( $socials ) : ?>
-			<ul class="footer-social">
-				<?php foreach ( $socials as $icon => list( $name, $url ) ) : ?>
-					<li>
-						<a class="footer-social-link" href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener">
-							<?php echo alegria_svg( $icon ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-							<span class="screen-reader-text">
-								<?php
-								/* translators: %s: social network name. */
-								echo esc_html( sprintf( __( '%s (opent in nieuw venster)', 'alegria' ), $name ) );
-								?>
-							</span>
-						</a>
-					</li>
-				<?php endforeach; ?>
-			</ul>
-		<?php endif; ?>
+		<?php get_template_part( 'template-parts/social-links', null, array( 'prefix' => 'footer' ) ); ?>
 
 		<?php if ( ( $cta_text && $cta_url ) || ( $link_text && $link_url ) ) : ?>
 			<div class="footer-actions">
-				<?php if ( $cta_text && $cta_url ) : ?>
-					<a href="<?php echo esc_url( $cta_url ); ?>" class="btn-primary">
-						<?php echo esc_html( $cta_text ); ?>
-						<span class="btn-icon" aria-hidden="true"><?php echo $arrow_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-					</a>
-				<?php endif; ?>
-
-				<?php if ( $link_text && $link_url ) : ?>
-					<a href="<?php echo esc_url( $link_url ); ?>" class="footer-text-link">
-						<?php echo esc_html( $link_text ); ?>
-						<span class="btn-icon" aria-hidden="true"><?php echo $arrow_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-					</a>
-				<?php endif; ?>
+				<?php echo alegria_button( $cta_text, $cta_url ); ?>
+				<?php echo alegria_button( $link_text, $link_url, 'footer-text-link' ); ?>
 			</div>
 		<?php endif; ?>
 	</div>

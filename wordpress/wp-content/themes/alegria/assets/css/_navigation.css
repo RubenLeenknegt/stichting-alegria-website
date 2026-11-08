@@ -1,6 +1,3 @@
-/*--------------------------------------------------------------
-# Navigation variables
---------------------------------------------------------------*/
 :root {
 	--nav-mobile-header-height: 96px;
 	--nav-transition-speed: 0.3s;
@@ -11,9 +8,6 @@
 	--z-index-dropdown: 100;
 }
 
-/*--------------------------------------------------------------
-# Mobile menu toggle (pure CSS hamburger)
---------------------------------------------------------------*/
 .menu-toggle {
 	width: 44px;
 	height: 44px;
@@ -32,7 +26,7 @@
 
 .menu-toggle::before,
 .menu-toggle::after,
-.menu-toggle span:not(.menu-toggle-text) {
+.menu-toggle span {
 	content: '';
 	display: block;
 	width: 28px;
@@ -42,20 +36,6 @@
 	transition: all 0.3s ease;
 }
 
-/* Visually hidden, kept for screen readers. */
-.menu-toggle .menu-toggle-text {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border-width: 0;
-}
-
-/* X icon while the menu is open. */
 .menu-toggle[aria-expanded="true"]::before {
 	transform: translateY(9px) rotate(45deg);
 }
@@ -68,9 +48,6 @@
 	transform: translateY(-9px) rotate(-45deg);
 }
 
-/*--------------------------------------------------------------
-# Menu container and branding
---------------------------------------------------------------*/
 .primary-menu-container {
 	display: flex;
 	flex-direction: column;
@@ -84,11 +61,8 @@
 	position: relative;
 }
 
-/*--------------------------------------------------------------
-# Main navigation
---------------------------------------------------------------*/
 .main-navigation {
-	font-family: var(--highlight-font-family);
+	font-family: var(--global-font-family);
 }
 
 .main-navigation a,
@@ -128,11 +102,7 @@
 	font-weight: 700;
 }
 
-/*--------------------------------------------------------------
-# Submenu toggles
---------------------------------------------------------------*/
-
-/* Created by navigation.ts for parent items that have a URL. */
+/* Created by navigation.js for parent items that have a URL. */
 .dropdown-toggle {
 	display: flex;
 	align-items: center;
@@ -179,13 +149,7 @@
 	}
 }
 
-/*--------------------------------------------------------------
-# Donate call to action
-#
-# The link gets .btn-primary (inc/navigation.php). The generic .main-navigation a
-# rules above are more specific than .btn-primary, so restore the button look here.
---------------------------------------------------------------*/
-.main-navigation a.btn-primary {
+.main-navigation .donate-menu-item > a {
 	display: inline-flex;
 	width: auto;
 	padding: 0.6em 1.2em;
@@ -194,15 +158,12 @@
 	font-weight: 700;
 }
 
-.main-navigation a.btn-primary:hover,
-.main-navigation a.btn-primary:focus {
+.main-navigation .donate-menu-item > a:hover,
+.main-navigation .donate-menu-item > a:focus {
 	background-color: var(--color-theme-dark-red);
 	color: var(--color-theme-white);
 }
 
-/*--------------------------------------------------------------
-# Mobile (< 87em)
---------------------------------------------------------------*/
 @media (--below-desktop) {
 	.menu-toggle {
 		display: flex;
@@ -226,7 +187,6 @@
 		padding: var(--nav-mobile-header-height) 0 0;
 		overflow-y: auto;
 
-		/* Hidden state */
 		opacity: 0;
 		visibility: hidden;
 		transform: translateX(-100%);
@@ -314,11 +274,7 @@
 		display: block;
 	}
 
-	.main-navigation ul ul ul {
-		padding-left: 1.5em;
-	}
-
-	.main-navigation a.btn-primary {
+	.main-navigation .donate-menu-item > a {
 		justify-content: center;
 		width: 100%;
 		margin: 1em 0;
@@ -327,8 +283,8 @@
 		color: var(--color-theme-white);
 	}
 
-	.main-navigation a.btn-primary:hover,
-	.main-navigation a.btn-primary:focus {
+	.main-navigation .donate-menu-item > a:hover,
+	.main-navigation .donate-menu-item > a:focus {
 		color: var(--color-theme-white);
 	}
 
@@ -342,9 +298,6 @@
 	}
 }
 
-/*--------------------------------------------------------------
-# Desktop (>= 87em)
---------------------------------------------------------------*/
 @media (--above-desktop) {
 	.primary-menu-container {
 		position: relative;
@@ -382,7 +335,7 @@
 		align-items: center;
 	}
 
-	/* Room for the absolutely positioned toggle that navigation.ts adds to parents with a URL.
+	/* Room for the absolutely positioned toggle that navigation.js adds to parents with a URL.
 	   Parents without a URL are a single <button class="submenu-toggle"> with the icon inline. */
 	.main-navigation li.menu-item-has-children:has(> .dropdown-toggle) {
 		padding-right: 1.6em;
@@ -428,32 +381,10 @@
 		background-color: var(--header-background-color);
 	}
 
-	.main-navigation ul ul li.menu-item-has-children:has(> .dropdown-toggle) {
-		padding-right: 2em;
-	}
-
 	.main-navigation li:hover > ul,
 	.main-navigation li.menu-item--toggled-on > ul,
 	.main-navigation li:focus-within > ul {
 		display: block;
-	}
-
-	/* Third level opens to the right. */
-	.main-navigation ul ul ul {
-		top: 0;
-		left: 100%;
-	}
-
-	.main-navigation ul ul .dropdown-toggle {
-		right: 0.5em;
-	}
-
-	.main-navigation ul ul .dropdown-symbol {
-		transform: rotate(-90deg);
-	}
-
-	.main-navigation ul ul li.menu-item--toggled-on .dropdown-symbol {
-		transform: translateY(-50%) rotate(90deg);
 	}
 
 	/* The parent link repeated in its submenu is only needed on mobile. */

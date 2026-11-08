@@ -1,79 +1,12 @@
 <?php
-/**
- * Cards Block Template
- *
- * @package alegria
- */
-
-declare( strict_types=1 );
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
-$attributes = is_array( $attributes ?? null ) ? $attributes : array();
-$block = ( isset( $block ) && $block instanceof WP_Block ) ? $block : null;
-
-// Get attributes
 $section_title = $attributes['sectionTitle'] ?? '';
 $section_text  = $attributes['sectionText'] ?? '';
-$cta_text      = $attributes['ctaText'] ?? '';
-$cta_url       = $attributes['ctaUrl'] ?? '';
-$has_cta       = $cta_text && $cta_url;
-
-$primary_button_icon = alegria_svg( 'arrow_right' );
-
-// Card 1
-$card1_image_url = alegria_block_image_url( (int) ( $attributes['card1ImageId'] ?? 0 ), $attributes['card1ImageUrl'] ?? '', 'alegria-portrait' );
-$card1_title     = $attributes['card1Title'] ?? '';
-$card1_text      = $attributes['card1Text'] ?? '';
-$card1_url       = $attributes['card1Url'] ?? '';
-
-// Card 2
-$card2_image_url = alegria_block_image_url( (int) ( $attributes['card2ImageId'] ?? 0 ), $attributes['card2ImageUrl'] ?? '', 'alegria-portrait' );
-$card2_title     = $attributes['card2Title'] ?? '';
-$card2_text      = $attributes['card2Text'] ?? '';
-$card2_url       = $attributes['card2Url'] ?? '';
-
-// Card 3
-$card3_image_url = alegria_block_image_url( (int) ( $attributes['card3ImageId'] ?? 0 ), $attributes['card3ImageUrl'] ?? '', 'alegria-portrait' );
-$card3_title     = $attributes['card3Title'] ?? '';
-$card3_text      = $attributes['card3Text'] ?? '';
-$card3_url       = $attributes['card3Url'] ?? '';
-
-// Build wrapper attributes
-$wrapper_attrs = get_block_wrapper_attributes( array( 'class' => 'cards-block' ) );
-
-// Local renderer avoids global function redeclaration when this template is included multiple times.
-$render_card = static function ( $image_url, $title, $text, $url ): void {
-	if ( ! $image_url && ! $title && ! $text ) {
-		return;
-	}
-
-	$tag = $url ? 'a' : 'div';
-	$href_attr = $url ? sprintf( ' href="%s"', esc_url( $url ) ) : '';
-	$bg_style = $image_url ? sprintf( ' style="background-image: url(%s);"', esc_url( $image_url ) ) : '';
-	?>
-	<<?php echo $tag; ?> class="card-item"<?php echo $href_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?><?php echo $bg_style; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<div class="card-overlay"></div>
-	<div class="card-content">
-		<?php if ( $title ) : ?>
-			<h3 class="card-title"><?php echo esc_html( $title ); ?></h3>
-		<?php endif; ?>
-		<?php if ( $text ) : ?>
-			<div class="card-text">
-				<?php echo wp_kses_post( $text ); ?>
-			</div>
-		<?php endif; ?>
-	</div>
-	</<?php echo $tag; ?>>
-	<?php
-};
+$cta           = alegria_button( $attributes['ctaText'] ?? '', $attributes['ctaUrl'] ?? '', 'btn-primary cards-cta' );
 ?>
 
-<div <?php echo $wrapper_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<div <?php echo get_block_wrapper_attributes( array( 'class' => 'cards-block' ) ); ?>>
 	<div class="cards-container">
-		<?php if ( $section_title || $section_text || $has_cta ) : ?>
+		<?php if ( $section_title || $section_text || $cta ) : ?>
 			<div class="cards-header">
 				<?php if ( $section_title || $section_text ) : ?>
 					<div class="cards-intro">
@@ -89,21 +22,38 @@ $render_card = static function ( $image_url, $title, $text, $url ): void {
 					</div>
 				<?php endif; ?>
 
-				<?php if ( $has_cta ) : ?>
-					<a href="<?php echo esc_url( $cta_url ); ?>" class="btn-primary cards-cta">
-						<?php echo esc_html( $cta_text ); ?>
-						<?php if ( ! empty( $primary_button_icon ) ) : ?>
-							<span class="btn-icon" aria-hidden="true"><?php echo $primary_button_icon; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
-						<?php endif; ?>
-					</a>
-				<?php endif; ?>
+				<?php echo $cta; ?>
 			</div>
 		<?php endif; ?>
 
 		<div class="cards-grid">
-			<?php $render_card( $card1_image_url, $card1_title, $card1_text, $card1_url ); ?>
-			<?php $render_card( $card2_image_url, $card2_title, $card2_text, $card2_url ); ?>
-			<?php $render_card( $card3_image_url, $card3_title, $card3_text, $card3_url ); ?>
+			<?php
+			foreach ( array( 1, 2, 3 ) as $n ) :
+				$image_url  = wp_get_attachment_image_url( (int) ( $attributes[ "card{$n}ImageId" ] ?? 0 ), 'alegria-portrait' );
+				$card_title = $attributes[ "card{$n}Title" ] ?? '';
+				$card_text  = $attributes[ "card{$n}Text" ] ?? '';
+				$card_url   = $attributes[ "card{$n}Url" ] ?? '';
+
+				if ( ! $image_url && ! $card_title && ! $card_text ) {
+					continue;
+				}
+
+				$tag = $card_url ? 'a' : 'div';
+				?>
+				<<?php echo $tag; ?> class="card-item"<?php echo $card_url ? ' href="' . esc_url( $card_url ) . '"' : ''; ?><?php echo $image_url ? ' style="background-image: url(' . esc_url( $image_url ) . ');"' : ''; ?>>
+					<div class="card-overlay"></div>
+					<div class="card-content">
+						<?php if ( $card_title ) : ?>
+							<h3 class="card-title"><?php echo esc_html( $card_title ); ?></h3>
+						<?php endif; ?>
+						<?php if ( $card_text ) : ?>
+							<div class="card-text">
+								<?php echo wp_kses_post( $card_text ); ?>
+							</div>
+						<?php endif; ?>
+					</div>
+				</<?php echo $tag; ?>>
+			<?php endforeach; ?>
 		</div>
 	</div>
 </div>

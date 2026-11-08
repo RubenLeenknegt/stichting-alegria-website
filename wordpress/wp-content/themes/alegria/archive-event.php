@@ -1,10 +1,4 @@
 <?php
-/**
- * Event archive (/evenement). The header comes from the Customizer (Archief: evenementen).
- *
- * @package alegria
- */
-
 get_header();
 ?>
 	<main id="primary" class="site-main archive-page archive-page--event">

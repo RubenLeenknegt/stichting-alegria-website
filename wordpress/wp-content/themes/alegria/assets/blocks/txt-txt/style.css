@@ -1,8 +1,3 @@
-/**
- * Txt-txt block: a title above two text columns.
- * The columns sit side by side from tablet width; on phones they stack.
- */
-
 .txt-txt-block {
 	background-color: var(--color-theme-white);
 	padding: 3rem 1.5rem;

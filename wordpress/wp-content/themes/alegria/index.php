@@ -1,10 +1,4 @@
 <?php
-/**
- * Fallback template. Renders pages (there is no page.php) and anything else without a more specific template.
- *
- * @package alegria
- */
-
 get_header();
 ?>
 	<main id="primary" class="site-main">

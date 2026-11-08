@@ -1,8 +1,4 @@
-/**
- * Scrolllint: a full-width strip of images. The marquee is Swiper (the alegria-swiper style, loaded first).
- */
-
-.scrolllint.alignfull {
+.scrolllint {
 	--swiper-wrapper-transition-timing-function: linear;
 
 	width: 100vw;

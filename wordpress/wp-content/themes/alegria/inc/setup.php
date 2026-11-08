@@ -1,11 +1,4 @@
 <?php
-/**
- * Theme supports, menus, and switching off WordPress features this site does not use
- * (site editor, comments, and the default Posts type).
- *
- * @package alegria
- */
-
 add_action(
 	'after_setup_theme',
 	function () {
@@ -13,31 +6,22 @@ add_action(
 		add_theme_support( 'automatic-feed-links' );
 		add_theme_support( 'post-thumbnails' );
 
-		/*
-		 * Image sizes, one per way the theme shows an image. Every image call in the theme uses one of these.
-		 * After adding or changing a size, regenerate thumbnails for existing uploads (wp media regenerate).
-		 */
-		add_image_size( 'alegria-card', 900, 600, true );        // Event and newsletter cards (3:2).
-		add_image_size( 'alegria-hero', 1920, 1080, true );      // Hero background (16:9).
-		add_image_size( 'alegria-portrait', 600, 800, true );    // Cards block (3:4).
-		add_image_size( 'alegria-square', 600, 600, true );      // About-us top images (1:1).
-		add_image_size( 'alegria-wide', 1200, 600, true );       // About-us bottom image (2:1).
-		add_image_size( 'alegria-feature', 1200, 675, true );    // Txt-img block and upcoming-events slider (16:9).
-		add_image_size( 'alegria-logo', 9999, 160, false );      // Scrolling logo strip, up to 80px tall at 2x.
-		add_image_size( 'alegria-content', 1600, 9999, false );  // Image block and page featured image, 800px column at 2x.
-		add_theme_support( 'responsive-embeds' );
-		add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'style', 'script' ) );
+		// After adding or changing a size, regenerate thumbnails for existing uploads.
+		add_image_size( 'alegria-card', 900, 600, true );
+		add_image_size( 'alegria-hero', 1920, 1080, true );
+		add_image_size( 'alegria-portrait', 600, 800, true );
+		add_image_size( 'alegria-square', 600, 600, true );
+		add_image_size( 'alegria-wide', 1200, 600, true );
+		add_image_size( 'alegria-feature', 1200, 675, true );
+		add_image_size( 'alegria-logo', 9999, 160, false );
+		add_image_size( 'alegria-content', 1600, 9999, false );
 
-		// Block editor.
+		add_theme_support( 'html5', array( 'style', 'script' ) );
 		add_theme_support( 'editor-styles' );
-		add_theme_support( 'wp-block-styles' );
-		add_theme_support( 'align-wide' );
 
-		// Turns on Rank Math's breadcrumbs (and their schema) regardless of its settings. header.php prints them on
-		// every page except the front page; on newsletters and events the post-header block prints them.
+		// Turns on Rank Math's breadcrumbs (and their schema) regardless of its settings.
 		add_theme_support( 'rank-math-breadcrumbs' );
 
-		// No site editor or block templates; this is a classic theme.
 		remove_theme_support( 'block-templates' );
 		add_theme_support( 'disable-site-editor' );
 
@@ -52,10 +36,7 @@ add_action(
 	}
 );
 
-/*
- * Breadcrumbs always end in the current page's title, shown highlighted, even if Rank Math's
- * "Hide Post Title" breadcrumb setting is on.
- */
+// Breadcrumbs always end in the current page's title, even if Rank Math's "Hide Post Title" setting is on.
 add_filter(
 	'rank_math/frontend/breadcrumb/settings',
 	function ( array $settings ): array {
@@ -63,24 +44,6 @@ add_filter(
 		return $settings;
 	}
 );
-
-/*
- * Pages with the breadcrumb bar below the site header get the has-site-breadcrumbs body class, so their
- * content can drop the top spacing that otherwise clears the logo.
- */
-add_filter(
-	'body_class',
-	function ( array $classes ): array {
-		if ( alegria_show_site_breadcrumbs() ) {
-			$classes[] = 'has-site-breadcrumbs';
-		}
-		return $classes;
-	}
-);
-
-// ---------------------------------------------------------------------------
-// Disable comments
-// ---------------------------------------------------------------------------
 
 add_filter( 'comments_open', '__return_false', 20 );
 add_filter( 'pings_open', '__return_false', 20 );
@@ -100,10 +63,6 @@ add_action(
 	100
 );
 
-// ---------------------------------------------------------------------------
-// Disable the default Posts type
-// ---------------------------------------------------------------------------
-
 add_action(
 	'admin_menu',
 	function () {
@@ -117,7 +76,6 @@ add_action(
 	function () {
 		global $pagenow;
 
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$is_posts_screen = 'edit.php' === $pagenow && ( empty( $_GET['post_type'] ) || 'post' === $_GET['post_type'] );
 		if ( $is_posts_screen || 'edit-comments.php' === $pagenow ) {
 			wp_safe_redirect( admin_url() );
@@ -138,14 +96,4 @@ add_action(
 		$wp_admin_bar->remove_node( 'comments' );
 	},
 	999
-);
-
-// The blog index has no posts of its own, so show newsletters there instead.
-add_action(
-	'pre_get_posts',
-	function ( WP_Query $query ) {
-		if ( ! is_admin() && $query->is_main_query() && $query->is_home() ) {
-			$query->set( 'post_type', 'newsletter' );
-		}
-	}
 );

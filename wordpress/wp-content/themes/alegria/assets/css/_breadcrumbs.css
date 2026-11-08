@@ -1,14 +1,6 @@
-/*--------------------------------------------------------------
-# Breadcrumbs (Rank Math)
-#
-# .breadcrumbs is the style, shared by the bar below the site header
-# (header.php, every page except the front page) and the post-header block
-# on newsletters and events. 15px and black, the current page bold in the
-# primary colour.
---------------------------------------------------------------*/
 .breadcrumbs p {
 	margin: 0;
-	font-size: 0.9375rem; /* 15px */
+	font-size: 0.9375rem;
 	color: #000;
 }
 
@@ -28,17 +20,6 @@
 	color: var(--color-theme-primary);
 }
 
-/*--------------------------------------------------------------
-## The bar below the site header
-#
-# Left-aligned in the same 1200px container as the blocks, archives and
-# post header, with the same side gutter: 1.5rem on phones, 2rem from
-# --content-query (archives use 2rem throughout). .site is a flex column,
-# so the bar needs an explicit width; auto margins alone would shrink it to
-# its text and centre it.
-# On desktop it takes over the top spacing that keeps content clear of the
-# logo hanging below the site header, so the content below it drops theirs.
---------------------------------------------------------------*/
 .site-breadcrumbs {
 	--breadcrumbs-gutter: 1.5rem;
 
@@ -64,14 +45,10 @@
 	}
 }
 
-.has-site-breadcrumbs .archive-page .archive-block {
+.site-breadcrumbs ~ .archive-page .archive-block {
 	padding-top: 2rem;
 }
 
-.has-site-breadcrumbs .single-header {
-	padding-top: 1.5rem;
-}
-
-.has-site-breadcrumbs .error {
+.site-breadcrumbs ~ .site-main .error {
 	margin-top: 3em;
 }

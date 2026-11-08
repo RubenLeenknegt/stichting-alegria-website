@@ -65,7 +65,6 @@ Run basic commands:
 npm install
 npm run dev     # build and rebuild on change
 npm run build   # production build
-npm run zip     # build + alegria.zip for uploading to the live site
 ```
 
 See `wordpress/wp-content/themes/alegria/README.md` for how the theme is organised.

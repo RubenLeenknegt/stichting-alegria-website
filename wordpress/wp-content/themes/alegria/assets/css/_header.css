@@ -1,8 +1,5 @@
 @import "_navigation.css";
 
-/*--------------------------------------------------------------
-# Header
---------------------------------------------------------------*/
 .site-header {
 	padding: 1rem 2rem;
 	background-color: var(--header-background-color);
@@ -19,8 +16,6 @@
 	max-height: 150px;
 }
 
-/* The logo is an inline SVG (template-parts/header/branding.php), 280×168 by its own attributes.
-   The max-height keeps it from growing if those attributes change. */
 .site-branding svg {
 	display: block;
 	width: auto;
@@ -29,9 +24,6 @@
 	max-height: 168px;
 }
 
-/*--------------------------------------------------------------
-# Mobile (< 87em)
---------------------------------------------------------------*/
 @media (--below-desktop) {
 	/* Pinned to the top so the logo and menu toggle stay visible above the offcanvas panel. */
 	.site-header {
@@ -60,9 +52,6 @@
 	}
 }
 
-/*--------------------------------------------------------------
-# Desktop (>= 87em)
---------------------------------------------------------------*/
 @media (--above-desktop) {
 	.site-header {
 		padding: 1.5rem 4rem;

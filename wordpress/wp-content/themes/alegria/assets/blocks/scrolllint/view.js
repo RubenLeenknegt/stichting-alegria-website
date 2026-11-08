@@ -1,13 +1,3 @@
-/**
- * Turns each scrolllint strip into a continuous, left-to-right Swiper marquee that can be dragged.
- *
- * - Hovering with a mouse pauses the strip in place; leaving resumes it at the same pace.
- * - Dragging (mouse or touch) moves it by hand; it carries on by itself after you let go
- *   (with a mouse: once the pointer leaves the strip).
- * - With prefers-reduced-motion it never moves by itself, but can still be dragged.
- *
- * `swiper` resolves to the shared alegria-swiper script (see build.mjs).
- */
 import Swiper from 'swiper';
 
 const SPEED = 5000; // Milliseconds for one slide to pass while the strip runs by itself.

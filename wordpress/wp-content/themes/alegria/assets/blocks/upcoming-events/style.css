@@ -1,7 +1,3 @@
-/**
- * Upcoming events block. The slider itself is Swiper (the alegria-swiper style, loaded first).
- */
-
 .upcoming-events-block {
 	--swiper-theme-color: var(--color-theme-primary);
 	--swiper-pagination-bullet-size: 0.6rem;

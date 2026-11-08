@@ -16,7 +16,6 @@ services:
       WORDPRESS_DEBUG: ${WORDPRESS_DEBUG}
     volumes:
       - ./wordpress:/var/www/html
-      - ./tools:/tools
     restart: "no"
 
   db:

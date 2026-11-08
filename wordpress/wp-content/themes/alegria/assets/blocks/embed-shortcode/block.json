@@ -17,8 +17,7 @@
     }
   },
   "supports": {
-    "html": false,
-    "align": ["wide", "full"]
+    "html": false
   },
   "render": "file:./render.php",
   "editorScript": "file:./build/index.js",

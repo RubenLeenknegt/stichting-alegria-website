@@ -3,9 +3,8 @@
  *
  *   node build.mjs          Production build.
  *   node build.mjs --watch  Development build that rebuilds on change.
- *   node build.mjs --zip    Production build, then a zip of only the files the site needs at runtime.
  *
- * Theme assets:  assets/css/*.css (files not starting with "_") and assets/js/*.{js,ts} -> assets/dist/
+ * Theme assets:  assets/css/*.css (files not starting with "_") and assets/js/*.js -> assets/dist/
  * Blocks:        assets/blocks/<slug>/{index,view}.js and {style,editor}.css -> assets/blocks/<slug>/build/
  *
  * In block scripts, @wordpress/* and React imports are not bundled. They resolve to the globals WordPress
@@ -22,7 +21,6 @@ import { browserslistToTargets, bundleAsync } from 'lightningcss';
 
 const root = path.dirname( new URL( import.meta.url ).pathname );
 const watch = process.argv.includes( '--watch' );
-const zip = process.argv.includes( '--zip' );
 
 const dist = path.join( root, 'assets/dist' );
 const blocksDir = path.join( root, 'assets/blocks' );
@@ -38,10 +36,6 @@ const files = ( dir, test ) =>
 const log = ( message ) =>
 	console.log( `[${ new Date().toLocaleTimeString() }] ${ message }` );
 
-// ---------------------------------------------------------------------------
-// JavaScript
-// ---------------------------------------------------------------------------
-
 /**
  * Maps an external import to the global WordPress exposes and its script handle.
  *
@@ -55,9 +49,6 @@ function wpExternal( request ) {
 	if ( request === 'react/jsx-runtime' ) {
 		return { global: 'ReactJSXRuntime', handle: 'react-jsx-runtime' };
 	}
-	if ( request === 'react' || request === 'react-dom' ) {
-		return { global: request === 'react' ? 'React' : 'ReactDOM', handle: request };
-	}
 	const name = request.slice( '@wordpress/'.length );
 	return {
 		global: 'wp.' + name.replace( /-([a-z])/g, ( _, c ) => c.toUpperCase() ),
@@ -69,10 +60,9 @@ function wpExternal( request ) {
  * esbuild plugin: resolves WordPress/React imports to globals and writes <entry>.asset.php
  * with the script handles the entry depends on.
  *
- * @param {string} assetFile Path of the .asset.php file to write, or null for none.
- * @param {boolean} externalSwiper Whether `swiper` resolves to the shared global instead of being bundled.
+ * @param {string} assetFile Path of the .asset.php file to write.
  */
-function wpGlobals( assetFile, externalSwiper ) {
+function wpGlobals( assetFile ) {
 	return {
 		name: 'wp-globals',
 		setup( build ) {
@@ -82,11 +72,7 @@ function wpGlobals( assetFile, externalSwiper ) {
 				handles = new Set();
 			} );
 
-			const filter = externalSwiper
-				? /^(@wordpress\/|react(-dom)?(\/jsx-runtime)?$|swiper$)/
-				: /^(@wordpress\/|react(-dom)?(\/jsx-runtime)?$)/;
-
-			build.onResolve( { filter }, ( args ) => {
+			build.onResolve( { filter: /^(@wordpress\/|react\/jsx-runtime$|swiper$)/ }, ( args ) => {
 				const external = wpExternal( args.path );
 				handles.add( external.handle );
 				return { path: external.global, namespace: 'wp-global' };
@@ -98,7 +84,7 @@ function wpGlobals( assetFile, externalSwiper ) {
 			} ) );
 
 			build.onEnd( ( result ) => {
-				if ( result.errors.length || ! assetFile ) {
+				if ( result.errors.length ) {
 					return;
 				}
 				const outfile = build.initialOptions.outfile;
@@ -112,9 +98,9 @@ function wpGlobals( assetFile, externalSwiper ) {
 }
 
 const jsEntries = [
-	...files( path.join( root, 'assets/js' ), ( f ) => /\.(js|ts)$/.test( f ) ).map( ( entry ) => ( {
+	...files( path.join( root, 'assets/js' ), ( f ) => f.endsWith( '.js' ) ).map( ( entry ) => ( {
 		entry,
-		outfile: path.join( dist, path.basename( entry ).replace( /\.ts$/, '.js' ) ),
+		outfile: path.join( dist, path.basename( entry ) ),
 		assetFile: null,
 	} ) ),
 	...blockDirs.flatMap( ( dir ) =>
@@ -141,7 +127,7 @@ async function buildJs() {
 			jsx: 'automatic',
 			loader: { '.js': 'jsx' },
 			logLevel: 'warning',
-			plugins: [ wpGlobals( assetFile, assetFile !== null ) ],
+			plugins: assetFile ? [ wpGlobals( assetFile ) ] : [],
 		};
 
 		if ( watch ) {
@@ -153,11 +139,7 @@ async function buildJs() {
 	}
 }
 
-// ---------------------------------------------------------------------------
-// CSS
-// ---------------------------------------------------------------------------
-
-const cssTargets = browserslistToTargets( browserslist( null, { path: root } ) );
+const cssTargets = browserslistToTargets( browserslist( '> 1%, last 2 versions' ) );
 
 const cssEntries = [
 	...files( path.join( root, 'assets/css' ), ( f ) => f.endsWith( '.css' ) && ! f.startsWith( '_' ) ).map( ( entry ) => ( {
@@ -218,41 +200,6 @@ function watchCss() {
 	}, 300 );
 }
 
-// ---------------------------------------------------------------------------
-// Zip
-// ---------------------------------------------------------------------------
-
-async function buildZip() {
-	const { default: archiver } = await import( 'archiver' );
-	const slug = path.basename( root );
-	const zipPath = path.join( root, `${ slug }.zip` );
-	const archive = archiver( 'zip' );
-	archive.pipe( fs.createWriteStream( zipPath ) );
-
-	const runtimeFiles = [
-		'*.php',
-		'style.css',
-		'theme.json',
-		'screenshot.*',
-		'inc/**',
-		'template-parts/**',
-		'assets/dist/**',
-		'assets/svg/**',
-		'assets/fonts/**',
-		'assets/blocks/*/block.json',
-		'assets/blocks/*/render.php',
-		'assets/blocks/*/build/**',
-	];
-	for ( const pattern of runtimeFiles ) {
-		archive.glob( pattern, { cwd: root }, { prefix: slug } );
-	}
-
-	await archive.finalize();
-	log( `wrote ${ path.relative( root, zipPath ) } (${ ( archive.pointer() / 1024 ).toFixed( 0 ) } KB)` );
-}
-
-// ---------------------------------------------------------------------------
-
 fs.rmSync( dist, { recursive: true, force: true } );
 for ( const dir of blockDirs ) {
 	fs.rmSync( path.join( dir, 'build' ), { recursive: true, force: true } );
@@ -263,6 +210,4 @@ await Promise.all( [ buildJs(), buildCss() ] );
 if ( watch ) {
 	watchCss();
 	log( 'watching for changes (Ctrl+C to stop)' );
-} else if ( zip ) {
-	await buildZip();
 }

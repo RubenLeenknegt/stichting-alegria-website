@@ -1,9 +1,3 @@
-/**
- * Sidebar (InspectorControls) fields shared by the theme's blocks.
- *
- * They write to the blocks' existing attributes, so saved content does not change:
- * an image is stored as <name>Id, <name>Url and <name>Alt, a link as a single URL attribute.
- */
 import { __ } from '@wordpress/i18n';
 import {
 	MediaUpload,

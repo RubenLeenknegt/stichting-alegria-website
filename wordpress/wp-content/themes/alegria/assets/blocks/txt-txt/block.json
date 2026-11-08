@@ -24,7 +24,6 @@
   "style": "file:./build/style.css",
   "render": "file:./render.php",
   "supports": {
-    "html": false,
-    "align": ["wide", "full"]
+    "html": false
   }
 }

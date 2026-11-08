@@ -10,11 +10,9 @@
   },
   "scripts": {
     "build": "node build.mjs",
-    "dev": "node build.mjs --watch",
-    "zip": "node build.mjs --zip"
+    "dev": "node build.mjs --watch"
   },
   "devDependencies": {
-    "archiver": "^7.0.1",
     "browserslist": "^4.28.1",
     "esbuild": "^0.25.12",
     "lightningcss": "^1.32.0"
